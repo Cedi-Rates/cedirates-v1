@@ -1,0 +1,19 @@
+.terms-policies {
+    padding: 20px 50px 50px 50px;
+}
+  
+@media screen and (max-width: 499px) {
+    .terms-policies {
+      padding: 20px 20px 50px 20px;
+    }
+}
+  
+#return {
+    text-decoration: none;
+    color: #1896fe;
+}
+  
+#use,
+#privacypolicy {
+    margin-top: 30px;
+}

@@ -1,0 +1,54 @@
+/* .rates-page-container {
+  padding-top: 95px;
+  margin: 0 auto;
+  max-width: 1440px;
+
+  @media (min-width: 1201px) {
+    padding: 95px 70px 30px;
+  }
+
+  @media (max-width: 1200px) {
+    padding: 80px 40px 30px;
+  }
+
+  @media (max-width: 700px) {
+    padding: 80px 10px 30px;
+  }
+} */
+
+.desktop-tab-item {
+  display: block;
+}
+.mobile-tab-item {
+  display: none;
+}
+.subCategory-chips {
+  /* display: flex;
+  align-items: center; */
+  border-bottom: 1px solid #f2f2f2;
+  /* padding-bottom: 7px; */
+}
+
+@media (max-width: 800px) {
+  .subCategory-chips {
+    overflow-x: scroll;
+    scrollbar-width: 0;
+    width: 100%;
+  }
+  .subCategory-chips::-webkit-scrollbar {
+    display: none;
+  }
+}
+@media (max-width: 787px) {
+  .subCategory-chips svg {
+    display: block;
+  }
+}
+@media (max-width: 600px) {
+  .desktop-tab-item {
+    display: none;
+  }
+  .mobile-tab-item {
+    display: block;
+  }
+}

@@ -1,0 +1,131 @@
+.truncate-two-lines {
+  display: -webkit-box;
+  -webkit-box-orient: vertical;
+  -webkit-line-clamp: 2;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: normal;
+}
+
+.truncate-five-lines {
+  display: -webkit-box;
+  -webkit-box-orient: vertical;
+  -webkit-line-clamp: 5;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: normal;
+}
+
+.bn-inline-content {
+  font-family: "Gellix-Regular";
+  font-size: 16px;
+  overflow-wrap: break-word;
+  word-break: break-word;
+  line-height: 28.4px;
+}
+
+.bn-inline-content p:empty {
+  display: block;
+  white-space: pre;
+}
+
+
+.bn-inline-content h1 {
+  box-sizing: border-box;
+  font-family: "Gellix-Bold";
+  font-size: 35px;
+  margin: 8px 0px 18px;
+  color: rgb(0, 0, 0);
+  font-stretch: 100%;
+  line-height: 27.5px;
+  letter-spacing: normal;
+}
+
+.bn-inline-content h2 {
+  box-sizing: border-box;
+  font-size: 25px;
+  font-family: "Gellix-SemiBold";
+  margin: 16px 0px;
+  line-height: 39.375px;
+}
+
+.bn-inline-content h3 {
+  box-sizing: border-box;
+  font-size: 25px;
+  font-family: "Gellix-SemiBold";
+  margin: 16px 0px;
+  line-height: 39.375px;
+}
+
+.bn-inline-content i {
+  font-family: "Gellix-Italic";
+}
+
+.bn-inline-content em {
+  font-family: "Gellix-Italic";
+}
+
+.bn-inline-content ol {
+  list-style-type: decimal;
+  padding: 0 16px;
+}
+
+.bn-inline-content ul {
+  list-style-type: disc;
+  padding: 0 16px;
+}
+
+.bn-inline-content strong {
+  font-family: "Gellix-Bold" !important;
+}
+
+.bn-inline-content b {
+  font-weight: "Gellix-Bold";
+}
+
+.bn-inline-content a {
+  color: #1893FA;
+  text-decoration: underline;
+  text-decoration-thickness: 3px;
+}
+
+.bn-inline-content table {
+  width: 100%;
+  border: 1px solid #ddd;
+  text-align: left;
+  border-collapse: collapse;
+}
+.bn-inline-content table td {
+  padding: 15px;
+  border: 1px solid #ddd;
+}
+.bn-inline-content table td p {
+  margin: 0;
+  padding: 0;
+}
+
+.youtube-embed {
+  position: relative;
+  width: 100%;
+  overflow: hidden;
+  padding-top: 56.25%
+}
+.youtube-embed iframe {
+  position: absolute;
+  top: 0;
+  left: 0;
+  bottom: 0;
+  right: 0;
+  width: 100% !important;
+  height: 100%;
+  border: none;
+}
+
+.bn-inline-content span[data-text-color="yellow"] {
+  color: yellow;
+}
+
+.bn-inline-content span[data-background-color="gray"] {
+  background-color: gray;
+}
+

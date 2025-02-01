@@ -1,0 +1,134 @@
+.navbar {
+  background: white;
+  width: 100%;
+  color: black;
+  /* top:42px; */
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  /* padding: 2px 4rem; */
+  /* new addition for testing */
+  padding: 1rem 4rem;
+  z-index: 49;
+  /* position: fixed; */
+  /* new addition for testing */
+  position: relative;
+  box-shadow: 0 2px 3px #b4b4b41a;
+}
+
+.navbar .navlinksDiv {
+  display: flex !important;
+  /* new addition for testing */
+  /* width: 100%; */
+  /* justify-content: center; */
+}
+
+.navbar .toggle {
+  display: none;
+}
+
+.nav-links ul {
+  display: flex;
+  gap: 2rem;
+  /* new addition for testing */
+  /* gap: 66px; */
+}
+
+.active {
+  color: #1796fe;
+}
+.navbar li:hover {
+  color: #1896fe;
+}
+
+.buttons {
+  display: flex;
+}
+
+.mobile-buttons,
+.toggle {
+  cursor: pointer;
+  display: none;
+}
+
+.mobileMenu {
+  position: absolute;
+  top: 3.4rem;
+  left: 0;
+  width: 100%;
+  background-color: white;
+  padding: 1rem;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+  z-index: 10;
+  max-height: 0;
+  opacity: 0;
+  overflow: hidden;
+  transition: max-height 0.3s ease-in-out, opacity 0.3s ease-in-out;
+}
+
+.mobileButtons {
+  display: none;
+  flex-direction: column;
+  gap: 0.5rem;
+  margin-top: 2rem;
+}
+
+@media (min-width: 701px) and (max-width: 1200px) {
+  .mobileMenu {
+    padding: 1rem 30px;
+  }
+
+  .mobileButtons {
+    display: flex;
+    flex-direction: row;
+    justify-content: flex-end;
+    gap: 0.5rem;
+  }
+}
+
+@media (max-width: 1200px) {
+  .navbar {
+    height: 3.5rem;
+    padding: 0 1.5rem;
+  }
+
+  .navbar .navlinksDiv {
+    display: none !important;
+  }
+
+  .navbar .toggle {
+    display: flex;
+  }
+
+  .mobileMenu {
+    max-height: 400px;
+    opacity: 1;
+  }
+
+  .mobileButtons {
+    display: flex;
+  }
+
+  .buttons {
+    display: none;
+  }
+
+  .nav-links ul {
+    top: 3rem;
+    font-size: 14px;
+    display: flex !important;
+    flex-direction: column !important;
+    gap: 15px;
+  }
+
+  .nav-links ul li {
+    border-bottom: 1px solid #f2f2f2;
+    padding-bottom: 15px;
+  }
+}
+@media (max-width: 700px) {
+  .navbar {
+    height: 3.5rem;
+    padding: 0 0.5rem;
+  }
+}

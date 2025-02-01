@@ -1,0 +1,121 @@
+/* Top Gradient */
+
+.main {
+  height: 100%;
+  width: 100vw;
+  overflow-x: hidden;
+}
+
+.container {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+}
+
+.div1 {
+  height: 320px;
+  width: 100%;
+  background: linear-gradient(
+    208deg,
+    rgba(2, 0, 36, 1) 0%,
+    rgba(9, 9, 121, 1) 35%,
+    rgba(0, 212, 255, 1) 100%
+  );
+  color: #fff;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 10px;
+  margin-top: 0;
+  padding-bottom: 50px;
+}
+
+.div2 {
+  height: auto;
+ max-width: 1200px;
+  width: 100%;
+  justify-content: center;
+  display: flex;
+  flex-direction: column;
+  gap: 60px;
+  transition: all 0.5 ease-in-out;
+}
+
+.h1 {
+  font-size: 45px;
+  line-height: 40px;
+  text-align: center;
+  font-weight: 700;
+}
+
+/* Converter */
+
+.div3 {
+  position: absolute;
+  top: 225px; /* Lock top part */
+  left: 50%; /* Center horizontally */
+  transform: translate(-50%, 0); /* Center vertically */
+  background-color: lightcoral;
+  transition: height 0.5s ease;
+  overflow-y: auto; /* Enable vertical scrolling if content exceeds available height */
+  background: #fff;
+  box-shadow: 0px 24px 48px rgba(0, 0, 0, 0.08);
+  border-radius: 13px;
+  padding: 30px 40px;
+  max-width: 1200px;
+  width: 100%;
+  height: auto; /* Allow height to adapt based on content */
+  z-index: 1;
+
+  @media (max-width:1200px) {
+    width: 95%;
+    margin: auto;
+  }
+
+  @media (max-width: 640px) {
+    padding: 20px 20px;
+  }
+}
+
+.div3 > form > div {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  gap: 10px;
+  width: 100%;
+}
+
+.div3 form {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-end;
+  gap: 20px;
+  width: 100%;
+}
+
+.priceDiv {
+  transition: height 0.5s ease-in-out;
+  overflow: hidden;
+}
+
+@media (max-width: 600px) {
+  .div3 > form > div {
+    flex-direction: column;
+  }
+
+  .div3 > form > div > div > input {
+    margin-bottom: 10px;
+  }
+
+  .div2 {
+    padding-top: 400px;
+  }
+
+  .h1 {
+    padding: 0 30px !important;
+    font-size: 36px;
+  }
+}

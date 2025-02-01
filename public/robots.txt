@@ -1,0 +1,9 @@
+# *
+User-agent: *
+Disallow: /settings/
+Disallow: /forgot-password/
+
+
+# Sitemaps
+Sitemap: https://www.cedirates.com/sitemap.xml
+Sitemap: https://www.cedirates.com/company-sitemap.xml

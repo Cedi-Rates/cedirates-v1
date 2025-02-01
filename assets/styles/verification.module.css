@@ -1,0 +1,78 @@
+.verification .main {
+  width: 100%;
+  height: 100vh;
+}
+
+.verification .main .info {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  text-align: center;
+}
+
+.verification .main .info div {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  /* margin-bottom: 40px; */
+  width: 100%;
+  margin: 0 auto 40px auto;
+}
+
+.verification .main .info div img {
+  margin-right: 5px;
+}
+
+.verification .main .info div h2 {
+  font-size: 35px;
+  line-height: 43px;
+  margin-bottom: 5px;
+  color: #363636;
+  font-family: "Gellix-Medium", sans-serif;
+}
+
+.verification .main .info p {
+  font-size: 25px;
+  line-height: 31px;
+  color: #818181;
+}
+
+.verification .main .info p span {
+  color: #1893fa;
+  font-family: "Gellix-Medium", sans-serif;
+}
+
+/*responsiveness*/
+@media screen and (max-width: 971px) {
+  .verification .main .info {
+    top: 50%;
+    left: 0;
+    transform: translate(0, -50%);
+    padding: 0 15px;
+  }
+}
+
+@media screen and (max-width: 516px) {
+  .verification .main .info div h2 {
+    font-size: 25px;
+    line-height: 33px;
+  }
+
+  .verification .main .info p {
+    font-size: 18px;
+    line-height: 22px;
+  }
+}
+
+@media screen and (max-width: 388px) {
+  .verification .main .info div h2 {
+    font-size: 20px;
+    line-height: 27px;
+  }
+
+  .verification .main .info p {
+    font-size: 16px;
+    line-height: 19px;
+  }
+}
