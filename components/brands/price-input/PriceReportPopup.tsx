@@ -131,8 +131,6 @@ const PriceReportPopup: React.FC<AlertDialogDemoProps> = ({
   //   }
   // };
 
-  console.log("pricereport", companyData);
-
   return (
     <div>
       <Dialog open={open} onOpenChange={setOpen}>

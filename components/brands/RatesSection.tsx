@@ -105,8 +105,6 @@ const RatesSection = ({ companyDetails, user, companyData }: Props) => {
     }
   }, [companyDetails, isFuelCompany, selectedTab]);
 
-  console.log("ratesection", companyData);
-
   return (
     <>
       <TabContext.Provider value={{ selectedTab, setSelectedTab }}>

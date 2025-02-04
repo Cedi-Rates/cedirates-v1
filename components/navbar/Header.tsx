@@ -31,10 +31,8 @@ const Header = ({ user }: any) => {
     if (typeof window !== "undefined") {
       const savedUser = sessionStorage.getItem(CEDIRATES_USER);
 
-      console.log(savedUser);
       if (savedUser) {
         setStoredUser(JSON.parse(savedUser));
-        console.log(storedUser);
       }
 
       if (user?.email) {

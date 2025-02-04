@@ -35,8 +35,6 @@ const RatesModal: React.FC<AlertDialogDemoProps> = ({
 
   const { selectedTab, setSelectedTab } = context;
 
-  console.log("reportPrice", companyData);
-
   return (
     <Tabs
       defaultValue={selectedTab || "dollarRates"}

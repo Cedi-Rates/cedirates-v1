@@ -27,8 +27,6 @@ const Dollar: React.FC<AlertDialogDemoProps> = ({
   const { toast } = useToast();
   const { register, handleSubmit, setValue } = useForm();
 
-  console.log("euro", companyData);
-
   const currentPrices = companyData?.data?.euroRates;
   const [euroPriceData, setEuroPriceData] = useState<any>(currentPrices);
   const [loading, setLoading] = useState(false);

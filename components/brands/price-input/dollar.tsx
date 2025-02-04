@@ -32,8 +32,6 @@ const Dollar: React.FC<AlertDialogDemoProps> = ({
 
   const [loading, setLoading] = useState(false);
 
-  console.log(dollarPriceData);
-
   useEffect(() => {
     // setDollarPriceData(currentPrices);
   }, [companyDetails, currentPrices]);
