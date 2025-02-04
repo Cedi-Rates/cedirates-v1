@@ -17,6 +17,7 @@ import {
   SingleEventType,
   ReviewType,
   UserDetailsType,
+  CompanyRate,
 } from "@/utils/types";
 import { Button } from "@/components/ui/button";
 import { cn } from "@/lib/utils";
@@ -39,6 +40,7 @@ interface AlertDialogDemoProps {
   user: UserDetailsType;
   open: boolean;
   setOpen?: (open: boolean) => void;
+  companyData: CompanyRate;
 }
 
 const PriceReportPopup: React.FC<AlertDialogDemoProps> = ({
@@ -46,6 +48,7 @@ const PriceReportPopup: React.FC<AlertDialogDemoProps> = ({
   user,
   open,
   setOpen,
+  companyData,
 }) => {
   // const onSubmit = async () => {
   //   setLoading(true);
@@ -128,6 +131,8 @@ const PriceReportPopup: React.FC<AlertDialogDemoProps> = ({
   //   }
   // };
 
+  console.log("pricereport", companyData);
+
   return (
     <div>
       <Dialog open={open} onOpenChange={setOpen}>
@@ -155,6 +160,7 @@ const PriceReportPopup: React.FC<AlertDialogDemoProps> = ({
               companyDetails={companyDetails}
               user={user}
               setOpen={setOpen}
+              companyData={companyData}
             />
           )}
         </DialogContent>

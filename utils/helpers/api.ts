@@ -191,7 +191,7 @@ export const getUser = async (cookies: string): Promise<UserDetailsType> => {
   });
 
   const data = await response.json();
-
+  console.log(data);
   // user = data;
   return data;
 

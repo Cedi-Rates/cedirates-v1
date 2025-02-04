@@ -6,27 +6,36 @@ import { Label } from "@/components/ui/label";
 import { Button } from "@/components/ui/button";
 import customAxios from "@/utils/customAxios";
 import { SpinnerCircular } from "spinners-react";
-import { CompanyDataType, CompleteCompanyDetailsType } from "@/utils/types";
+import {
+  CompanyDataType,
+  CompanyRate,
+  CompleteCompanyDetailsType,
+} from "@/utils/types";
 import { useForm } from "react-hook-form";
 import axios from "axios";
 import { useToast } from "@/components/ui/use-toast";
 
 interface AlertDialogDemoProps {
   companyDetails: CompleteCompanyDetailsType;
+  companyData: CompanyRate;
 }
 
-const Dollar: React.FC<AlertDialogDemoProps> = ({ companyDetails }) => {
+const Dollar: React.FC<AlertDialogDemoProps> = ({
+  companyDetails,
+  companyData,
+}) => {
   const { toast } = useToast();
   const { register, handleSubmit, setValue } = useForm();
 
-  const currentPrices = companyDetails?.data?.slice(-1)[0];
-  const [dollarPriceData, setDollarPriceData] =
-    useState<CompanyDataType>(currentPrices);
+  const currentPrices = companyData?.data?.dollarRates;
+  const [dollarPriceData, setDollarPriceData] = useState<any>(currentPrices);
 
   const [loading, setLoading] = useState(false);
 
+  console.log(dollarPriceData);
+
   useEffect(() => {
-    setDollarPriceData(currentPrices);
+    // setDollarPriceData(currentPrices);
   }, [companyDetails, currentPrices]);
 
   const onSubmit = async (data: any) => {
@@ -35,17 +44,17 @@ const Dollar: React.FC<AlertDialogDemoProps> = ({ companyDetails }) => {
     try {
       const buyingRate =
         !buying || isNaN(buying)
-          ? dollarPriceData?.rates?.dollarRates?.buyingRate
+          ? dollarPriceData?.buyingRate
           : parseFloat(parseFloat(buying).toFixed(4));
 
       const sellingRate =
         !selling || isNaN(selling)
-          ? dollarPriceData?.rates?.dollarRates?.sellingRate
+          ? dollarPriceData?.sellingRate
           : parseFloat(parseFloat(selling).toFixed(4));
 
       const midRate =
         !buying || isNaN(buying)
-          ? dollarPriceData?.rates?.dollarRates?.midRate
+          ? dollarPriceData?.midRate
           : parseFloat(
               ((parseFloat(buying) + parseFloat(selling)) / 2).toFixed(4)
             );
@@ -69,37 +78,39 @@ const Dollar: React.FC<AlertDialogDemoProps> = ({ companyDetails }) => {
 
       await axios.patch(
         `/api/v1/exchangeRates/updateRates/dollarRates/${companyDetails?.company._id}`,
-        priceObject
+        priceObject,
+        { headers: { "custom-origin": "cedirates-dev" } }
       );
 
       setDollarPriceData({
         ...dollarPriceData,
         rates: {
-          ...dollarPriceData.rates,
+          // ...dollarPriceData.rates,
           dollarRates: {
             buyingRate,
             sellingRate,
             midRate,
           },
-          euroRates: dollarPriceData?.rates?.euroRates || {
+          euroRates: dollarPriceData?.euroRates || {
             buyingRate: 0,
             sellingRate: 0,
           },
-          poundRates: dollarPriceData?.rates?.poundRates || {
+          poundRates: dollarPriceData?.poundRates || {
             buyingRate: 0,
             sellingRate: 0,
           },
-          company: dollarPriceData?.rates?.company || "Default Company",
         },
       });
       toast({
-        variant: 'success',
-        title: "Price successfully reported."
+        variant: "success",
+        title: "Price successfully reported.",
       });
     } catch (err: any) {
+      console.log(err);
+
       toast({
-        variant: 'destructive',
-        title: "🤦‍♂️ Uh oh! Something went wrong."
+        variant: "destructive",
+        title: "🤦‍♂️ Uh oh! Something went wrong.",
       });
     } finally {
       setLoading(false);
@@ -116,7 +127,7 @@ const Dollar: React.FC<AlertDialogDemoProps> = ({ companyDetails }) => {
   return (
     <form onSubmit={handleSubmit(onSubmit)}>
       <div className="flex flex-col w-full max-w-sm mx-auto mb-3 gap-1.5">
-        <Label className="text-[#1896fe] font-thin text-[14px]" htmlFor="name">
+        <Label className="text-[#1896fe] text-[14px]" htmlFor="name">
           Buying
         </Label>
         <Input
@@ -128,10 +139,7 @@ const Dollar: React.FC<AlertDialogDemoProps> = ({ companyDetails }) => {
         />
       </div>
       <div className="flex flex-col w-full max-w-sm mx-auto mb-3 gap-1.5">
-        <Label
-          className="text-[#1896fe] font-thin text-[14px]"
-          htmlFor="username"
-        >
+        <Label className="text-[#1896fe] text-[14px]" htmlFor="username">
           Selling
         </Label>
         <Input

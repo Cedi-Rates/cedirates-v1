@@ -45,6 +45,7 @@ const Login = () => {
 
       const response = await axios.post("/api/v1/auth/login", data, {
         withCredentials: true,
+        headers: { "custom-origin": "cedirates-dev" },
       });
 
       if (response.status === 200) {
@@ -55,15 +56,15 @@ const Login = () => {
           localStorage.setItem("isNewUser", "false");
           push("/settings/");
           toast({
-            variant: 'success',
-            title: "Successfully logged in! Redirecting..."
+            variant: "success",
+            title: "Successfully logged in! Redirecting...",
           });
         } else {
           // push("/");
           push(redirectUrl);
           toast({
-            variant: 'success',
-            title: "Successfully logged in! Redirecting..."
+            variant: "success",
+            title: "Successfully logged in! Redirecting...",
           });
         }
       } else {
@@ -77,26 +78,28 @@ const Login = () => {
         switch (error.response.data.msg) {
           case "Invalid Credentials":
             toast({
-              variant: 'destructive',
-              title: "The email/password you entered is incorrect"
+              variant: "destructive",
+              title: "The email/password you entered is incorrect",
             });
             break;
           default:
             toast({
-              variant: 'destructive',
-              title: error.response.data.msg || "An error occurred. Please try again."
+              variant: "destructive",
+              title:
+                error.response.data.msg ||
+                "An error occurred. Please try again.",
             });
             break;
         }
       } else if (error.request) {
         toast({
-          variant: 'destructive',
-          title: "Network error. Please check your connection and try again."
+          variant: "destructive",
+          title: "Network error. Please check your connection and try again.",
         });
       } else {
         toast({
-          variant: 'destructive',
-          title: "An error occurred. Please try again."
+          variant: "destructive",
+          title: "An error occurred. Please try again.",
         });
       }
     } finally {
@@ -107,35 +110,40 @@ const Login = () => {
   const testimonials = [
     {
       text: "😂😂 Aboki hit me with the Google rate, so I hit him back with CediRates ein rate. Looks like we’re calculating the median today!",
-      image: "https://pbs.twimg.com/profile_images/1467099385628704771/1f5ZnkV1_400x400.jpg",
+      image:
+        "https://pbs.twimg.com/profile_images/1467099385628704771/1f5ZnkV1_400x400.jpg",
       name: "dantata",
-      handle: "@sosa4rfv"
+      handle: "@sosa4rfv",
     },
     {
       text: "Most underrated account. Continue your good works.",
-      image: "https://pbs.twimg.com/profile_images/1729651019087237120/R-Fn2Jqq_400x400.jpg",
+      image:
+        "https://pbs.twimg.com/profile_images/1729651019087237120/R-Fn2Jqq_400x400.jpg",
       name: "Niel",
-      handle: "@1RealNiel"
+      handle: "@1RealNiel",
     },
     {
       text: "Cool website; new functions every day. Next thing for me is a mobile app 🙌",
-      image: "https://pbs.twimg.com/profile_images/1721080146075987968/U9YV0Q3c_400x400.jpg",
+      image:
+        "https://pbs.twimg.com/profile_images/1721080146075987968/U9YV0Q3c_400x400.jpg",
       name: "Kenneth Yaw Agyeman-Badu",
-      handle: "@Kenzibit"
+      handle: "@Kenzibit",
     },
     {
       text: "unrelated but your website is top notch 👍",
-      image: "https://pbs.twimg.com/profile_images/1698320624723120128/tRmt_nYx_400x400.jpg",
+      image:
+        "https://pbs.twimg.com/profile_images/1698320624723120128/tRmt_nYx_400x400.jpg",
       name: "𝑨𝑱🇬🇭",
-      handle: "@dopematikk"
+      handle: "@dopematikk",
     },
     {
       text: "I always post your rates on my status together with the link & people always ask when I even miss a day 🤭🤭",
-      image: "https://pbs.twimg.com/profile_images/1650942511513231360/FXWuZeFv_400x400.jpg",
+      image:
+        "https://pbs.twimg.com/profile_images/1650942511513231360/FXWuZeFv_400x400.jpg",
       name: "Nii",
-      handle: "@CulioGH"
-    }
-  ]
+      handle: "@CulioGH",
+    },
+  ];
 
   const flavoursContainerRef = useRef<HTMLDivElement | null>(null);
   const scrollSpeed = 0.5; // Adjust the scroll speed for smoothness
@@ -150,7 +158,10 @@ const Login = () => {
         flavoursContainer.scrollLeft += scrollSpeed;
 
         // If we've reached the end, reset the scroll position
-        if (flavoursContainer.scrollLeft >= flavoursContainer.scrollWidth - flavoursContainer.clientWidth) {
+        if (
+          flavoursContainer.scrollLeft >=
+          flavoursContainer.scrollWidth - flavoursContainer.clientWidth
+        ) {
           flavoursContainer.scrollLeft = 0;
         }
 
@@ -219,10 +230,7 @@ const Login = () => {
                   )}
                 />
                 {errors.email && (
-                  <p
-                    className="text-red-400 text-[12px]"
-                    role="alert"
-                  >
+                  <p className="text-red-400 text-[12px]" role="alert">
                     {errors.email.message}
                   </p>
                 )}
@@ -261,10 +269,7 @@ const Login = () => {
                         )}
                       </button>
                       {errors.password && (
-                        <p
-                          className="text-red-400 text-[12px]"
-                          role="alert"
-                        >
+                        <p className="text-red-400 text-[12px]" role="alert">
                           {errors.password.message}
                         </p>
                       )}

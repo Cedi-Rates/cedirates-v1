@@ -10,6 +10,7 @@ import {
   ReviewType,
   UserDetailsType,
   CompanyDataType,
+  CompanyRate,
 } from "@/utils/types";
 import { TabContext } from "../RatesSection";
 
@@ -17,12 +18,14 @@ interface AlertDialogDemoProps {
   companyDetails: CompleteCompanyDetailsType;
   user: UserDetailsType;
   setOpen?: (open: boolean) => void;
+  companyData: CompanyRate;
 }
 
 const RatesModal: React.FC<AlertDialogDemoProps> = ({
   companyDetails,
   user,
   setOpen,
+  companyData,
 }) => {
   const context = useContext(TabContext);
 
@@ -32,21 +35,26 @@ const RatesModal: React.FC<AlertDialogDemoProps> = ({
 
   const { selectedTab, setSelectedTab } = context;
 
+  console.log("reportPrice", companyData);
+
   return (
-    <Tabs defaultValue={selectedTab || "dollar"} onValueChange={setSelectedTab}>
+    <Tabs
+      defaultValue={selectedTab || "dollarRates"}
+      onValueChange={setSelectedTab}
+    >
       <TabsList className="grid w-full grid-cols-3 bg-gray-200 max-w-sm mx-auto">
-        <TabsTrigger value="dollar">Dollar</TabsTrigger>
-        <TabsTrigger value="pound">Pound</TabsTrigger>
-        <TabsTrigger value="euro">Euro</TabsTrigger>
+        <TabsTrigger value="dollarRates">Dollar</TabsTrigger>
+        <TabsTrigger value="poundRates">Pound</TabsTrigger>
+        <TabsTrigger value="euroRates">Euro</TabsTrigger>
       </TabsList>
-      <TabsContent value="dollar">
-        <Dollar companyDetails={companyDetails} />
+      <TabsContent value="dollarRates">
+        <Dollar companyDetails={companyDetails} companyData={companyData} />
       </TabsContent>
-      <TabsContent value="pound">
-        <Pound companyDetails={companyDetails} />
+      <TabsContent value="poundRates">
+        <Pound companyDetails={companyDetails} companyData={companyData} />
       </TabsContent>
-      <TabsContent value="euro">
-        <Euro companyDetails={companyDetails} />
+      <TabsContent value="euroRates">
+        <Euro companyDetails={companyDetails} companyData={companyData} />
       </TabsContent>
     </Tabs>
   );

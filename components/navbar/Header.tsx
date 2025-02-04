@@ -16,10 +16,33 @@ import {
   DropdownMenuItem,
   DropdownMenuTrigger,
 } from "../ui/dropdown-menu";
+import { UserDetailsType } from "@/utils/types";
 
+const CEDIRATES_USER = "cedirates_user";
 const Header = ({ user }: any) => {
   const [menu, setMenu] = useState(false);
   const [currentPath, setCurrentPath] = useState("");
+  const [storedUser, setStoredUser] = useState<UserDetailsType>(
+    JSON.parse(sessionStorage.getItem(CEDIRATES_USER) as string)
+    // {} as UserDetailsType
+  );
+
+  useEffect(() => {
+    if (typeof window !== "undefined") {
+      const savedUser = sessionStorage.getItem(CEDIRATES_USER);
+
+      console.log(savedUser);
+      if (savedUser) {
+        setStoredUser(JSON.parse(savedUser));
+        console.log(storedUser);
+      }
+
+      if (user?.email) {
+        sessionStorage.setItem(CEDIRATES_USER, JSON.stringify(user));
+      }
+    }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [user]);
 
   useEffect(() => {
     if (typeof window !== "undefined") {
@@ -27,6 +50,8 @@ const Header = ({ user }: any) => {
       setCurrentPath(pathname);
     }
   }, []);
+
+  console.log(storedUser);
 
   return (
     <>
@@ -200,22 +225,26 @@ const Header = ({ user }: any) => {
             <CommandMenu />
 
             <div className="flex gap-spacing-8 items-center">
-              {user?.email ? (
+              {!user?.email && !storedUser?.email ? (
+                <ProgressBarLink href={"/login"}>
+                  <Button size={"sm"}>Login</Button>
+                </ProgressBarLink>
+              ) : (
                 <DropdownMenu>
                   <DropdownMenuTrigger className="border-0">
                     <Avatar
-                      name={user.firstName + " " + user.lastName}
+                      name={
+                        (storedUser?.firstName || "") +
+                        " " +
+                        (storedUser?.lastName || "")
+                      }
                       size="m"
                     />
                   </DropdownMenuTrigger>
                   <DropdownMenuContent align="end">
-                    <AvatarDropdown user={user} />
+                    <AvatarDropdown user={storedUser} />
                   </DropdownMenuContent>
                 </DropdownMenu>
-              ) : (
-                <ProgressBarLink href={"/login"}>
-                  <Button size={"sm"}>Login</Button>
-                </ProgressBarLink>
               )}
             </div>
           </div>

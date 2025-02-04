@@ -40,9 +40,7 @@ type Props = {
   chartData: any;
 };
 
-const CompanyHeader = ({
-  companyDetails, user, chartData
-}: Props) => {
+const CompanyHeader = ({ companyDetails, user, chartData }: Props) => {
   const { toast } = useToast();
   const [loading, setLoading] = useState(false);
   const [subscriberCount, setSubscriberCount] = useState(
@@ -87,8 +85,8 @@ const CompanyHeader = ({
           setSubscriberCount((prev) => (Number(prev) - 1).toString());
           setOpen(false);
           toast({
-            variant: 'destructive',
-            title: `You’re no longer subscribed to ${companyDetails?.company?.companyName}`
+            variant: "destructive",
+            title: `You’re no longer subscribed to ${companyDetails?.company?.companyName}`,
           });
         } else {
           setUserDetails({
@@ -100,8 +98,8 @@ const CompanyHeader = ({
           });
           setSubscriberCount((prev) => (Number(prev) + 1).toString());
           toast({
-            variant: 'success',
-            title: `You’re now subscribed to ${companyDetails?.company?.companyName}`
+            variant: "success",
+            title: `You’re now subscribed to ${companyDetails?.company?.companyName}`,
           });
         }
         await addToWatchList(
@@ -110,13 +108,13 @@ const CompanyHeader = ({
         );
       } catch (error: any) {
         toast({
-          variant: 'destructive',
-          title: error?.response.data.msg
+          variant: "destructive",
+          title: error?.response.data.msg,
         });
       }
     } else {
-      urlManager.setRedirectUrl()
-      push('/signup')
+      urlManager.setRedirectUrl();
+      push("/signup");
     }
   };
 
@@ -200,25 +198,34 @@ const CompanyHeader = ({
             width={120}
             height={120}
             priority
-          // loading="lazy"
+            // loading="lazy"
           />
         </div>
         <div className={style["profile-container"]}>
           <div className={style["profile-info-text-up"]}>
             <div className={style["company-name-container"]}>
-              <h3 className="text-paragraph-lg-semibold !leading-[17px]">{companyDetails.company?.companyName}</h3>
+              <h3 className="text-paragraph-lg-semibold !leading-[17px]">
+                {companyDetails.company?.companyName}
+              </h3>
               {companyDetails.company?.verified && (
                 <span>
                   {/* <PremiumIcon /> */}
-                  <BadgeIcon fixed size='m' />
+                  <BadgeIcon fixed size="m" />
                 </span>
               )}
-               <div className='text-paragraph-sm-semibold bg-backgroundInfo text-primary-brand-primary-500 !py-1 !px-2.5 rounded-lg !leading-[16px] w-max'>
-              {subscriberCount} Subscribers
-              {/* {companyDetails?.subscriberCount} Subscribers */}
+              <div className="text-paragraph-sm-semibold bg-backgroundInfo text-primary-brand-primary-500 !py-1 !px-2.5 rounded-lg !leading-[16px] w-max">
+                {subscriberCount} Subscribers
+                {/* {companyDetails?.subscriberCount} Subscribers */}
+              </div>
             </div>
+            <div
+              className={
+                style["desc-text"] +
+                " !text-paragraph-sm-regular font-normal mt-1 mb-3.5"
+              }
+            >
+              {companyBio}
             </div>
-            <div className={style["desc-text"] + ' !text-paragraph-sm-regular font-normal mt-1 mb-3.5'}>{companyBio}</div>
             <div className="flex flex-row gap-2.5 text-icon-icon-secondary">
               <FaFacebook size={18} />
               <BsTwitterX size={18} />
@@ -245,7 +252,8 @@ const CompanyHeader = ({
                     />
                   ) : (
                     <>
-                      <BellSVGComponent /> <span>Subscribed</span>
+                      <BellSVGComponent />{" "}
+                      <span className="text-black">Subscribed</span>
                     </>
                   )}
                 </Button>
@@ -306,13 +314,18 @@ const CompanyHeader = ({
       </Dialog>
 
       <div className={style["profile-info-text-down"]}>
-        <div className={style["company-name-container"] + ' text-start !justify-start mt-2'}>
+        <div
+          className={
+            style["company-name-container"] + " text-start !justify-start mt-2"
+          }
+        >
           {companyDetails.company?.companyName}
         </div>
         <div className={style["subscriber-count"]}>
           {/* {companyDetails.subscriberCount} subscribers */}
-          {`${subscriberCount} ${Number(subscriberCount) === 1 ? "subscriber" : "subscribers"
-            }`}
+          {`${subscriberCount} ${
+            Number(subscriberCount) === 1 ? "subscriber" : "subscribers"
+          }`}
         </div>
         <div className={style["desc-text"]}>{companyBio}</div>
       </div>

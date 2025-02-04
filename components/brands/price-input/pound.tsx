@@ -6,22 +6,31 @@ import { Label } from "@/components/ui/label";
 import { Button } from "@/components/ui/button";
 import customAxios from "@/utils/customAxios";
 import { SpinnerCircular } from "spinners-react";
-import { CompanyDataType, CompleteCompanyDetailsType } from "@/utils/types";
+import {
+  CompanyDataType,
+  CompanyRate,
+  CompleteCompanyDetailsType,
+} from "@/utils/types";
 import { useForm } from "react-hook-form";
 import axios from "axios";
 import { useToast } from "@/components/ui/use-toast";
 
 interface AlertDialogDemoProps {
   companyDetails: CompleteCompanyDetailsType;
+  companyData: CompanyRate;
 }
 
-const Dollar: React.FC<AlertDialogDemoProps> = ({ companyDetails }) => {
+const Dollar: React.FC<AlertDialogDemoProps> = ({
+  companyDetails,
+  companyData,
+}) => {
   const { toast } = useToast();
   const { register, handleSubmit, setValue } = useForm();
 
-  const currentPrices = companyDetails?.data?.slice(-1)[0];
-  const [poundPriceData, setPoundPriceData] =
-    useState<CompanyDataType>(currentPrices);
+  console.log("pound", companyData);
+
+  const currentPrices = companyData?.data?.poundRates;
+  const [poundPriceData, setPoundPriceData] = useState<any>(currentPrices);
 
   const [loading, setLoading] = useState(false);
 
@@ -35,20 +44,20 @@ const Dollar: React.FC<AlertDialogDemoProps> = ({ companyDetails }) => {
     try {
       const buyingRate =
         !buying || isNaN(buying)
-          ? poundPriceData?.rates?.poundRates?.buyingRate
+          ? poundPriceData?.buyingRate
           : parseFloat(parseFloat(buying).toFixed(4));
 
       const sellingRate =
         !selling || isNaN(selling)
-          ? poundPriceData?.rates?.poundRates?.sellingRate
+          ? poundPriceData?.sellingRate
           : parseFloat(parseFloat(selling).toFixed(4));
 
       const midRate =
         !buying || isNaN(buying)
-          ? poundPriceData?.rates?.poundRates?.midRate
+          ? poundPriceData?.midRate
           : parseFloat(
-            ((parseFloat(buying) + parseFloat(selling)) / 2).toFixed(4)
-          );
+              ((parseFloat(buying) + parseFloat(selling)) / 2).toFixed(4)
+            );
 
       const priceObject = {
         poundRates: {
@@ -56,21 +65,22 @@ const Dollar: React.FC<AlertDialogDemoProps> = ({ companyDetails }) => {
           sellingRate,
           midRate,
         },
-        euroRates: poundPriceData?.rates?.euroRates || {
+        euroRates: poundPriceData?.euroRates || {
           buyingRate: 0,
           sellingRate: 0,
         },
-        dollarRates: poundPriceData?.rates?.poundRates || {
+        dollarRates: poundPriceData?.poundRates || {
           buyingRate: 0,
           sellingRate: 0,
         },
-        company: companyDetails?.company?.name || "Default Company",
+        // company: companyDetails?.company?.name || "Default Company",
       };
       // console.log(priceObject);
 
       await axios.patch(
         `/api/v1/exchangeRates/updateRates/poundRates/${companyDetails?.company._id}`,
-        priceObject
+        priceObject,
+        { headers: { "custom-origin": "cedirates-dev" } }
       );
 
       setPoundPriceData({
@@ -82,25 +92,25 @@ const Dollar: React.FC<AlertDialogDemoProps> = ({ companyDetails }) => {
             sellingRate,
             midRate,
           },
-          euroRates: poundPriceData?.rates?.euroRates || {
+          euroRates: poundPriceData?.euroRates || {
             buyingRate: 0,
             sellingRate: 0,
           },
-          dollarRates: poundPriceData?.rates?.poundRates || {
+          dollarRates: poundPriceData?.poundRates || {
             buyingRate: 0,
             sellingRate: 0,
           },
-          company: poundPriceData?.rates?.company || "Default Company",
+          // company: poundPriceData?.rates?.company || "Default Company",
         },
       });
       toast({
-        variant: 'success',
-        title: "Price successfully reported."
+        variant: "success",
+        title: "Price successfully reported.",
       });
     } catch (err: any) {
       toast({
-        variant: 'destructive',
-        title: "🤦‍♂️ Uh oh! Something went wrong."
+        variant: "destructive",
+        title: "🤦‍♂️ Uh oh! Something went wrong.",
       });
     } finally {
       setLoading(false);
@@ -117,7 +127,7 @@ const Dollar: React.FC<AlertDialogDemoProps> = ({ companyDetails }) => {
   return (
     <form onSubmit={handleSubmit(onSubmit)}>
       <div className="flex flex-col w-full max-w-sm mx-auto mb-3 gap-1.5">
-        <Label className="text-[#1896fe] font-thin text-[14px]" htmlFor="name">
+        <Label className="text-[#1896fe]  text-[14px]" htmlFor="name">
           Buying
         </Label>
         <Input
@@ -129,10 +139,7 @@ const Dollar: React.FC<AlertDialogDemoProps> = ({ companyDetails }) => {
         />
       </div>
       <div className="flex flex-col w-full max-w-sm mx-auto mb-3 gap-1.5">
-        <Label
-          className="text-[#1896fe] font-thin text-[14px]"
-          htmlFor="username"
-        >
+        <Label className="text-[#1896fe]  text-[14px]" htmlFor="username">
           Selling
         </Label>
         <Input
