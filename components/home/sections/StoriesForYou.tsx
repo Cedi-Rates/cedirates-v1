@@ -67,8 +67,8 @@ const StoriesForYou: React.FC<Stories4YouProps> = ({ blogs }) => {
         <MobileAd
           className="flex sm:hidden my-8"
           loaderImage={LoaderImage}
-          desc="Book trip or chat with us on WhatsApp"
-          url="https://wa.me/+233504099404?text=I%20saw%20your%20ad%20on%20CediRates"
+          desc=""
+          url="https://dub.sh/6rRw1hS"
         />
       </div>
     </div>

@@ -36,7 +36,7 @@ const LatestStories: React.FC<LatestStoriesProps> = ({ blogs }) => {
             className=""
             loaderImage={LoaderImage}
             desc=""
-            url="https://wa.me/message/7ECWCBIPEERQH1"
+            url="https://dub.sh/KSMinEt"
           />
           <NewsCard
             blog={blogs?.latestStories[1]}
@@ -76,8 +76,8 @@ const LatestStories: React.FC<LatestStoriesProps> = ({ blogs }) => {
         <MobileAd
           className="flex sm:hidden my-8"
           loaderImage={LoaderImage}
-          desc="Chat on WhatsApp for car deals or referral commissions"
-          url="https://api.whatsapp.com/send/?phone=%2B233209013527&text=I+saw+your+ad+on+CediRates"
+          desc=""
+          url="https://dub.sh/KSMinEt"
         />
       </div>
     </div>
