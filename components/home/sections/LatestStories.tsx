@@ -2,7 +2,7 @@ import React from "react";
 import BlogCard from "../components/BlogCard";
 import Ad from "../components/Ad";
 import { Article } from "@/utils/types";
-import LoaderImage from "@/assets/images/Ads/YOURCARGUY.png";
+import LoaderImage from "@/assets/images/Ads/Swift Flitz.jpeg";
 import Bar from "@/components/ui/bar";
 import NewsCard from "../components/NewsCard";
 import Divider from "@/components/ui/divider";
@@ -35,8 +35,8 @@ const LatestStories: React.FC<LatestStoriesProps> = ({ blogs }) => {
           <Ad
             className=""
             loaderImage={LoaderImage}
-            desc="Chat on WhatsApp for car deals or referral commissions"
-            url="https://api.whatsapp.com/send/?phone=%2B233209013527&text=I+saw+your+ad+on+CediRates"
+            desc=""
+            url="https://wa.me/message/7ECWCBIPEERQH1"
           />
           <NewsCard
             blog={blogs?.latestStories[1]}

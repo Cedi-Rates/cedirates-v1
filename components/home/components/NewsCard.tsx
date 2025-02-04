@@ -25,6 +25,7 @@ interface BlogCardProps {
 const NewsCard = ({
   blog, description
 }: BlogCardProps) => {
+  const [imageLoaded, setImageLoaded] = useState(false);
 
   const author = blog?.publishedBy &&
     `${blog.publishedBy.firstName} ${blog.publishedBy.lastName}`;
@@ -58,8 +59,18 @@ const NewsCard = ({
             href={`/news/${blog?.slug}`}
             className="flex flex-col h-full"
           >
-            {blog?.image ? (
-              <CardHeader className="relative">
+            <CardHeader className="relative">
+              {!imageLoaded && (
+                <div className="absolute inset-0 flex justify-center items-center bg-secondary-steel-gray-25">
+                  <Image
+                    src={logos}
+                    alt="Logo"
+                    className="w-20 h-20 object-contain"
+                    priority
+                  />
+                </div>
+              )}
+              {blog?.image && (
                 <Image
                   src={blog.image}
                   alt={blog?.title}
@@ -67,30 +78,15 @@ const NewsCard = ({
                   width={300}
                   height={200}
                   priority
-                  placeholder='blur'
-                  blurDataURL={logos.src}
+                  onLoad={() => setImageLoaded(true)}
                 />
-                {blog?.category && (
-                  <span className="absolute bottom-0 right-0 mb-3 px-2 py-1">
-                    <Button size={"sm"}>{blog?.category}</Button>
-                  </span>
-                )}
-              </CardHeader>
-            ) : (
-              <CardHeader className="h-[200px] relative flex justify-center items-center w-full border rounded-radius-md bg-secondary-steel-gray-25 shadow-md">
-                <Image
-                  src={logos}
-                  alt={blog?.title}
-                  className="w-20 h-80 flex items-center justify-center"
-                  loading="lazy"
-                />
-                {blog?.category && (
-                  <span className="absolute bottom-0 right-0 mb-3 px-2 py-1">
-                    <Button size={"sm"}>{blog.category}</Button>
-                  </span>
-                )}
-              </CardHeader>
-            )}
+              )}
+              {blog?.category && (
+                <span className="absolute bottom-0 right-0 mb-3 px-2 py-1">
+                  <Button size={"sm"}>{blog?.category}</Button>
+                </span>
+              )}
+            </CardHeader>
             <CardContent className="mt-3 space-y-2 flex-grow">
               <h3
                 dangerouslySetInnerHTML={{ __html: sanitizedTitle }}

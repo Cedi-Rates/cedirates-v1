@@ -2,7 +2,7 @@ import React from "react";
 import BlogCard from "../components/BlogCard";
 import { Article } from "@/utils/types";
 import Ad from "../components/Ad";
-import LoaderImage from "@/assets/images/Ads/trip-Pearl.jpeg";
+import LoaderImage from "@/assets/images/Ads/Oba tours - Cape town.jpeg";
 import Bar from "@/components/ui/bar";
 import Divider from "@/components/ui/divider";
 import NewsCard from "../components/NewsCard";
@@ -33,8 +33,8 @@ const StoriesForYou: React.FC<Stories4YouProps> = ({ blogs }) => {
           <Ad
             className=""
             loaderImage={LoaderImage}
-            desc="Book trip or chat with us on WhatsApp"
-            url="https://wa.me/+233504099404?text=I%20saw%20your%20ad%20on%20CediRates"
+            desc=""
+            url="https://dub.sh/6rRw1hS"
           />
           <NewsCard blog={blogs?.forYou[2]} description={false} />
         </div>

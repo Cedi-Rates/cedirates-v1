@@ -1,7 +1,7 @@
 "use client";
 import { Article } from "@/utils/types";
 import Link from "next/link";
-import React from "react";
+import React, { useState } from "react";
 import style from "../../../assets/styles/blog.module.css";
 import Image from "next/image";
 import { ProgressBarLink } from "@/app/progress-bar";
@@ -143,46 +143,72 @@ const PressReleaseCard: React.FC<PressReleaseCard> = ({ blog }) => (
   </div>
 );
 
-const MobileView: React.FC<MobileViewProps> = ({ blog, type, main, date }) => (
-  <ProgressBarLink
-    href={blog?.rssExternalLink ? `/news/${blog?.slug}?ref=cedirates` : `/news/${blog?.slug}`}
-    className={`${main && "hidden"} sm:hidden`}
-  >
-    <div className="grid sm:hidden grid-cols-4 items-center gap-2.5 w-full">
-      <Image
-        src={blog?.image ? blog.image : logos}
-        className="sm:aspect-[41/20] aspect-square object-cover rounded-lg"
-        alt={blog?.title}
-        width={500}
-        height={500}
-        placeholder='blur'
-        blurDataURL={logos.src}
-      />
-      <div className="flex flex-col col-span-3 justify-between">
-        {type !== "pressRelease" && (
-          <p className="font-semibold text-[12px] text-text-text-brand">
-            {blog?.category}
+const MobileView: React.FC<MobileViewProps> = ({ blog, type, main, date }) => {
+  const [imageLoaded, setImageLoaded] = useState(false);
+
+  return (
+    <ProgressBarLink
+      href={blog?.rssExternalLink ? `/news/${blog?.slug}?ref=cedirates` : `/news/${blog?.slug}`}
+      className={`${main && "hidden"} sm:hidden`}
+    >
+      <div className="grid sm:hidden grid-cols-4 items-center gap-2.5 w-full">
+        {/* <Image
+          src={blog?.image ? blog.image : logos}
+          className="sm:aspect-[41/20] aspect-square object-cover rounded-lg"
+          alt={blog?.title}
+          width={500}
+          height={500}
+          placeholder='blur'
+          blurDataURL={logos.src}
+        /> */}
+        <div className="relative w-full h-full">
+          {!imageLoaded && (
+            <Image
+              src={logos}
+              className="absolute inset-0 w-full h-full object-cover rounded-lg"
+              alt="Logo"
+              width={500}
+              height={500}
+              priority
+            />
+          )}
+          <Image
+            src={blog?.image}
+            className={`sm:aspect-[41/20] aspect-square object-cover rounded-lg transition-opacity duration-500 ${imageLoaded ? "opacity-100" : "opacity-0"}`}
+            alt={blog?.title}
+            width={500}
+            height={500}
+            // placeholder="blur"
+            // blurDataURL={logos.src}
+            onLoad={() => setImageLoaded(true)}
+          />
+        </div>
+        <div className="flex flex-col col-span-3 justify-between">
+          {type !== "pressRelease" && (
+            <p className="font-semibold text-[12px] text-text-text-brand">
+              {blog?.category}
+            </p>
+          )}
+          <p
+            className={`${style["truncate-two-lines"]} text-paragraph-sm-semibold leading-[17.14px] text-text-text-primary`}
+          >
+            {blog?.title}
           </p>
-        )}
-        <p
-          className={`${style["truncate-two-lines"]} text-paragraph-sm-semibold leading-[17.14px] text-text-text-primary`}
-        >
-          {blog?.title}
-        </p>
-        <div className="flex flex-row justify-between">
-          <p className="text-caption-md-semibold text-text-text-brand-secondary">
-            {blog?.rssExternalLink
-              ? blog.origin
-              : `${blog?.publishedBy.firstName} ${blog?.publishedBy.lastName}`}
-          </p>
-          <p className="text-caption-md-regular text-text-text-quarternary text-right">
-            {blog?.createdAt && date}
-          </p>
+          <div className="flex flex-row justify-between">
+            <p className="text-caption-md-semibold text-text-text-brand-secondary">
+              {blog?.rssExternalLink
+                ? blog.origin
+                : `${blog?.publishedBy.firstName} ${blog?.publishedBy.lastName}`}
+            </p>
+            <p className="text-caption-md-regular text-text-text-quarternary text-right">
+              {blog?.createdAt && date}
+            </p>
+          </div>
         </div>
       </div>
-    </div>
-  </ProgressBarLink>
-);
+    </ProgressBarLink>
+  );
+};
 
 const BlogCard: React.FC<BlogCardProps> = ({
   blog,

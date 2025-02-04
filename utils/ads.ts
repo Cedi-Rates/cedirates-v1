@@ -14,41 +14,40 @@ const afriD = require('@/assets/images/Ads/desktop/Afriswap-desktop.png').defaul
 const afriM = require('@/assets/images/Ads/mobile/Afriswap-mobile.png').default;
 
 export const ads:AdType[] = [
-    { 
-        id:1, 
-        name: "shaq", 
-        mobileImage: kobinaM, 
-        desktopImage: kobinaD, 
-        url: "https://onelink.to/pq5wpt" 
-    },
-    { 
-        id:2, 
-        name: "zest", 
-        mobileImage: jermaineM, 
-        desktopImage: jermaineD, 
-        url: "https://www.tryzest.shop/?utm_source=cedirates&utm_medium=advertising&utm_campaign=free-store-growth&utm_content=sign-up"  
-    },
-    {
-        id:3,
-        name: "Code and Cocktails Fest",
-        mobileImage: codeFestM ,
-        desktopImage: codeFestD,
-        url: "https://codeandcocktails.live"
-    },
-    {
-        id:4,
-        name: "Zippy",
-        mobileImage: zippyM,
-        desktopImage: zippyD,
-        url: "http://www.zippy.com.gh"
-    },
+    // { 
+    //     id:1, 
+    //     name: "shaq", 
+    //     mobileImage: kobinaM, 
+    //     desktopImage: kobinaD, 
+    //     url: "https://onelink.to/pq5wpt" 
+    // },
+    // { 
+    //     id:2, 
+    //     name: "zest", 
+    //     mobileImage: jermaineM, 
+    //     desktopImage: jermaineD, 
+    //     url: "https://www.tryzest.shop/?utm_source=cedirates&utm_medium=advertising&utm_campaign=free-store-growth&utm_content=sign-up"  
+    // },
+    // {
+    //     id:3,
+    //     name: "Code and Cocktails Fest",
+    //     mobileImage: codeFestM ,
+    //     desktopImage: codeFestD,
+    //     url: "https://codeandcocktails.live"
+    // },
+    // {
+    //     id:4,
+    //     name: "Zippy",
+    //     mobileImage: zippyM,
+    //     desktopImage: zippyD,
+    //     url: "http://www.zippy.com.gh"
+    // },
     {
         id:5,
         name: "AfriSwap",
         mobileImage: afriM, 
         desktopImage: afriD,
-        // url: "https://wa.me/+233594918198"
-        url: "http://www.afriswap.com"
+        url: "https://dub.sh/ha6gXFj"
     }
 ];
 
