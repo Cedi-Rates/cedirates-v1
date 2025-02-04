@@ -1,55 +1,56 @@
-"use client";
-import React, { useEffect, useRef, useState } from "react";
-import Link from "next/link";
-import { navigation } from "@/utils/links";
-import { Button } from "../ui/button";
-import { ProgressBarLink } from "@/app/progress-bar";
-import { Alert } from "../ui/alert";
-import NavRates from "./navRates";
-import { CommandMenu } from "../command-menu";
-import { Popover, PopoverTrigger } from "../ui/popover";
-import { Avatar } from "../ui/avatar";
-import AvatarDropdown from "../reusable/AvatarDropdown";
+'use client'
+import React, { useEffect, useRef, useState } from 'react'
+import Link from 'next/link'
+import { navigation } from '@/utils/links'
+import { Button } from '../ui/button'
+import { ProgressBarLink } from '@/app/progress-bar'
+import { Alert } from '../ui/alert'
+import NavRates from './navRates'
+import { CommandMenu } from '../command-menu'
+import { Popover, PopoverTrigger } from '../ui/popover'
+import { Avatar } from '../ui/avatar'
+import AvatarDropdown from '../reusable/AvatarDropdown'
 import {
   DropdownMenu,
   DropdownMenuContent,
   DropdownMenuItem,
-  DropdownMenuTrigger,
-} from "../ui/dropdown-menu";
-import { UserDetailsType } from "@/utils/types";
+  DropdownMenuTrigger
+} from '../ui/dropdown-menu'
+import { UserDetailsType } from '@/utils/types'
 
-const CEDIRATES_USER = "cedirates_user";
+const CEDIRATES_USER = 'cedirates_user'
 const Header = ({ user }: any) => {
-  const [menu, setMenu] = useState(false);
-  const [currentPath, setCurrentPath] = useState("");
+  const [menu, setMenu] = useState(false)
+  const [currentPath, setCurrentPath] = useState('')
   const [storedUser, setStoredUser] = useState<UserDetailsType>(
-    JSON.parse(sessionStorage.getItem(CEDIRATES_USER) as string)
+    typeof window !== 'undefined' &&
+      JSON.parse(sessionStorage.getItem(CEDIRATES_USER) as string)
     // {} as UserDetailsType
-  );
+  )
 
   useEffect(() => {
-    if (typeof window !== "undefined") {
-      const savedUser = sessionStorage.getItem(CEDIRATES_USER);
+    if (typeof window !== 'undefined') {
+      const savedUser = sessionStorage.getItem(CEDIRATES_USER)
 
       if (savedUser) {
-        setStoredUser(JSON.parse(savedUser));
+        setStoredUser(JSON.parse(savedUser))
       }
 
       if (user?.email) {
-        sessionStorage.setItem(CEDIRATES_USER, JSON.stringify(user));
+        sessionStorage.setItem(CEDIRATES_USER, JSON.stringify(user))
       }
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [user]);
+  }, [user])
 
   useEffect(() => {
-    if (typeof window !== "undefined") {
-      const { pathname } = window.location;
-      setCurrentPath(pathname);
+    if (typeof window !== 'undefined') {
+      const { pathname } = window.location
+      setCurrentPath(pathname)
     }
-  }, []);
+  }, [])
 
-  console.log(storedUser);
+  console.log(storedUser)
 
   return (
     <>
@@ -61,8 +62,8 @@ const Header = ({ user }: any) => {
         <div className="max-w-[1450px] flex flex-wrap lg:flex-nowrap items-center justify-between mx-auto py-spacing-6 px-spacing-16 lg:px-spacing-96 lg:py-spacing-8">
           <div className="flex items-center lg:gap-spacing-16">
             <Button
-              variant={"link"}
-              size={"icon"}
+              variant={'link'}
+              size={'icon'}
               className="block lg:hidden text-icon-icon-primary"
               onClick={() => setMenu(!menu)}
             >
@@ -209,7 +210,7 @@ const Header = ({ user }: any) => {
                 <li
                   key={idx}
                   className={`block md:border-none border-b border-[#f2f2f2] hover:text-primary text-[0.95rem] ${
-                    currentPath === item.path ? "text-primary" : ""
+                    currentPath === item.path ? 'text-primary' : ''
                   }`}
                 >
                   <ProgressBarLink href={item.path}>
@@ -224,17 +225,17 @@ const Header = ({ user }: any) => {
 
             <div className="flex gap-spacing-8 items-center">
               {!user?.email && !storedUser?.email ? (
-                <ProgressBarLink href={"/login"}>
-                  <Button size={"sm"}>Login</Button>
+                <ProgressBarLink href={'/login'}>
+                  <Button size={'sm'}>Login</Button>
                 </ProgressBarLink>
               ) : (
                 <DropdownMenu>
                   <DropdownMenuTrigger className="border-0">
                     <Avatar
                       name={
-                        (storedUser?.firstName || "") +
-                        " " +
-                        (storedUser?.lastName || "")
+                        (storedUser?.firstName || '') +
+                        ' ' +
+                        (storedUser?.lastName || '')
                       }
                       size="m"
                     />
@@ -248,7 +249,7 @@ const Header = ({ user }: any) => {
           </div>
           <div
             className={`items-center ${
-              menu ? "block" : "hidden"
+              menu ? 'block' : 'hidden'
             } w-full lg:hidden lg:w-auto lg:order-1`}
           >
             <ul className="flex flex-col my-4 font-medium lg:flex-row lg:gap-spacing-12 md:my-0 md:border-0 mx-auto">
@@ -259,7 +260,7 @@ const Header = ({ user }: any) => {
             block py-4 
             md:border-none 
             hover:text-primary
-            ${currentPath === item.path ? "text-primary" : ""}
+            ${currentPath === item.path ? 'text-primary' : ''}
           `}
                 >
                   <ProgressBarLink href={item.path}>
@@ -277,18 +278,18 @@ const Header = ({ user }: any) => {
           <NavRates />
 
           <div className="hidden lg:flex gap-spacing-8">
-            <ProgressBarLink href={"/listing"}>
-              <Button size={"sm"} variant={"secondary"}>
+            <ProgressBarLink href={'/listing'}>
+              <Button size={'sm'} variant={'secondary'}>
                 Get Listed
               </Button>
             </ProgressBarLink>
-            <ProgressBarLink href={"/developer"}>
-              <Button size={"sm"} variant={"secondary"}>
+            <ProgressBarLink href={'/developer'}>
+              <Button size={'sm'} variant={'secondary'}>
                 API
               </Button>
             </ProgressBarLink>
-            <ProgressBarLink href={"/watchlist"}>
-              <Button size={"sm"} variant={"secondary"}>
+            <ProgressBarLink href={'/watchlist'}>
+              <Button size={'sm'} variant={'secondary'}>
                 Watchlist
               </Button>
             </ProgressBarLink>
@@ -296,7 +297,7 @@ const Header = ({ user }: any) => {
         </div>
       </div>
     </>
-  );
-};
+  )
+}
 
-export default Header;
+export default Header
