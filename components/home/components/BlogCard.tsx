@@ -9,6 +9,7 @@ import DOMPurify from "dompurify";
 import { Button } from "@/components/ui/button";
 import logos from '@/assets/images/logo-black.svg';
 import { Card, CardContent } from "@/components/ui/card"
+import { Skeleton } from "@/components/ui/skeleton";
 
 interface BlogCardProps {
   blog: Article;
@@ -45,6 +46,21 @@ interface MobileViewProps {
 interface PressReleaseCard {
   blog: Article;
 }
+
+const mobileSkeleton = () => (
+  <div className="grid sm:hidden grid-cols-4 gap-2 items-center w-full">
+    <Image
+      src={logos}
+      className='w-20 h-20 object-contain'
+      alt="Logo"
+    />
+    <div className="flex flex-col col-span-3 gap-y-1">
+      <Skeleton className="h-3 w-[100px]" />
+      <Skeleton className="h-3 w-[250px]" />
+      <Skeleton className="h-3 w-[100px]" />
+    </div>
+  </div>
+);
 
 const ImageWithOverlay: React.FC<ImageWithOverlayProps> = ({
   src,
@@ -152,23 +168,14 @@ const MobileView: React.FC<MobileViewProps> = ({ blog, type, main, date }) => {
       className={`${main && "hidden"} sm:hidden`}
     >
       <div className="grid sm:hidden grid-cols-4 items-center gap-2.5 w-full">
-        {/* <Image
-          src={blog?.image ? blog.image : logos}
-          className="sm:aspect-[41/20] aspect-square object-cover rounded-lg"
-          alt={blog?.title}
-          width={500}
-          height={500}
-          placeholder='blur'
-          blurDataURL={logos.src}
-        /> */}
         <div className="relative w-full h-full">
           {!imageLoaded && (
             <Image
               src={logos}
-              className="absolute inset-0 w-full h-full object-cover rounded-lg"
+              className="absolute inset-0 w-full h-full object-contain rounded-lg"
               alt="Logo"
-              width={500}
-              height={500}
+              width={400}
+              height={400}
               priority
             />
           )}
@@ -178,8 +185,6 @@ const MobileView: React.FC<MobileViewProps> = ({ blog, type, main, date }) => {
             alt={blog?.title}
             width={500}
             height={500}
-            // placeholder="blur"
-            // blurDataURL={logos.src}
             onLoad={() => setImageLoaded(true)}
           />
         </div>
@@ -230,11 +235,7 @@ const BlogCard: React.FC<BlogCardProps> = ({
   return (
     <>
       {!blog ? (
-        <Card className="flex justify-center items-center h-[250px] w-full border rounded-radius-md bg-secondary-steel-gray-25 shadow-md">
-          <CardContent className='flex justify-center items-center'>
-            <Image src={logos} alt='Logo' />
-          </CardContent>
-        </Card>
+        mobileSkeleton()
       ) : (
         <>
           {type === "default" ? (
