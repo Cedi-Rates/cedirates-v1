@@ -6,6 +6,7 @@ import {
 } from "lightweight-charts";
 import React, { useEffect, useMemo, useRef, useState } from "react";
 import { DatePickerWithRange } from "./date-picker-tabs";
+import { CurrencyPicker } from "./currency-picker";
 
 interface ChartComponentProps {
   data?: { time: string; value: number }[];
@@ -23,6 +24,14 @@ interface ChartComponentProps {
       data: string[];
     }[];
   };
+  currentRange: any;
+  setCurrentRange: any;
+  to: any;
+  setTo: any;
+  from: any;
+  setFrom: any;
+  currencyName: any;
+  setCurrencyName: any;
 }
 
 const formatDate = (date: Date): string => {
@@ -47,68 +56,81 @@ const ChartComponent: React.FC<ChartComponentProps> = (props) => {
       areaBottomColor = "rgba(41, 98, 255, 0.28)",
     } = {},
     state,
+    currentRange,
+    setCurrentRange,
   } = props;
 
-  const [currentRange, setCurrentRange] = useState<any>(undefined);
+  // const [currentRange, setCurrentRange] = useState<any>(undefined);
 
   const handleDateChange = (range: { from: Date; to: Date } | undefined) => {
     setCurrentRange(range);
   };
 
+  console.log(state);
+
   const filteredData = useMemo(() => {
-    if (!state) return [];
+    if (!state || !state.datasets[0].data || !state.datasets[1].data) return [];
 
-    return state.labels
-      .map((label, index) => {
-        const buyingValue = parseFloat(state.datasets[0].data[index]);
-        return {
-          time: formatDate(parseDate(label)),
-          value: buyingValue,
-        };
-      })
-      .filter((data, index) => {
-        const buyingValue = parseFloat(state.datasets[0].data[index]);
-        const sellingValue = parseFloat(state.datasets[1].data[index]);
+    // Create a Map to store the latest value for each unique date
+    const latestDataMap = new Map();
 
-        // Check if either buying or selling data is falsy for the current day
-        if (!buyingValue) return false;
+    state.labels.forEach((label, index) => {
+      const buyingValue = parseFloat(state.datasets[0].data[index]);
+      const sellingValue = parseFloat(state.datasets[1].data[index]);
+      const time = formatDate(parseDate(label));
 
-        if (!currentRange) return true;
+      // If buyingValue is falsy, skip this entry
+      if (!buyingValue) return;
 
-        return (
-          new Date(data.time) >= currentRange.from &&
-          new Date(data.time) <= currentRange.to
-        );
-      })
-      .sort((a, b) => new Date(a.time).getTime() - new Date(b.time).getTime());
+      // If currentRange exists, ensure the date is within range
+      const date = new Date(time);
+      if (
+        currentRange &&
+        (date < currentRange.from || date > currentRange.to)
+      ) {
+        return;
+      }
+
+      // Update the Map with the latest value for the date
+      latestDataMap.set(time, { time, value: buyingValue });
+    });
+
+    // Convert the Map values to an array and sort by date
+    return Array.from(latestDataMap.values()).sort(
+      (a, b) => new Date(a.time).getTime() - new Date(b.time).getTime()
+    );
   }, [state, currentRange]);
 
   const sellingFilteredData = useMemo(() => {
-    if (!state) return [];
+    if (!state || !state.datasets[0].data || !state.datasets[1].data) return [];
 
-    return state.labels
-      .map((label, index) => {
-        const sellingValue = parseFloat(state.datasets[1].data[index]);
-        return {
-          time: formatDate(parseDate(label)),
-          value: sellingValue,
-        };
-      })
-      .filter((data, index) => {
-        const buyingValue = parseFloat(state.datasets[0].data[index]);
-        const sellingValue = parseFloat(state.datasets[1].data[index]);
+    // Create a Map to store the latest value for each unique date
+    const latestDataMap = new Map();
 
-        // Check if either buying or selling data is falsy for the current day
-        if (!sellingValue) return false;
+    state.labels.forEach((label, index) => {
+      const sellingValue = parseFloat(state.datasets[1].data[index]);
+      const time = formatDate(parseDate(label));
 
-        if (!currentRange) return true;
+      // If buyingValue is falsy, skip this entry
+      if (!sellingValue) return;
 
-        return (
-          new Date(data.time) >= currentRange.from &&
-          new Date(data.time) <= currentRange.to
-        );
-      })
-      .sort((a, b) => new Date(a.time).getTime() - new Date(b.time).getTime());
+      // If currentRange exists, ensure the date is within range
+      const date = new Date(time);
+      if (
+        currentRange &&
+        (date < currentRange.from || date > currentRange.to)
+      ) {
+        return;
+      }
+
+      // Update the Map with the latest value for the date
+      latestDataMap.set(time, { time, value: sellingValue });
+    });
+
+    // Convert the Map values to an array and sort by date
+    return Array.from(latestDataMap.values()).sort(
+      (a, b) => new Date(a.time).getTime() - new Date(b.time).getTime()
+    );
   }, [state, currentRange]);
 
   const chartContainerRef = useRef<HTMLDivElement | null>(null);
@@ -159,7 +181,7 @@ const ChartComponent: React.FC<ChartComponentProps> = (props) => {
       topColor: areaTopColor,
       bottomColor: areaBottomColor,
       lineType: 0,
-      lineWidth: 1,
+      lineWidth: 4,
       priceFormat: {
         type: "custom",
         formatter: function (price: number) {
@@ -175,7 +197,7 @@ const ChartComponent: React.FC<ChartComponentProps> = (props) => {
       topColor: "#33ac64",
       bottomColor: "#54da8a41",
       lineType: 0,
-      lineWidth: 1,
+      lineWidth: 4,
       priceFormat: {
         type: "custom",
         formatter: function (price: number) {
@@ -308,6 +330,26 @@ const ChartComponent: React.FC<ChartComponentProps> = (props) => {
         }}
       >
         <DatePickerWithRange onChange={handleDateChange} />
+      </div>
+
+      <div
+        style={{
+          position: "absolute",
+          top: "-70px",
+          right: "10px",
+          zIndex: 2,
+        }}
+      >
+        <CurrencyPicker
+          currencyObj={{
+            to: props.to,
+            from: props.from,
+            setTo: props.setTo,
+            setFrom: props.setFrom,
+            currencyName: props.currencyName,
+            setCurrencyName: props.setCurrencyName,
+          }}
+        />
       </div>
 
       {!filteredData.length && !sellingFilteredData.length && (

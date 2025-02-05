@@ -23,6 +23,8 @@ interface ChartComponentProps {
       data: string[];
     }[];
   };
+  currentRange: any;
+  setCurrentRange: any;
 }
 
 const formatDate = (date: Date): string => {
@@ -47,9 +49,9 @@ const FuelChartComponent: React.FC<ChartComponentProps> = (props) => {
       areaBottomColor = "rgba(41, 98, 255, 0.28)",
     } = {},
     state,
+    currentRange,
+    setCurrentRange,
   } = props;
-
-  const [currentRange, setCurrentRange] = useState<any>(undefined);
 
   const handleDateChange = (range: { from: Date; to: Date } | undefined) => {
     setCurrentRange(range);
@@ -176,6 +178,7 @@ const FuelChartComponent: React.FC<ChartComponentProps> = (props) => {
       topColor: areaTopColor,
       bottomColor: areaBottomColor,
       lineType: 1,
+      lineWidth: 4,
       priceFormat: {
         type: "custom",
         formatter: function (price: number) {
@@ -191,7 +194,7 @@ const FuelChartComponent: React.FC<ChartComponentProps> = (props) => {
       topColor: "#33ac64",
       bottomColor: "#54da8a41",
       lineType: 0,
-      lineWidth: 1,
+      lineWidth: 4,
       priceFormat: {
         type: "custom",
         formatter: function (price: number) {
@@ -207,7 +210,7 @@ const FuelChartComponent: React.FC<ChartComponentProps> = (props) => {
       topColor: "#ac9e333c",
       bottomColor: "#ac9a3347",
       lineType: 0,
-      lineWidth: 1,
+      lineWidth: 4,
       priceFormat: {
         type: "custom",
         formatter: function (price: number) {

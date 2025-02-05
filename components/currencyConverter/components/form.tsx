@@ -38,6 +38,7 @@ interface Props {
   onSubmit: any;
   finalPrice: any;
   isTablet: any;
+  setCurrencyName: any;
 }
 
 const Form: React.FC<Props> = ({
@@ -54,6 +55,7 @@ const Form: React.FC<Props> = ({
   onSubmit,
   priceRef,
   isTablet,
+  setCurrencyName,
 }) => {
   return (
     <div className={styles.div3}>
@@ -83,6 +85,9 @@ const Form: React.FC<Props> = ({
               <Select
                 value={from.shortName}
                 onValueChange={(value) => {
+                  setCurrencyName(
+                    currencies.find((s) => s.shortName === value)?.shortName
+                  );
                   setFrom(currencies.find((s) => s.shortName === value));
                 }}
               >
@@ -127,6 +132,9 @@ const Form: React.FC<Props> = ({
               <Select
                 value={to.shortName}
                 onValueChange={(value) => {
+                  setCurrencyName(
+                    currencies.find((s) => s.shortName === value)?.shortName
+                  );
                   setTo(currencies.find((s) => s.shortName === value));
                 }}
               >

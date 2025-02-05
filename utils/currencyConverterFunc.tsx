@@ -131,7 +131,9 @@ let todayAverage: any;
 
 const getAverageForToday = async (date: any) => {
   try {
-    const data = await axios.get(`${process.env.BASE_URL}/average/${date}`);
+    const data = await axios.get(`${process.env.BASE_URL}/average/${date}`, {
+      headers: { "custom-origin": "cedirates-dev" },
+    });
     todayAverage = data;
     return true;
   } catch (error) {
@@ -171,15 +173,37 @@ interface ExchangeRates {
   [key: string]: string[];
 }
 
+interface Range {
+  from: Date;
+  to: Date;
+}
+
+function calculateDaysBetween(dates: Range) {
+  if (!dates) return;
+  const { from, to } = dates;
+  // Ensure both are valid Date objects
+  if (!(from instanceof Date) || !(to instanceof Date)) {
+    throw new Error("Both 'from' and 'to' should be valid Date objects.");
+  }
+
+  // Calculate the difference in milliseconds
+  const diffInMs = to.getTime() - from.getTime();
+
+  // Convert milliseconds to days
+  return diffInMs / (1000 * 60 * 60 * 24);
+}
+
 const getChartData = async (
   from: Currency,
   to: Currency,
   ERD: boolean,
-  dateRange: { from: Date | null; to: Date | null }
+  dateRange: Range
 ): Promise<any> => {
+  const days = calculateDaysBetween(dateRange);
   try {
     const response = await axios.get(
-      `${process.env.BASE_URL}/average/?page=1&limit=10000`
+      `${process.env.BASE_URL}/average/?page=1&limit=${days}`,
+      { headers: { "custom-origin": "cedirates-dev" } }
     );
     const data: ExchangeRateData[] = response.data.data;
 

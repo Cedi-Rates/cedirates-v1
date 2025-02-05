@@ -31,10 +31,36 @@ interface FuelPrices {
   [key: string]: string[];
 }
 
-export const getChartData = async (name: any, tab: string): Promise<any> => {
+interface Range {
+  from: Date;
+  to: Date;
+}
+
+function calculateDaysBetween(dates: Range) {
+  if (!dates) return;
+  const { from, to } = dates;
+  // Ensure both are valid Date objects
+  if (!(from instanceof Date) || !(to instanceof Date)) {
+    throw new Error("Both 'from' and 'to' should be valid Date objects.");
+  }
+
+  // Calculate the difference in milliseconds
+  const diffInMs = to.getTime() - from.getTime();
+
+  // Convert milliseconds to days
+  return diffInMs / (1000 * 60 * 60 * 24);
+}
+
+export const getChartData = async (
+  name: any,
+  tab: string,
+  range: Range
+): Promise<any> => {
+  const days = calculateDaysBetween(range);
   try {
     const response = await axios.get(
-      `${process.env.BASE_URL}/exchangerates/getall/${name}/?page=1&limit=10000`
+      `${process.env.BASE_URL}/exchangerates/getall/${name}/?page=1&limit=${days}`,
+      { headers: { "custom-origin": "cedirates-dev" } }
     );
     const { data }: any = response.data;
 
@@ -74,15 +100,21 @@ export const getChartData = async (name: any, tab: string): Promise<any> => {
 
     return chartData;
   } catch (error) {
-    console.error(error);
+    // console.error(error);
     return false;
   }
 };
 
-export const getFuelChartData = async (name: any): Promise<any> => {
+export const getFuelChartData = async (
+  name: any,
+  range: Range
+): Promise<any> => {
+  const days = calculateDaysBetween(range);
+
   try {
     const response = await axios.get(
-      `${process.env.BASE_URL}/fuelprices/getall/${name}/?page=1&limit=10000`
+      `${process.env.BASE_URL}/fuelprices/getall/${name}/?page=1&limit=${days}`,
+      { headers: { "custom-origin": "cedirates-dev" } }
     );
     const { data }: any = response.data;
 
@@ -124,7 +156,7 @@ export const getFuelChartData = async (name: any): Promise<any> => {
 
     return chartData;
   } catch (error) {
-    console.error(error);
+    // console.error(error);
     return false;
   }
 };

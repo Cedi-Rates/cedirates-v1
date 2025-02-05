@@ -66,6 +66,7 @@ const RatesSection = ({ companyDetails, user, companyData }: Props) => {
   const [openChart, setOpenChart] = useState(false);
   const [isDialogOpen, setIsDialogOpen] = useState(false);
   const [state, setState] = useState<any>();
+  const [currentRange, setCurrentRange] = useState<any>(undefined);
 
   const currentRate =
     companyDetails?.data && companyDetails.data.length > 0
@@ -82,8 +83,10 @@ const RatesSection = ({ companyDetails, user, companyData }: Props) => {
     const fetchChartData = async () => {
       const chartsData = await getChartData(
         companyDetails?.company?.companyName,
-        selectedTab
+        selectedTab,
+        currentRange
       );
+
       if (chartsData) {
         setState(chartsData);
       }
@@ -91,7 +94,8 @@ const RatesSection = ({ companyDetails, user, companyData }: Props) => {
 
     const fetchFuelChartData = async () => {
       const chartsData = await getFuelChartData(
-        companyDetails?.company?.companyName
+        companyDetails?.company?.companyName,
+        currentRange
       );
       if (chartsData) {
         setState(chartsData);
@@ -103,7 +107,7 @@ const RatesSection = ({ companyDetails, user, companyData }: Props) => {
     } else {
       fetchChartData();
     }
-  }, [companyDetails, isFuelCompany, selectedTab]);
+  }, [companyDetails, isFuelCompany, currentRange, selectedTab]);
 
   return (
     <>
@@ -180,12 +184,20 @@ const RatesSection = ({ companyDetails, user, companyData }: Props) => {
 
             {isFuelCompany ? (
               state ? (
-                <DynamicFuelComponent state={state} />
+                <DynamicFuelComponent
+                  state={state}
+                  currentRange={currentRange}
+                  setCurrentRange={setCurrentRange}
+                />
               ) : (
                 <Skeleton className="w-full h-[350px] rounded-xl" />
               )
             ) : state ? (
-              <DynamicComponent state={state} />
+              <DynamicComponent
+                state={state}
+                currentRange={currentRange}
+                setCurrentRange={setCurrentRange}
+              />
             ) : (
               <Skeleton className="w-full h-[350px] rounded-xl" />
             )}

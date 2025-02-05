@@ -75,9 +75,9 @@ export const Blog = ({ blog }: Props) => {
   function getExchangeRates(): Promise<ExchangeRate[]> {
     return new Promise((resolve, reject) => {
       axios
-        .get(
-          `${process.env.BASE_URL}/average/${moment().format("D-M-YYYY")}`
-        )
+        .get(`${process.env.BASE_URL}/average/${moment().format("D-M-YYYY")}`, {
+          headers: { "custom-origin": "cedirates-dev" },
+        })
         .then((response) => {
           const data = response.data;
           // console.log(data);
@@ -201,19 +201,20 @@ export const Blog = ({ blog }: Props) => {
     } else {
       return htmlString;
     }
-  };
+  }
 
-  const sanitizedTitle = typeof window !== "undefined"
-    ? DOMPurify.sanitize(blog.title)
-    : blog.title;
+  const sanitizedTitle =
+    typeof window !== "undefined" ? DOMPurify.sanitize(blog.title) : blog.title;
 
-  const sanitizedSummary = typeof window !== "undefined"
-    ? DOMPurify.sanitize(blog.summary)
-    : blog.summary;
+  const sanitizedSummary =
+    typeof window !== "undefined"
+      ? DOMPurify.sanitize(blog.summary)
+      : blog.summary;
 
-  const sanitizedContent = typeof window !== "undefined"
-    ? DOMPurify.sanitize(blog.content)
-    : blog.content;
+  const sanitizedContent =
+    typeof window !== "undefined"
+      ? DOMPurify.sanitize(blog.content)
+      : blog.content;
 
   return (
     <>
@@ -233,7 +234,7 @@ export const Blog = ({ blog }: Props) => {
               <h6
                 className="py-2 text-text-text-secondary text-paragraph-md-regular leading-[28.4px]"
                 dangerouslySetInnerHTML={{
-                  __html: sanitizedSummary
+                  __html: sanitizedSummary,
                 }}
               />
               <div className="flex justify-between items-center">
@@ -257,7 +258,11 @@ export const Blog = ({ blog }: Props) => {
                       title: blog.title,
                     }}
                   >
-                    <Button className="rounded-radius-full" size={'icon'} variant={'outline'}>
+                    <Button
+                      className="rounded-radius-full"
+                      size={"icon"}
+                      variant={"outline"}
+                    >
                       <IoShareOutline color="" size={16} />
                     </Button>
                   </RWebShare>
@@ -298,7 +303,7 @@ export const Blog = ({ blog }: Props) => {
 
             <div className="my-6 flex flex-wrap gap-2">
               {blog?.tags?.map((tag, index) => (
-                <Badge size={'m'} key={index}>
+                <Badge size={"m"} key={index}>
                   {tag}
                 </Badge>
               ))}

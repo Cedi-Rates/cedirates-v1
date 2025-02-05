@@ -1,5 +1,5 @@
 "use client";
-import React, { useState, useRef, useEffect, Suspense } from "react";
+import React, { useState, useRef, useEffect } from "react";
 import styles from "@/assets/styles/currencyConverter.module.css";
 import getChartData, {
   convertCurrency,
@@ -19,7 +19,6 @@ import { DateRange } from "react-day-picker";
 import Footer from "@/components/footer";
 import { exchangeFaqs } from "@/utils/data";
 import { useToast } from "../ui/use-toast";
-import ChartComponent from "./components/tradeview-chart";
 
 moment.suppressDeprecationWarnings = true;
 
@@ -36,8 +35,8 @@ const CurrencyConverter = () => {
   const [finalPrice, setFinalPrice] = useState<any>();
   const [isClosed, setClosed] = useState<Boolean>(true);
   const [priceHeight, setPriceHeight] = useState<number>();
-  const [state, setState] = useState<any>(null); // Default to null
-  const [ERD, setERD] = useState<any>(null); // Default to null
+  const [state, setState] = useState<any>();
+  const [ERD, setERD] = useState<any>();
   const [dateRange, setDateRange] = useState<{
     from: Date | null;
     to: Date | null;
@@ -45,21 +44,20 @@ const CurrencyConverter = () => {
   const [isMobile, setMobile] = useState<Boolean>();
   const [isTablet, setTablet] = useState<Boolean>();
   const [faqs, setFaqs] = useState(false);
+  const [currentRange, setCurrentRange] = useState<any>(undefined);
+  const [currencyName, setCurrencyName] = useState<any>(
+    to.shortName === "ghs" ? from.shortName : to.shortName
+  );
 
   const fetchData = async () => {
-    try {
-      const todaysAverage = await getAverageForToday(moment().format("D-M-YYYY"));
+    const todaysAverage = await getAverageForToday(moment().format("D-M-YYYY"));
     if (todaysAverage) {
       setERD(todayAverage.data);
-    }
-    } catch (error) {
-      console.error("Error fetching today's average rates:", error);
     }
   };
 
   const fetchChartData = async () => {
-    const chartsData = await getChartData(to, from, ERD, dateRange);
-    // console.log(chartsData);
+    const chartsData = await getChartData(to, from, ERD, currentRange);
     if (chartsData) {
       setState(chartsData);
     }
@@ -81,22 +79,16 @@ const CurrencyConverter = () => {
 
   useEffect(() => {
     if (ERD) {
-      if (isConversionSupported(from, to)) {
-        fetchChartData();
-      }
+      fetchChartData();
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [ERD, dateRange, to, from]);
+  }, [ERD, dateRange, to, from, currentRange]);
 
   useEffect(() => {
     if (!isClosed) {
-      if (isConversionSupported(from, to)) {
-        setFinalPrice(convertCurrency(amount, from, to, ERD));
-      }
+      setFinalPrice(convertCurrency(amount, from, to, ERD));
     }
-    if (isConversionSupported(from, to)) {
-      fetchChartData();
-    }
+    fetchChartData();
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [isClosed, amount, from, to]);
 
@@ -155,6 +147,7 @@ const CurrencyConverter = () => {
 
   return (
     <main className={styles.main}>
+      {/* <NavbarLight /> */}
       <div className={styles.container}>
         <div className={styles.div1}>
           <p className={styles.h1}>
@@ -178,6 +171,7 @@ const CurrencyConverter = () => {
           finalPrice={finalPrice}
           from={from}
           isTablet={isTablet}
+          setCurrencyName={setCurrencyName}
         />
         <div
           className={styles.div2}
@@ -192,13 +186,21 @@ const CurrencyConverter = () => {
           }}
         >
           <Tables from={from} to={to} ERD={ERD} />
-          <Suspense fallback={<Skeleton className="w-full h-[350px] rounded-xl" />}>
-            {state ? (
-              <DynamicComponent state={state} />
-            ) : (
-              <Skeleton className="w-full h-[350px] rounded-xl" />
-            )}
-          </Suspense>
+          {state ? (
+            <DynamicComponent
+              state={state}
+              currentRange={currentRange}
+              setCurrentRange={setCurrentRange}
+              to={to}
+              setTo={setTo}
+              from={from}
+              setFrom={setFrom}
+              currencyName={currencyName}
+              setCurrencyName={setCurrencyName}
+            />
+          ) : (
+            <Skeleton className="w-full h-[350px] rounded-xl" />
+          )}
           <div className="mb-10 px-[10px] sm:px-[20px] md:px-[30px] lg:px-[35px] xl:px-0">
             <p className="text-[16px] leading-[18px] text-start tracking-normal mb-6">
               Frequently Asked Questions.

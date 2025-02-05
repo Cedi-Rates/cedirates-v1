@@ -24,6 +24,8 @@ interface ChartComponentProps {
       data: string[];
     }[];
   };
+  currentRange: any;
+  setCurrentRange: any;
 }
 
 const formatDate = (date: Date): string => {
@@ -48,9 +50,9 @@ const ChartComponent: React.FC<ChartComponentProps> = (props) => {
       areaBottomColor = "rgba(41, 98, 255, 0.28)",
     } = {},
     state,
+    currentRange,
+    setCurrentRange,
   } = props;
-
-  const [currentRange, setCurrentRange] = useState<any>(undefined);
 
   const handleDateChange = (range: { from: Date; to: Date } | undefined) => {
     setCurrentRange(range);
@@ -160,7 +162,7 @@ const ChartComponent: React.FC<ChartComponentProps> = (props) => {
       topColor: areaTopColor,
       bottomColor: areaBottomColor,
       lineType: 0,
-      lineWidth: 1,
+      lineWidth: 4,
       priceFormat: {
         type: "custom",
         formatter: function (price: number) {
@@ -176,7 +178,7 @@ const ChartComponent: React.FC<ChartComponentProps> = (props) => {
       topColor: "#33ac64",
       bottomColor: "#54da8a41",
       lineType: 0,
-      lineWidth: 1,
+      lineWidth: 4,
       priceFormat: {
         type: "custom",
         formatter: function (price: number) {
@@ -242,75 +244,6 @@ const ChartComponent: React.FC<ChartComponentProps> = (props) => {
     };
 
     chartRef.current.subscribeCrosshairMove(handleCrosshairMove);
-
-    // const handleCrosshairMove = (param: any) => {
-    //   if (
-    //     !tooltipRef.current ||
-    //     !param.time ||
-    //     !seriesRef.current ||
-    //     !sellingSeriesRef.current ||
-    //     !param.point
-    //   ) {
-    //     tooltipRef.current && (tooltipRef.current.style.display = "none");
-    //     return;
-    //   }
-
-    //   const buyingData = param.seriesData.get(seriesRef.current);
-    //   const sellingData = param.seriesData.get(sellingSeriesRef.current);
-    //   const buyingPrice = buyingData?.value ?? buyingData?.close ?? null;
-    //   const sellingPrice = sellingData?.value ?? sellingData?.close ?? null;
-
-    //   if (buyingPrice === null || sellingPrice === null) {
-    //     tooltipRef.current.style.display = "none";
-    //     return;
-    //   }
-
-    //   // Format time for display
-    //   const time = new Date(param.time); // UNIX timestamp to JS Date
-    //   const formattedTime = `${String(time.getDate()).padStart(
-    //     2,
-    //     "0"
-    //   )}-${String(time.getMonth() + 1).padStart(2, "0")}-${time.getFullYear()}`;
-
-    //   tooltipRef.current.style.display = "block";
-    //   tooltipRef.current.style.pointerEvents = "none";
-    //   tooltipRef.current.style.transition =
-    //     "opacity 0.2s ease-in-out, transform 0.2s ease-in-out";
-    //   tooltipRef.current.style.opacity = "1";
-
-    //   // Update tooltip content
-    //   tooltipRef.current.innerHTML = `
-    //     <div style="color: #292929; margin-bottom:5px; white-space:nowrap;">${formattedTime}</div>
-    //     <div style="color: #2962FF; white-space:nowrap;">Buying: ₵${(
-    //       Math.round(buyingPrice * 100) / 100
-    //     ).toFixed(2)}</div>
-    //     <div style="color: #069a41;white-space:nowrap;">Selling: ₵${(
-    //       Math.round(sellingPrice * 100) / 100
-    //     ).toFixed(2)}</div>
-    //   `;
-
-    //   // Position tooltip
-    //   requestAnimationFrame(() => {
-    //     const { x, y } = param.point;
-    //     tooltipRef.current!.style.left = `${x}px`;
-    //     tooltipRef.current!.style.top = `${y - 50}px`;
-    //   });
-    // };
-
-    // // Subscribe to crosshair move
-    // chartRef.current.subscribeCrosshairMove(handleCrosshairMove);
-
-    // // Add touch events for mobile
-    // const handleTouchStart = (event: TouchEvent) => {
-    //   const touch = event.touches[0];
-    //   const boundingRect = chartContainerRef.current!.getBoundingClientRect();
-    //   const x = touch.clientX - boundingRect.left;
-
-    //   // Manually move crosshair
-    //   chartRef.current?.timeScale().scrollToPosition(x, true);
-    // };
-
-    // chartContainerRef.current.addEventListener("touchstart", handleTouchStart);
 
     window.addEventListener("resize", handleResize);
 
