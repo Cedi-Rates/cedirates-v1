@@ -145,7 +145,7 @@ const ExchangeRatesCard: React.FC<Props> = ({ className }) => {
                     <TableCell
                       className={`sm:pl-auto !pl-0 !py-2`}
                     >
-                      <div className="inline-flex justify-center text-center">
+                      <div className="inline-flex justify-center items-center text-center">
                         {item.dollarRates.buyingRate !== null &&
                           item.dollarRates.buyingRate > 0
                           ? item.dollarRates.buyingRate.toFixed(2)
@@ -164,7 +164,7 @@ const ExchangeRatesCard: React.FC<Props> = ({ className }) => {
                     <TableCell
                       className={`!py-2`}
                     >
-                      <div className="inline-flex justify-center text-center">
+                      <div className="inline-flex justify-center items-center text-center">
                         {item.dollarRates.sellingRate !== null &&
                           item.dollarRates.sellingRate > 0
                           ? item.dollarRates.sellingRate.toFixed(2)
