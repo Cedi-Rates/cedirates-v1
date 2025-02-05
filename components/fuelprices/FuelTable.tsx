@@ -41,6 +41,8 @@ type Props = {
 };
 
 const FuelTable = ({ rates, user }: Props) => {
+  // console.log('Fuel Table:', rates);
+
   const [calculatorInput, setCalculatorInput] = useState<number | string>("");
   const [order, setOrder] = useState<"ascending" | "descending">("descending");
   const [fuelType, setFuelType] = useState<"petrol" | "diesel" | "premium">(
@@ -576,8 +578,8 @@ const FuelTable = ({ rates, user }: Props) => {
           )}
           <PaginationItem
             className={`${currentPage === Math.ceil(fuelPrices?.length / itemsPerPage)
-                ? "pointer-events-none opacity-50"
-                : ""
+              ? "pointer-events-none opacity-50"
+              : ""
               }`}
             onClick={() => handlePageChange(currentPage + 1)}
           >

@@ -222,10 +222,10 @@ export const Blog = ({ blog }: Props) => {
         <div className="pt-10 px-4 flex justify-between mx-auto max-w-screen-[1400px]">
           <article className="mx-auto w-full max-w-3xl">
             <div className="space-y-5">
-              <h1 className="text-primary text-paragraph-lg-semibold leading-7 capitalize">
+              <h3 className="text-primary text-paragraph-lg-semibold leading-7 capitalize">
                 {blog.category}
-              </h1>
-              <h3
+              </h3>
+              <h1
                 className="text-text-text-primary text-header-blog-small lg:text-header-blog-large"
                 dangerouslySetInnerHTML={{
                   __html: sanitizedTitle,
