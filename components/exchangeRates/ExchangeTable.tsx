@@ -6,6 +6,7 @@ import Image from "next/image";
 import { FaSortDown, FaSortUp, FaRegStar, FaStar } from "react-icons/fa";
 import {
   AverageRateData,
+  IconType,
   UserDetailsType,
   currencyRatesType,
   exchangeRatesType,
@@ -57,6 +58,8 @@ import urlManager from "@/utils/urlManager";
 import { ProgressBarLink } from "@/app/progress-bar";
 import { ChevronsLeft, ChevronsRight } from "lucide-react";
 import { replacePlaceholders } from "@/utils/helpers/helperfunctions";
+import { companyIcons } from "../Icons/companyIcon";
+import BadgeIcon from "../ui/avatarIcons/badge";
 
 type Props = {
   rates: exchangeRatesType[];
@@ -176,14 +179,6 @@ const ExchangeTable = ({ rates, user }: Props) => {
     );
     setCurrentSort("name");
   };
-
-  // const filteredRatesData = exchangeRates?.filter((item) =>
-  //   activeSubcategory
-  //     ? item.company.subCategory
-  //       .toLowerCase()
-  //       .includes(activeSubcategory.toLowerCase())
-  //     : true
-  // );
 
   const filteredRatesData = exchangeRates?.filter((item) => {
     if (activeSubcategory) {
@@ -1038,17 +1033,30 @@ const ExchangeTable = ({ rates, user }: Props) => {
                                   style={{ height: "auto" }}
                                 />
                                 <div className={style["table-item"]}>
-                                  <p className="font-semibold text-[14px] text-[#4A4949] tracking-wide text-nowrap truncate w-[120px] sm:w-auto">
-                                    {item.company.companyName}
+                                  <p className="flex items-center font-semibold text-[14px] text-[#4A4949] tracking-wide">
+                                    <span className="truncate max-w-[120px] sm:max-w-full">{item.company.companyName}</span>
+                                    {item.company?.verified && (
+                                      <span className="ml-1">
+                                        <BadgeIcon fixed size="m" />
+                                      </span>
+                                    )}
                                   </p>
+
                                   {/* {(item.company?.companyName === "LemFi" ||
                                     item.company?.companyName === "Afriex") && (
                                     <p className="bg-[#87c1fd] text-white py-[0.1px] px-[2px] rounded-[5px] w-[32px] text-[11px] flex justify-center relative left-[5px]">
                                       Ad
                                     </p>
                                   )} */}
-                                  <p className="font-light text-[#818181] text-[10px] tracking-wide">
-                                    {item.company.subCategory}
+
+                                  <p className="flex items-center font-light text-[#818181] text-[10px] tracking-wide">
+                                    <span className="">{item.company.subCategory}</span>
+                                    {item.company.iconType &&
+                                      Object.entries(companyIcons).map(([key, Icon]) =>
+                                        item?.company?.iconType[key as keyof IconType]?.note ? (
+                                          <Icon key={key} className="ml-1 w-[18px] h-[18px]" />
+                                        ) : null
+                                      )}
                                   </p>
                                 </div>
                               </div>

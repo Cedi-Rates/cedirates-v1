@@ -7,6 +7,7 @@ export interface companyType {
   verified: boolean;
   subCategory: string;
   UniqueID: string;
+  iconType: IconType;
 }
 
 export interface currencyRatesType {
@@ -108,6 +109,7 @@ export type CompanyDetailsType = {
   link: string;
   linkType: string;
   phone: string;
+  iconType: IconType;
 };
 
 export type CompanyRate = {
@@ -318,3 +320,30 @@ export type AdType = {
   mobileImage: string;
   url: string;
 };
+
+export interface IconType {
+  warning: {
+    value: 1;
+    note: string | null;
+  };
+  promotion: {
+    value: 2;
+    note: string | null;
+  };
+  newListing: {
+    value: 3;
+    note: string | null;
+  };
+  bestRates: {
+    value: 4;
+    note?: never;
+  };
+  topRates: {
+    value: 5;
+    note?: never;
+  };
+  trending: {
+    value: 6;
+    note?: never;
+  };
+}

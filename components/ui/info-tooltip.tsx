@@ -13,8 +13,13 @@ import {
 import { BsInfo } from "react-icons/bs";
 import Link from 'next/link';
 
+interface TooltipProps {
+    content: ReactNode
+    icon: ReactNode
+};
+
 const InfoTooltip = (
-    { content }: { content: ReactNode }
+    { content, icon }: TooltipProps
 ) => {
     return (
         <div>
@@ -23,7 +28,7 @@ const InfoTooltip = (
                     <Tooltip>
                         <TooltipTrigger>
                             <span className="absolute text-[1rem] bg-icon-icon-disabled text-white right-5 top-[14.5px] rounded-full cursor-pointer">
-                                <BsInfo />
+                                {icon}
                             </span>
                         </TooltipTrigger>
                         <TooltipContent className="z-50">
@@ -39,7 +44,7 @@ const InfoTooltip = (
                 <Popover>
                     <PopoverTrigger>
                         <span className="absolute text-[1rem] bg-icon-icon-disabled text-white right-5 top-[14.5px] rounded-full cursor-pointer">
-                            <BsInfo />
+                            {icon}
                         </span>
                     </PopoverTrigger>
                     <PopoverContent className='w-60 mx-4'>

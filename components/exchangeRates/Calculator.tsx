@@ -167,6 +167,7 @@ const Calculator = ({
             </span>
           ) : (
             <InfoTooltip
+              icon={<BsInfo />}
               content={
                 <p>
                   Use advanced{" "}

@@ -90,6 +90,7 @@ const Calculator = ({
             </span>
           ) : (
             <InfoTooltip
+              icon={<BsInfo />}
               content={
                 <p>
                   Enter amount of litres in input field to show how much it

@@ -4,7 +4,7 @@ import { Table } from "@medusajs/ui";
 import style from "../../assets/styles/fuelprices.module.css";
 import Image from "next/image";
 import { FaSortDown, FaSortUp, FaRegStar, FaStar } from "react-icons/fa";
-import { AverageRateData, UserDetailsType, fuelRatesType } from "@/utils/types";
+import { AverageRateData, IconType, UserDetailsType, fuelRatesType } from "@/utils/types";
 import Link from "next/link";
 import Calculator from "./Calculator";
 import {
@@ -34,6 +34,8 @@ import urlManager from "@/utils/urlManager";
 import { ProgressBarLink } from "@/app/progress-bar";
 import DisplayAd from "../home/components/displayAd";
 import { replacePlaceholders } from "@/utils/helpers/helperfunctions";
+import { TriangleAlert } from "lucide-react";
+import { companyIcons } from "../Icons/companyIcon";
 
 type Props = {
   rates: fuelRatesType[];
@@ -212,7 +214,7 @@ const FuelTable = ({ rates, user }: Props) => {
     );
   });
 
-  // console.log(sortedProduct);
+  console.log('Sorted Product:', sortedProduct);
 
   const formatNumber = (number: number | null | undefined): string => {
     return number && number > 0
@@ -455,8 +457,17 @@ const FuelTable = ({ rates, user }: Props) => {
                               id={style["fuel-company-name"]}
                               className={style["table-item"]}
                             >
-                              <p className="font-semibold text-[14px] text-[#4A4949] tracking-wide text-nowrap truncate w-[120px] sm:w-auto">
-                                {item.company.companyName}
+                              <p className="flex items-center font-semibold text-[14px] text-[#4A4949] tracking-wide">
+                                <span className="truncate max-w-[120px] sm:max-w-full">{item.company.companyName}</span>
+                                {item.company.iconType &&
+                                  Object.entries(companyIcons)
+                                    .filter(([key]) => item.company?.iconType?.[key as keyof IconType]?.value)
+                                    .slice(0, 2)
+                                    .map(([key, Icon]) =>
+                                      item?.company?.iconType[key as keyof IconType]?.note ? (
+                                        <Icon key={key} className="w-[18px] h-[18px]" />
+                                      ) : null
+                                    )}
                               </p>
                             </div>
                           </div>
