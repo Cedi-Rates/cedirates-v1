@@ -154,6 +154,7 @@ const Calculator = () => {
             className="rounded-radius-md border-[1px] border-black/5 bg-white shadow-[0_2px_6px_#00000010] h-11 active:outline-none focus:outline-none px-10 text-base font-light w-[100%]"
           />
           <InfoTooltip
+            icon={<BsInfo />}
             content={
               <p>
                 Use advanced{" "}

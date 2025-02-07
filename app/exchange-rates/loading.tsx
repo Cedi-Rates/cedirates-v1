@@ -103,7 +103,7 @@ export function Loading({ user }: LoadingProps) {
           <Skeleton className=" h-[91px] w-[100%] max-w-[729px] bg-[linear-gradient(90deg,_#eee_25%,_#ddd_50%,_#eee_75%)] " />
         </div>
 
-        <MobileNav user={user}/>
+        <MobileNav user={user} />
       </main>
     </>
   );
@@ -157,6 +157,7 @@ const Calculator = () => {
             className="rounded-radius-md border-[1px] border-black/5 bg-white shadow-[0_2px_6px_#00000010] h-11 active:outline-none focus:outline-none px-10 text-base font-light w-[100%]"
           />
           <InfoTooltip
+            icon={<BsInfo />}
             content={
               <p>
                 Use advanced{" "}
