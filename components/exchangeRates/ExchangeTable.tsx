@@ -68,7 +68,7 @@ type Props = {
 };
 
 const ExchangeTable = ({ rates, user }: Props) => {
-  // console.log('Exchange Table:', rates);
+  console.log('Exchange Table:', rates);
 
   const [calculatorInput, setCalculatorInput] = useState<number | string>("");
   const [order, setOrder] = useState<"ascending" | "descending">("descending");
@@ -1049,29 +1049,22 @@ const ExchangeTable = ({ rates, user }: Props) => {
 
                                   <p className="flex items-center font-light text-[#818181] text-[10px] tracking-wide">
                                     <span className="">{item.company.subCategory}</span>
-                                    {item.company.iconType &&
+                                    {item?.company?.iconType &&
                                       Object.entries(companyIcons)
                                         .filter(([key]) => {
-                                          const iconData = item?.company?.iconType[key as keyof IconType];
-                                          return iconData?.value && [1, 2, 3].includes(iconData.value); // ✅ Only keep icons with values 1, 2, or 3
+                                          const iconData = item?.company?.iconType?.[key as keyof IconType];
+                                          return iconData?.note && [1, 2, 3].includes(iconData.value); // ✅ Only keep icons with values 1, 2, or 3
                                         })
                                         .sort((a, b) => {
-                                          const priorityA = item.company.iconType[a[0] as keyof IconType]?.value;
-                                          const priorityB = item.company.iconType[b[0] as keyof IconType]?.value;
+                                          const priorityA = item?.company?.iconType?.[a[0] as keyof IconType]?.value ?? 999;
+                                          const priorityB = item?.company?.iconType?.[b[0] as keyof IconType]?.value ?? 999;
                                           return priorityA - priorityB; // ✅ Sort by lowest value first (1,2,3)
                                         })
                                         .slice(0, 2)
-                                        .map(([key, Icon]) => {
-                                          const color = iconColors[key]; // ✅ Get the assigned color
-                                          return (
-                                            <Icon
-                                              key={key}
-                                              className="ml-1 w-[16px] h-[16px]"
-                                            // className={`ml-1 w-[18px] h-[18px] ${color.startsWith("#") ? "" : color}`}
-                                            // style={color.startsWith("#") ? { fill: color } : {}}
-                                            />
-                                          );
-                                        })}
+                                        .map(([key, Icon]) => (
+                                          <Icon key={key} className="ml-1 w-[16px] h-[16px]" color={iconColors[key]} />
+                                        ))}
+
                                   </p>
                                 </div>
                               </div>
