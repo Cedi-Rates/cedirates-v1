@@ -35,7 +35,7 @@ import { ProgressBarLink } from "@/app/progress-bar";
 import DisplayAd from "../home/components/displayAd";
 import { replacePlaceholders } from "@/utils/helpers/helperfunctions";
 import { TriangleAlert } from "lucide-react";
-import { companyIcons } from "../Icons/companyIcon";
+import { companyIcons, iconColors } from "../Icons/companyIcon";
 
 type Props = {
   rates: fuelRatesType[];
@@ -459,7 +459,7 @@ const FuelTable = ({ rates, user }: Props) => {
                             >
                               <p className="flex items-center font-semibold text-[14px] text-[#4A4949] tracking-wide">
                                 <span className="truncate max-w-[120px] sm:max-w-full">{item.company.companyName}</span>
-                                {item.company.iconType &&
+                                {/* {item.company.iconType &&
                                   Object.entries(companyIcons)
                                     .filter(([key]) => item.company?.iconType?.[key as keyof IconType]?.value)
                                     .slice(0, 2)
@@ -467,7 +467,31 @@ const FuelTable = ({ rates, user }: Props) => {
                                       item?.company?.iconType[key as keyof IconType]?.note ? (
                                         <Icon key={key} className="w-[18px] h-[18px]" />
                                       ) : null
-                                    )}
+                                    )} */}
+
+                                {item.company.iconType &&
+                                  Object.entries(companyIcons)
+                                    .filter(([key]) => {
+                                      const iconData = item?.company?.iconType[key as keyof IconType];
+                                      return iconData?.value && [1, 2, 3].includes(iconData.value); // ✅ Only keep icons with values 1, 2, or 3
+                                    })
+                                    .sort((a, b) => {
+                                      const priorityA = item?.company?.iconType[a[0] as keyof IconType]?.value ?? 999;
+                                      const priorityB = item?.company?.iconType[b[0] as keyof IconType]?.value ?? 999;
+                                      return priorityA - priorityB; // ✅ Sort by lowest value first (1,2,3)
+                                    })
+                                    .slice(0, 2)
+                                    .map(([key, Icon]) => {
+                                      const color = iconColors[key];
+                                      return (
+                                        <Icon
+                                          key={key}
+                                          className="ml-1 w-[16px] h-[16px]"
+                                        // className={`ml-1 w-[18px] h-[18px] ${color.startsWith("#") ? "" : color}`}
+                                        // style={color.startsWith("#") ? { fill: color } : {}}
+                                        />
+                                      );
+                                    })}
                               </p>
                             </div>
                           </div>
