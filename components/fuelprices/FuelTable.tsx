@@ -460,7 +460,7 @@ const FuelTable = ({ rates, user }: Props) => {
                               <p className="flex items-center font-semibold text-[14px] text-[#4A4949] tracking-wide">
                                 <span className="truncate max-w-[120px] sm:max-w-full">{item.company.companyName}</span>
                                 {item.company?.verified && (
-                                  <BadgeCheck className="ml-1 text-[#1896FE] w-[16px] h-[16px] flex-shrink-0" />
+                                  <BadgeCheck className="ml-1 text-[#1896FE] w-[14px] h-[14px] flex-shrink-0" />
                                 )}
 
                                 {item.company.iconType &&
@@ -478,7 +478,7 @@ const FuelTable = ({ rates, user }: Props) => {
                                     .map(([key, Icon]) => (
                                       <Icon
                                         key={key}
-                                        className="ml-1 w-[16px] h-[16px]"
+                                        className="ml-1 w-[14px] h-[14px]"
                                         color={iconColors[key]}
                                       />
                                     ))}
