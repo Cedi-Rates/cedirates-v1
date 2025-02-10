@@ -160,7 +160,7 @@ const page = async ({ params }: { params: { slug: string } }) => {
           </div>
           <div className=" basis-[60%] w-full  flex flex-col gap-6 items-center">
             {companyDetails?.company?.category == "exchangeRates" && (
-              <CurrencyConverter />
+              <CurrencyConverter companyData={companyData} />
             )}
             <div className="sm:w-auto sm:px-0 px-5 w-screen overflow-x-scroll">
               <LocationsList />
