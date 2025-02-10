@@ -16,11 +16,11 @@ import "swiper/css";
 import "swiper/css/navigation";
 import dynamic from "next/dynamic";
 
-const Ratings = dynamic(() => import('./Ratings'));
-const ReviewModal = dynamic(() => import('./ReviewModal'));
-const Comment = dynamic(() => import('./Comment'));
-const AverageInfo = dynamic(() => import('./AverageInfo'));
-const AllReviews = dynamic(() => import('./AllReviews'));
+const Ratings = dynamic(() => import("./Ratings"));
+const ReviewModal = dynamic(() => import("./ReviewModal"));
+const Comment = dynamic(() => import("./Comment"));
+const AverageInfo = dynamic(() => import("./AverageInfo"));
+const AllReviews = dynamic(() => import("./AllReviews"));
 
 type Props = {
   companyDetails: CompleteCompanyDetailsType;
@@ -31,9 +31,7 @@ type Props = {
 
 type SwiperState = Swiper | null;
 
-const ReviewSection = ({
-  companyDetails, user, reviews, events
-}: Props) => {
+const ReviewSection = ({ companyDetails, user, reviews, events }: Props) => {
   const [value, setValue] = useState(0);
   const [open, setOpen] = useState(false);
   const [openAll, setOpenAll] = useState(false);
@@ -50,17 +48,14 @@ const ReviewSection = ({
     ? reviews.filter((review) => review.review !== null)
     : [];
 
-
   // const review = reviews?.find((review) => review?.user?.userId === user._id);
   const review = Array.isArray(reviews)
     ? reviews.find((review) => review?.user?.userId === user._id)
     : undefined;
 
-
   const handleClose = () => {
     setOpen(false);
   };
-
 
   return (
     <div>
@@ -101,8 +96,8 @@ const ReviewSection = ({
               review && review.review === null
                 ? "Write a Review"
                 : review
-                  ? "Edit Review"
-                  : "Write a Review"
+                ? "Edit Review"
+                : "Write a Review"
             }
             companyDetails={companyDetails}
             user={user}

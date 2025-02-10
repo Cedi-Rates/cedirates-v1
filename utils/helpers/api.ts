@@ -191,7 +191,7 @@ export const getUser = async (cookies: string): Promise<UserDetailsType> => {
   });
 
   const data = await response.json();
-  console.log(data);
+
   // user = data;
   return data;
 
@@ -294,7 +294,10 @@ export const getEvents = async (id: string): Promise<SingleEventType[]> => {
 };
 
 export const getReviews = async (id: string): Promise<ReviewType[]> => {
-  const response = await fetch(`${process.env.BASE_URL}/reviews/get/${id}`);
+  const response = await fetch(`${process.env.BASE_URL}/reviews/get/${id}`, {
+    cache: "no-store",
+    headers: { "custom-origin": "cedirates-dev" },
+  });
 
   const data = await response.json();
   return data;
@@ -303,7 +306,10 @@ export const getReviews = async (id: string): Promise<ReviewType[]> => {
 export const getUserReviewForCompany = async (id: string) => {
   try {
     const response = await fetch(
-      `${process.env.BASE_URL}/reviews/get-review/${id}`
+      `${process.env.BASE_URL}/reviews/get-review/${id}`,
+      {
+        headers: { "custom-origin": "cedirates-dev" },
+      }
     );
     // let { data } = await customAxios.get(` review/get-review/${id}`);
     const data = await response.json();
@@ -315,7 +321,13 @@ export const getUserReviewForCompany = async (id: string) => {
 
 export const postReviewUpVote = async (id: string) => {
   try {
-    let { data } = await axios.patch(`/api/v1/reviews/upvote-review/${id}`, {});
+    let { data } = await axios.patch(
+      `/api/v1/reviews/upvote-review/${id}`,
+      {},
+      {
+        headers: { "custom-origin": "cedirates-dev" },
+      }
+    );
     return data;
   } catch (error) {
     console.log(error);
@@ -326,7 +338,10 @@ export const postReviewDownVote = async (id: string) => {
   try {
     let { data } = await axios.patch(
       `/api/v1/reviews/downvote-review/${id}`,
-      {}
+      {},
+      {
+        headers: { "custom-origin": "cedirates-dev" },
+      }
     );
     return data;
   } catch (error) {
@@ -337,7 +352,10 @@ export const postReviewDownVote = async (id: string) => {
 export const deleteReview = async (id: string) => {
   try {
     let { data } = await axios.delete(
-      `${process.env.BASE_URL}/reviews/delete-review/${id}`
+      `${process.env.BASE_URL}/reviews/delete-review/${id}`,
+      {
+        headers: { "custom-origin": "cedirates-dev" },
+      }
     );
     return data;
   } catch (error) {
@@ -349,7 +367,10 @@ export const editReview = async (newData: FormData, id: string) => {
   try {
     let { data } = await axios.patch(
       `${process.env.BASE_URL}/reviews/edit-review/${id}`,
-      newData
+      newData,
+      {
+        headers: { "custom-origin": "cedirates-dev" },
+      }
     );
 
     return data;
@@ -372,8 +393,6 @@ export const getAllBlogs = async () => {
     const { data } = await axios.get(
       `${process.env.BASE_URL}/article/get-all`,
       {
-        // cache: "force-cache",
-        // next: { revalidate: 3600 },
         headers: { "custom-origin": "cedirates-dev" },
       }
     );

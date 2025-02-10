@@ -79,7 +79,7 @@ export type CompleteRateType = {
   dollarRates: currencyRatesType;
   euroRates: currencyRatesType;
   poundRates: currencyRatesType;
-  
+
   petrol: number | null;
   diesel: number | null;
   premium: number | null;

@@ -282,7 +282,9 @@ const ReviewModal: React.FC<AlertDialogDemoProps> = ({
     }
 
     try {
-      await axios.post("/api/v1/reviews/add-review", formData);
+      await axios.post("/api/v1/reviews/add-review", formData, {
+        headers: { "custom-origin": "cedirates-dev" },
+      });
       toast({
         variant: "success",
         title: "Thanks for your feedback",
