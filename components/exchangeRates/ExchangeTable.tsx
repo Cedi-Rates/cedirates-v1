@@ -1053,18 +1053,17 @@ const ExchangeTable = ({ rates, user }: Props) => {
                                       Object.entries(companyIcons)
                                         .filter(([key]) => {
                                           const iconData = item?.company?.iconType?.[key as keyof IconType];
-                                          return iconData?.note && [1, 2, 3].includes(iconData.value); // ✅ Only keep icons with values 1, 2, or 3
+                                          return iconData?.note && [1, 2, 3].includes(iconData.value);
                                         })
                                         .sort((a, b) => {
                                           const priorityA = item?.company?.iconType?.[a[0] as keyof IconType]?.value ?? 999;
                                           const priorityB = item?.company?.iconType?.[b[0] as keyof IconType]?.value ?? 999;
-                                          return priorityA - priorityB; // ✅ Sort by lowest value first (1,2,3)
+                                          return priorityA - priorityB;
                                         })
                                         .slice(0, 2)
                                         .map(([key, Icon]) => (
                                           <Icon key={key} className="ml-1 w-[16px] h-[16px]" color={iconColors[key]} />
                                         ))}
-
                                   </p>
                                 </div>
                               </div>
