@@ -1060,9 +1060,13 @@ const ExchangeTable = ({ rates, user }: Props) => {
                                           const priorityB = item?.company?.iconType?.[b[0] as keyof IconType]?.value ?? 999;
                                           return priorityA - priorityB;
                                         })
-                                        .slice(0, 2)
+                                        .slice(0, 1)
                                         .map(([key, Icon]) => (
-                                          <Icon key={key} className="ml-1 w-[16px] h-[16px]" color={iconColors[key]} />
+                                          <Icon
+                                            key={key}
+                                            className="ml-1 w-[16px] h-[16px]"
+                                            color={iconColors[key]}
+                                          />
                                         ))}
                                   </p>
                                 </div>
