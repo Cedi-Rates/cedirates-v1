@@ -379,14 +379,14 @@ export const editReview = async (newData: FormData, id: string) => {
   }
 };
 
-// export const getAllReviews = async (id: string) => {
-//   try {
-//     let { data } = await axios.get(`${process.env.BASE_URL}/reviews/get/${id}`);
-//     return data;
-//   } catch (error) {
-//     console.log(error);
-//   }
-// };
+export const getAllReviews = async (id: string) => {
+  try {
+    let { data } = await axios.get(`${process.env.BASE_URL}/reviews/get/${id}`);
+    return data;
+  } catch (error) {
+    console.log(error);
+  }
+};
 
 export const getAllBlogs = async () => {
   try {
