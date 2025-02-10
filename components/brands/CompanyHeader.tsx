@@ -286,11 +286,13 @@ const CompanyHeader = ({ companyDetails, user, chartData }: Props) => {
           </div>
           <div className={style["subscribe-section"]}>
             <div className='flex flex-row items-start justify-end gap-2'>
-              {true ? (
+              {userDetails?.watchList?.includes(
+                companyDetails?.company?.UniqueID
+              ) ? (
                 <DropdownMenu>
                 <DropdownMenuTrigger asChild>
                 <Button
-                  className="text-white rounded-lg !text-paragraph-sm-medium !px-5 !bg-background-bg-secondary"
+                  className="text-white sm:rounded-lg sm:!h-auto !h-6 rounded-[7px] !text-paragraph-sm-medium !px-5 !bg-background-bg-secondary"
                   onClick={() => setOpen(true)}
                 >
                   {loading ? (
@@ -315,7 +317,7 @@ const CompanyHeader = ({ companyDetails, user, chartData }: Props) => {
               </DropdownMenu>              
               ) : (
                 <Button
-                  className="text-white rounded-lg !text-paragraph-sm-medium !px-5"
+                  className="text-white sm:rounded-lg sm:!h-auto !h-6 rounded-[7px] !text-paragraph-sm-medium !px-5"
                   onClick={handleSubscribe}
                 >
                   {loading ? (
@@ -332,11 +334,11 @@ const CompanyHeader = ({ companyDetails, user, chartData }: Props) => {
               )}
               {isMobile ? <Drawer open={open} onOpenChange={setOpen}>
         <DrawerTrigger asChild>
-          <Button className="rounded-lg !text-paragraph-sm-medium !px-5 !bg-background-bg-secondary">Contact</Button>
+          <Button className="sm:rounded-lg sm:!h-auto !h-6 rounded-[7px] !text-paragraph-sm-medium !px-5 !bg-background-bg-secondary">Contact</Button>
         </DrawerTrigger>
         <DrawerContent className="px-6 pb-6">
           <DrawerHeader className="relative mb-3 flex flex-row justify-between items-center">
-            <DrawerTitle className="text-paragraph-lg-semibold font-semibold">Contact</DrawerTitle>
+            <DrawerTitle className="text-paragraph-lg-semibold font-semibold sm:rounded-lg sm:h-auto !h-6 rounded-[7px]">Contact</DrawerTitle>
             <Button variant="ghost" className="!p-2 bg-background-bg-secondary !h-min" onClick={() => setOpen(false)}>
               <X className="h-4 w-4 text-black" />
               <span className="sr-only">Close</span>
@@ -347,7 +349,7 @@ const CompanyHeader = ({ companyDetails, user, chartData }: Props) => {
       </Drawer> :
       <Dialog open={open} onOpenChange={setOpen}>
       <DialogTrigger asChild>
-        <Button className="rounded-lg !text-paragraph-sm-medium !px-5 !bg-background-bg-secondary">Contact</Button>
+        <Button className="!text-paragraph-sm-medium sm:rounded-lg sm:!h-auto !h-6 rounded-[7px] !px-5 !bg-background-bg-secondary">Contact</Button>
       </DialogTrigger>
       <DialogContent className="sm:max-w-[500px] !rounded-2xl p-6">
         <DialogHeader className="relative mb-3">
@@ -363,16 +365,18 @@ const CompanyHeader = ({ companyDetails, user, chartData }: Props) => {
       <div className={style["profile-info-text-down"]}>
         <div
           className={
-            style["company-name-container"] + " text-start !justify-start mt-2"
+            style["company-name-container"] + " text-start !justify-start mt-9 mb-1"
           }
         >
           {companyDetails.company?.companyName}
-        </div>
-        <div className={style["subscriber-count"]}>
-          {/* {companyDetails.subscriberCount} subscribers */}
-          {`${subscriberCount} ${
-            Number(subscriberCount) === 1 ? "subscriber" : "subscribers"
-          }`}
+          <div className="text-paragraph-sm-semibold bg-backgroundInfo text-primary-brand-primary-500 !py-1 !px-2.5 rounded-lg !leading-[16px] w-max">
+                {subscriberCount} Followers
+                {/* {companyDetails?.subscriberCount} Subscribers */}
+              </div>
+              <div className="text-paragraph-sm-semibold bg-background-bg-quarternary text-text-text-secondary !py-1 !px-2.5 rounded-lg !leading-[16px] w-max">
+                {companyDetails.company.subCategory ?? "OMC"}
+                {/* {companyDetails?.subscriberCount} Subscribers */}
+              </div>
         </div>
         <div className={style["desc-text"]}>{companyBio}</div>
       </div>

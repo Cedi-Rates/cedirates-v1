@@ -141,7 +141,7 @@ const RatesSection = ({ companyDetails, user, companyData }: Props) => {
               </h1>
             </div>
 
-            <div className="flex items-center">
+            {/* <div className="flex items-center">
               {user?.email ? (
                 <button
                   className="sm:text-[14px] text-[12px] bg-primary text-white rounded-lg sm:px-4 px-2 py-2 text-nowrap"
@@ -161,7 +161,7 @@ const RatesSection = ({ companyDetails, user, companyData }: Props) => {
                     : "Login To Report Rates"}
                 </button>
               )}
-            </div>
+            </div> */}
           </div>
           {isFuelCompany ? (
             <FuelStats
@@ -202,13 +202,13 @@ const RatesSection = ({ companyDetails, user, companyData }: Props) => {
               <Skeleton className="w-full h-[350px] rounded-xl" />
             )}
           </div>
-          <PriceReportPopup
+          {/* <PriceReportPopup
             open={open}
             setOpen={setOpen}
             companyDetails={companyDetails}
             companyData={companyData}
             user={user}
-          />
+          /> */}
         </div>
       </TabContext.Provider>
 
