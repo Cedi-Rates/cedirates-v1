@@ -43,8 +43,8 @@ export interface ButtonProps
   extends React.ButtonHTMLAttributes<HTMLButtonElement>,
   VariantProps<typeof buttonVariants> {
   asChild?: boolean;
-  leading?: boolean;
-  trailing?: boolean;
+  leading?: React.ReactNode;
+  trailing?: React.ReactNode;
 }
 
 const Button = React.forwardRef<HTMLButtonElement, ButtonProps>(
@@ -58,9 +58,9 @@ const Button = React.forwardRef<HTMLButtonElement, ButtonProps>(
         ref={ref}
         {...props}
       >
-        {leading && <CiCirclePlus className="h-4 w-4" />}
+        {leading && <span>{leading}</span>}
         {children}
-        {trailing && <CiCirclePlus className="h-4 w-4" />}
+        {trailing && <span>{trailing}</span>}
       </Comp>
     );
   }

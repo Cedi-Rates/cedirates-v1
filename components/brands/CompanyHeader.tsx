@@ -30,7 +30,7 @@ import urlManager from "@/utils/urlManager";
 import { useRouter } from "next/navigation";
 import { useToast } from "../ui/use-toast";
 import BadgeIcon from "../ui/avatarIcons/badge";
-import { Globe, LinkIcon, LucidePhone, X } from "lucide-react";
+import { ChevronDown, Globe, LinkIcon, LucidePhone, X } from "lucide-react";
 import { companyIcons, iconColors } from "../Icons/companyIcon";
 
 const Dialog = dynamic(() => import("../ui/dialog").then((mod) => mod.Dialog), {
@@ -244,15 +244,16 @@ const CompanyHeader = ({ companyDetails, user, chartData }: Props) => {
                   <BadgeIcon fixed size="m" />
                 </span>
               )}
-              {companyDetails?.company?.iconType &&
-                Object.entries(companyIcons).map(([key, Icon]) =>
-                  companyDetails.company.iconType[key as keyof IconType]?.value ? (
-                    <Icon key={key} className="w-[18px] h-[18px]" color={iconColors[key]} />
-                  ) : null
-                )}
+              <div className="flex items-center gap-1">
+                {companyDetails?.company?.iconType &&
+                  Object.entries(companyIcons).map(([key, Icon]) =>
+                    companyDetails.company.iconType[key as keyof IconType]?.value ? (
+                      <Icon key={key} className="w-[18px] h-[18px]" color={iconColors[key]} />
+                    ) : null
+                  )}
+              </div>
               <div className="text-paragraph-sm-semibold bg-backgroundInfo text-primary-brand-primary-500 !py-1 !px-2.5 rounded-lg !leading-[16px] w-max">
                 {subscriberCount} Followers
-                {/* {companyDetails?.subscriberCount} Subscribers */}
               </div>
               <div className="text-paragraph-sm-semibold bg-background-bg-quarternary text-text-text-secondary !py-1 !px-2.5 rounded-lg !leading-[16px] w-max">
                 {companyDetails.company.subCategory ?? "OMC"}
@@ -267,11 +268,6 @@ const CompanyHeader = ({ companyDetails, user, chartData }: Props) => {
               {companyBio}
             </div>
             <Link href={companyDetails?.company?.link} className="flex flex-row items-center gap-1 text-text-text-brand">
-              {/* <FaFacebook size={18} />
-              <BsTwitterX size={18} />
-              <BsInstagram size={18} />
-              <Globe size={18} />
-              <LucidePhone size={18} /> */}
               <LinkIcon size={18} />
               <span className="text-paragraph-sm-semibold">{companyDetails.company.link}</span>
             </Link>
@@ -283,9 +279,58 @@ const CompanyHeader = ({ companyDetails, user, chartData }: Props) => {
               ) ? (
                 <DropdownMenu>
                   <DropdownMenuTrigger asChild>
+                    {isMobile ? (
+                      <Button
+                        onClick={() => setOpen(true)}
+                        variant='secondary'
+                        trailing={<ChevronDown className="w-4 h-4" color="#0A0A0A" />}
+                        size='sm'
+                      >
+                        {loading ? (
+                          <SpinnerCircular
+                            size={24}
+                            thickness={200}
+                            color="white"
+                            className="mr-2"
+                          />
+                        ) : (
+                          <span className="">Following</span>
+                        )}
+                      </Button>
+                    ) : (
+                      <Button
+                        // className="text-white sm:rounded-lg sm:!h-auto !h-6 rounded-[7px] !text-paragraph-sm-medium !px-5 !bg-background-bg-secondary"
+                        onClick={() => setOpen(true)}
+                        variant='secondary'
+                        size='lg'
+                        trailing={<ChevronDown className="w-4 h-4" color="#0A0A0A" />}
+                      >
+                        {loading ? (
+                          <SpinnerCircular
+                            size={24}
+                            thickness={200}
+                            color="white"
+                            className="mr-2"
+                          />
+                        ) : (
+                          <span className="">Following</span>
+                        )}
+                      </Button>
+                    )}
+                  </DropdownMenuTrigger>
+                  <DropdownMenuContent className="rounded-xl">
+                    <DropdownMenuItem className="rounded-lg">Turn On Alerts</DropdownMenuItem>
+                    <DropdownMenuItem className="hover:!text-text-text-error text-text-text-error rounded-lg" onClick={handleSubscribe}>
+                      Unfollow
+                    </DropdownMenuItem>
+                  </DropdownMenuContent>
+                </DropdownMenu>
+              ) : (
+                <>
+                  {isMobile ? (
                     <Button
-                      className="text-white sm:rounded-lg sm:!h-auto !h-6 rounded-[7px] !text-paragraph-sm-medium !px-5 !bg-background-bg-secondary"
-                      onClick={() => setOpen(true)}
+                      onClick={handleSubscribe}
+                      size='sm'
                     >
                       {loading ? (
                         <SpinnerCircular
@@ -295,39 +340,40 @@ const CompanyHeader = ({ companyDetails, user, chartData }: Props) => {
                           className="mr-2"
                         />
                       ) : (
-                        <>
-                          {/* <BellSVGComponent />{" "} */}
-                          <span className="text-black">Following</span>
-                        </>
+                        "Follow"
                       )}
                     </Button>
-                  </DropdownMenuTrigger>
-                  <DropdownMenuContent className="rounded-xl">
-                    <DropdownMenuItem className="rounded-lg">Turn On Alerts</DropdownMenuItem>
-                    <DropdownMenuItem className="hover:!text-text-text-error text-text-text-error rounded-lg" onClick={handleSubscribe}>Un-Follow</DropdownMenuItem>
-                  </DropdownMenuContent>
-                </DropdownMenu>
-              ) : (
-                <Button
-                  className="text-white sm:rounded-lg sm:!h-auto !h-6 rounded-[7px] !text-paragraph-sm-medium !px-5"
-                  onClick={handleSubscribe}
-                >
-                  {loading ? (
-                    <SpinnerCircular
-                      size={24}
-                      thickness={200}
-                      color="white"
-                      className="mr-2"
-                    />
                   ) : (
-                    "Follow"
+                    <Button
+                      // className="text-white sm:rounded-lg sm:!h-auto !h-6 rounded-[7px] !text-paragraph-sm-medium !px-5"
+                      onClick={handleSubscribe}
+                      size='lg'
+                    >
+                      {loading ? (
+                        <SpinnerCircular
+                          size={24}
+                          thickness={200}
+                          color="white"
+                          className="mr-2"
+                        />
+                      ) : (
+                        "Follow"
+                      )}
+                    </Button>
                   )}
-                </Button>
+                </>
               )}
-              {isMobile ?
+
+              {isMobile ? (
                 <Drawer open={open} onOpenChange={setOpen}>
                   <DrawerTrigger asChild>
-                    <Button className="sm:rounded-lg sm:!h-auto !h-6 rounded-[7px] !text-paragraph-sm-medium !px-5 !bg-background-bg-secondary">Contact</Button>
+                    <Button
+                      // className="sm:rounded-lg sm:!h-auto !h-6 rounded-[7px] !text-paragraph-sm-medium !px-5 !bg-background-bg-secondary"
+                      variant='secondary'
+                      size='sm'
+                    >
+                      Contact
+                    </Button>
                   </DrawerTrigger>
                   <DrawerContent className="px-6 pb-6">
                     <DrawerHeader className="relative mb-3 flex flex-row justify-between items-center">
@@ -339,10 +385,17 @@ const CompanyHeader = ({ companyDetails, user, chartData }: Props) => {
                     </DrawerHeader>
                     <ContactContent />
                   </DrawerContent>
-                </Drawer> :
+                </Drawer>
+              ) : (
                 <Dialog open={open} onOpenChange={setOpen}>
                   <DialogTrigger asChild>
-                    <Button className="!text-paragraph-sm-medium sm:rounded-lg sm:!h-auto !h-6 rounded-[7px] !px-5 !bg-background-bg-secondary">Contact</Button>
+                    <Button
+                      // className="!text-paragraph-sm-medium sm:rounded-lg sm:!h-auto !h-6 rounded-[7px] !px-5 !bg-background-bg-secondary"
+                      variant='secondary'
+                      size='lg'
+                    >
+                      Contact
+                    </Button>
                   </DialogTrigger>
                   <DialogContent className="sm:max-w-[500px] !rounded-2xl p-6">
                     <DialogHeader className="relative mb-3">
@@ -351,7 +404,7 @@ const CompanyHeader = ({ companyDetails, user, chartData }: Props) => {
                     <ContactContent />
                   </DialogContent>
                 </Dialog>
-              }
+              )}
             </div>
           </div>
         </div>
@@ -363,22 +416,23 @@ const CompanyHeader = ({ companyDetails, user, chartData }: Props) => {
           }
         >
           {companyDetails.company?.companyName}
-          {companyDetails?.company?.iconType &&
-            Object.entries(companyIcons).map(([key, Icon]) =>
-              companyDetails.company.iconType[key as keyof IconType]?.value ? (
-                <Icon key={key} className="w-[18px] h-[18px]" color={iconColors[key]} />
-              ) : null
-            )}
+          <div className="flex items-center gap-1">
+            {companyDetails?.company?.iconType &&
+              Object.entries(companyIcons).map(([key, Icon]) =>
+                companyDetails.company.iconType[key as keyof IconType]?.value ? (
+                  <Icon key={key} className="w-[16px] h-[16px]" color={iconColors[key]} />
+                ) : null
+              )}
+          </div>
           <div className="text-paragraph-sm-semibold bg-backgroundInfo text-primary-brand-primary-500 !py-1 !px-2.5 rounded-lg !leading-[16px] w-max">
             {subscriberCount} Followers
-            {/* {companyDetails?.subscriberCount} Subscribers */}
           </div>
           <div className="text-paragraph-sm-semibold bg-background-bg-quarternary text-text-text-secondary !py-1 !px-2.5 rounded-lg !leading-[16px] w-max">
             {companyDetails.company.subCategory ?? "OMC"}
           </div>
         </div>
         <div className={style["desc-text"]}>{companyBio}</div>
-        <Link href={companyDetails?.company?.link} className="pt-1 flex flex-row items-center gap-1 text-text-text-brand">
+        <Link href={companyDetails?.company?.link} className="pt-2 flex flex-row items-center gap-1 text-text-text-brand">
           <LinkIcon size={18} />
           <span className="text-paragraph-sm-semibold">{companyDetails.company.link}</span>
         </Link>
