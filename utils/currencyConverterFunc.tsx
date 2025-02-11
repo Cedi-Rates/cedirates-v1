@@ -1,4 +1,5 @@
 import axios from "axios";
+import { CompanyRate, CompleteRateType, currencyRatesType } from "./types";
 
 const currencies: {
   shortName: string;
@@ -285,6 +286,26 @@ const getChartData = async (
 
 export default getChartData;
 
+// Brands page converter
+const getAvailableCurrencies = (companyData: CompanyRate) => {
+  const availableCurrencies = ["GHS"]; // GHS is always available
+
+  const currencyMappings: Record<string, keyof CompleteRateType> = {
+    USD: "dollarRates",
+    EUR: "euroRates",
+    GBP: "poundRates",
+  };
+
+  Object.entries(currencyMappings).forEach(([currency, key]) => {
+    const rates = companyData.data[key] as currencyRatesType;
+    if (rates?.buyingRate !== null || rates?.sellingRate !== null) {
+      availableCurrencies.push(currency);
+    }
+  });
+
+  return availableCurrencies;
+};
+
 export {
   currencies,
   getAverageForToday,
@@ -292,4 +313,5 @@ export {
   isConversionSupported,
   convertCurrency,
   todayAverage,
+  getAvailableCurrencies,
 };

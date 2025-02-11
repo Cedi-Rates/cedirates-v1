@@ -18,16 +18,21 @@ import {
   CompleteRateType,
   currencyRatesType,
 } from "@/utils/types";
+import { useToast } from "../ui/use-toast";
+import { getAvailableCurrencies } from "@/utils/currencyConverterFunc";
 
 type Props = {
   companyData: CompanyRate;
 };
 
 export default function CurrencyConverter({ companyData }: Props) {
-  const [amount1, setAmount1] = React.useState("50.00");
+  const [amount1, setAmount1] = React.useState<string | number>("50.00");
   const [amount2, setAmount2] = React.useState<string | number>("0.00");
   const [currency1, setCurrency1] = React.useState("USD");
   const [currency2, setCurrency2] = React.useState("GHS");
+  const [isTypingInAmount1, setIsTypingInAmount1] = React.useState(true);
+
+  const { toast } = useToast();
 
   const symbolMap: Record<string, string> = {
     USD: "$",
@@ -46,15 +51,8 @@ export default function CurrencyConverter({ companyData }: Props) {
   const handleSwap = () => {
     setCurrency1(currency2);
     setCurrency2(currency1);
-    // setAmount1(amount2.toString());
-    // setAmount2(amount1);
-  };
-
-  const addCommasAndSave = (value: any) => {
-    // const inputVal = value.target.value.replace(/[^0-9.]/g, "");
-    // setAmount(inputVal);
-    const formattedVal = value.replace(/\B(?=(\d{3})+(?!\d))/g, ",");
-    setAmount2(formattedVal);
+    setAmount1(amount2.toString());
+    setAmount2(amount1);
   };
 
   const isConversionSupported = (from: string, to: string) => {
@@ -70,7 +68,13 @@ export default function CurrencyConverter({ companyData }: Props) {
   };
 
   const convertCurrency = (amount: number, from: string, to: string) => {
-    if (!isConversionSupported(from, to) || !companyData) return "-";
+    if (!isConversionSupported(from, to) || !companyData) {
+      toast({
+        variant: "destructive",
+        title: `Exchange rate data not available for the selected currency pair`,
+      });
+      return "-";
+    }
 
     const rates = companyData.data;
     const fromSlug = from.toLowerCase();
@@ -115,20 +119,42 @@ export default function CurrencyConverter({ companyData }: Props) {
     const rates2 = rates[key2] as currencyRatesType;
 
     if (from === "GHS" && amount && rates1?.buyingRate) {
-      convertedAmount = (amount / rates1?.buyingRate).toFixed(2);
+      convertedAmount = (amount * rates1?.buyingRate).toFixed(2);
     } else if (to === "GHS" && amount && rates2?.sellingRate) {
-      convertedAmount = (amount * rates2?.sellingRate).toFixed(2);
+      convertedAmount = (amount / rates2?.sellingRate).toFixed(2);
     }
+
+    if (convertedAmount === "-")
+      toast({
+        variant: "destructive",
+        title: `Rates unavailable due to missing buying or selling rates`,
+      });
 
     return convertedAmount;
   };
 
+  const availableCurrencies = React.useMemo(
+    () => getAvailableCurrencies(companyData),
+    [companyData]
+  );
+
   React.useEffect(() => {
-    // setAmount2(convertCurrency(parseFloat(amount1), currency1, currency2));
-    addCommasAndSave(
-      convertCurrency(parseFloat(amount1), currency1, currency2)
-    );
+    if (isTypingInAmount1) {
+      setAmount2(
+        convertCurrency(parseFloat(amount1 as string), currency1, currency2)
+      );
+    }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [amount1, currency1, currency2]);
+
+  React.useEffect(() => {
+    if (!isTypingInAmount1) {
+      setAmount1(
+        convertCurrency(parseFloat(amount2 as string), currency2, currency1)
+      );
+    }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [amount2, currency1, currency2]);
 
   return (
     <div className="flex gap-3 w-full flex-col items-start justify-center">
@@ -146,7 +172,10 @@ export default function CurrencyConverter({ companyData }: Props) {
                 <Input
                   type="number"
                   value={amount1}
-                  onChange={(e) => setAmount1(e.target.value)}
+                  onChange={(e) => {
+                    setIsTypingInAmount1(true);
+                    setAmount1(e.target.value);
+                  }}
                   style={{ paddingLeft: `${paddingMap[currency1]}px` }}
                   className="rounded-xl rounded-r-none focus:!ring-0 focus:!outline-none"
                 />
@@ -159,7 +188,7 @@ export default function CurrencyConverter({ companyData }: Props) {
                   <SelectValue>{currency1}</SelectValue>
                 </SelectTrigger>
                 <SelectContent>
-                  {["USD", "GHS", "GBP", "EUR"].map((curr) => (
+                  {availableCurrencies.map((curr) => (
                     <SelectItem key={curr} value={curr}>
                       {curr}
                     </SelectItem>
@@ -187,10 +216,12 @@ export default function CurrencyConverter({ companyData }: Props) {
             <div className="flex gap-0 h-[40px]">
               <div className="relative flex-1">
                 <Input
-                  type="text"
+                  type="number"
                   value={amount2}
-                  readOnly
-                  // onChange={(e) => setAmount2(e.target.value)}
+                  onChange={(e) => {
+                    setIsTypingInAmount1(false);
+                    setAmount2(e.target.value);
+                  }}
                   style={{ paddingLeft: `${paddingMap[currency2]}px` }}
                   className="rounded-xl rounded-r-none focus:!ring-0 focus:!outline-none"
                 />
@@ -203,7 +234,7 @@ export default function CurrencyConverter({ companyData }: Props) {
                   <SelectValue>{currency2}</SelectValue>
                 </SelectTrigger>
                 <SelectContent>
-                  {["USD", "GHS", "GBP", "EUR"].map((curr) => (
+                  {availableCurrencies.map((curr) => (
                     <SelectItem key={curr} value={curr}>
                       {curr}
                     </SelectItem>

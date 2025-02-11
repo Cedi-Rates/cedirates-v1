@@ -1,7 +1,11 @@
 "use client";
 
 import React, { useEffect, useState } from "react";
-import { CompleteCompanyDetailsType, IconType, UserDetailsType } from "@/utils/types";
+import {
+  CompleteCompanyDetailsType,
+  IconType,
+  UserDetailsType,
+} from "@/utils/types";
 import style from "../../assets/styles/company.module.css";
 import Image from "next/image";
 import { FaFacebook, FaPhoneAlt, FaWhatsapp } from "react-icons/fa";
@@ -9,7 +13,11 @@ import { Button } from "../ui/button";
 import BellSVGComponent from "../../assets/svgs/BellSVGComponent";
 import { PremiumIcon } from "@/assets/Icons";
 import { addToWatchList } from "@/utils/helpers/api";
-import { DialogHeader, DialogTitle, DialogTrigger } from "@/components/ui/dialog"
+import {
+  DialogHeader,
+  DialogTitle,
+  DialogTrigger,
+} from "@/components/ui/dialog";
 import { SpinnerCircular } from "spinners-react";
 import ColorThief from "colorthief";
 import {
@@ -19,9 +27,15 @@ import {
   DropdownMenuLabel,
   DropdownMenuSeparator,
   DropdownMenuTrigger,
-} from "@/components/ui/dropdown-menu"
+} from "@/components/ui/dropdown-menu";
 import { getBase64ImageFromUrl } from "@/utils/helpers/helperfunctions";
-import { Drawer, DrawerContent, DrawerHeader, DrawerTitle, DrawerTrigger } from "@/components/ui/drawer"
+import {
+  Drawer,
+  DrawerContent,
+  DrawerHeader,
+  DrawerTitle,
+  DrawerTrigger,
+} from "@/components/ui/drawer";
 import axios from "axios";
 import dynamic from "next/dynamic";
 import Link from "next/link";
@@ -45,23 +59,21 @@ const DialogContent = dynamic(
   { ssr: false }
 );
 
-
 const useMediaQuery = (query: string) => {
-  const [matches, setMatches] = useState(false)
+  const [matches, setMatches] = useState(false);
 
   useEffect(() => {
-    const media = window.matchMedia(query)
+    const media = window.matchMedia(query);
     if (media.matches !== matches) {
-      setMatches(media.matches)
+      setMatches(media.matches);
     }
-    const listener = () => setMatches(media.matches)
-    window.addEventListener("resize", listener)
-    return () => window.removeEventListener("resize", listener)
-  }, [matches, query])
+    const listener = () => setMatches(media.matches);
+    window.addEventListener("resize", listener);
+    return () => window.removeEventListener("resize", listener);
+  }, [matches, query]);
 
-  return matches
-}
-
+  return matches;
+};
 
 type Props = {
   companyDetails: CompleteCompanyDetailsType;
@@ -70,10 +82,8 @@ type Props = {
 };
 
 const CompanyHeader = ({ companyDetails, user, chartData }: Props) => {
-  console.log('Company Details:', companyDetails);
-
   const { toast } = useToast();
-  const isMobile = useMediaQuery("(max-width: 640px)")
+  const isMobile = useMediaQuery("(max-width: 640px)");
   const [loading, setLoading] = useState(false);
   const [subscriberCount, setSubscriberCount] = useState(
     companyDetails?.subscriberCount
@@ -192,16 +202,44 @@ const CompanyHeader = ({ companyDetails, user, chartData }: Props) => {
     <>
       <div className="space-y-3">
         <div className="space-y-1 pl-3">
-          <h3 className={`${isMobile ? 'text-paragraph-md-semibold' : 'text-paragraph-lg-semibold'} font-medium`}>WhatsApp</h3>
-          <p className={`${isMobile ? 'text-paragraph-md-medium' : 'text-paragraph-lg-medium'} text-text-text-quarternary`}>{companyDetails.company.phone}</p>
+          <h3
+            className={`${
+              isMobile
+                ? "text-paragraph-md-semibold"
+                : "text-paragraph-lg-semibold"
+            } font-medium`}
+          >
+            WhatsApp
+          </h3>
+          <p
+            className={`${
+              isMobile ? "text-paragraph-md-medium" : "text-paragraph-lg-medium"
+            } text-text-text-quarternary`}
+          >
+            {companyDetails.company.phone}
+          </p>
         </div>
         <div className="space-y-1 border-t pt-3 pl-3">
-          <h3 className={`${isMobile ? 'text-paragraph-md-semibold' : 'text-paragraph-lg-semibold'} font-medium`}>Call</h3>
-          <p className={`${isMobile ? 'text-paragraph-md-medium' : 'text-paragraph-lg-medium'} text-text-text-quarternary`}>{companyDetails.company.phone}</p>
+          <h3
+            className={`${
+              isMobile
+                ? "text-paragraph-md-semibold"
+                : "text-paragraph-lg-semibold"
+            } font-medium`}
+          >
+            Call
+          </h3>
+          <p
+            className={`${
+              isMobile ? "text-paragraph-md-medium" : "text-paragraph-lg-medium"
+            } text-text-text-quarternary`}
+          >
+            {companyDetails.company.phone}
+          </p>
         </div>
       </div>
     </>
-  )
+  );
 
   return (
     <div>
@@ -230,12 +268,17 @@ const CompanyHeader = ({ companyDetails, user, chartData }: Props) => {
             width={120}
             height={120}
             priority
-          // loading="lazy"
+            // loading="lazy"
           />
         </div>
         <div className={style["profile-container"]}>
           <div className={style["profile-info-text-up"]}>
-            <div className={'!justify-center sm:!justify-start mb-1 ' + style["company-name-container"]}>
+            <div
+              className={
+                "!justify-center sm:!justify-start mb-1 " +
+                style["company-name-container"]
+              }
+            >
               <h3 className="text-paragraph-lg-semibold !leading-[17px]">
                 {companyDetails.company?.companyName}
               </h3>
@@ -246,8 +289,13 @@ const CompanyHeader = ({ companyDetails, user, chartData }: Props) => {
               )}
               {companyDetails?.company?.iconType &&
                 Object.entries(companyIcons).map(([key, Icon]) =>
-                  companyDetails.company.iconType[key as keyof IconType]?.value ? (
-                    <Icon key={key} className="w-[18px] h-[18px]" color={iconColors[key]} />
+                  companyDetails.company.iconType[key as keyof IconType]
+                    ?.value ? (
+                    <Icon
+                      key={key}
+                      className="w-[18px] h-[18px]"
+                      color={iconColors[key]}
+                    />
                   ) : null
                 )}
               <div className="text-paragraph-sm-semibold bg-backgroundInfo text-primary-brand-primary-500 !py-1 !px-2.5 rounded-lg !leading-[16px] w-max">
@@ -266,18 +314,23 @@ const CompanyHeader = ({ companyDetails, user, chartData }: Props) => {
             >
               {companyBio}
             </div>
-            <Link href={companyDetails?.company?.link} className="flex flex-row items-center gap-1 text-text-text-brand">
+            <Link
+              href={companyDetails?.company?.link || "#"}
+              className="flex flex-row items-center gap-1 text-text-text-brand"
+            >
               {/* <FaFacebook size={18} />
               <BsTwitterX size={18} />
               <BsInstagram size={18} />
               <Globe size={18} />
               <LucidePhone size={18} /> */}
               <LinkIcon size={18} />
-              <span className="text-paragraph-sm-semibold">{companyDetails.company.link}</span>
+              <span className="text-paragraph-sm-semibold">
+                {companyDetails.company.link}
+              </span>
             </Link>
           </div>
           <div className={style["subscribe-section"]}>
-            <div className='flex flex-row items-start justify-end gap-2'>
+            <div className="flex flex-row items-start justify-end gap-2">
               {userDetails?.watchList?.includes(
                 companyDetails?.company?.UniqueID
               ) ? (
@@ -303,8 +356,15 @@ const CompanyHeader = ({ companyDetails, user, chartData }: Props) => {
                     </Button>
                   </DropdownMenuTrigger>
                   <DropdownMenuContent className="rounded-xl">
-                    <DropdownMenuItem className="rounded-lg">Turn On Alerts</DropdownMenuItem>
-                    <DropdownMenuItem className="hover:!text-text-text-error text-text-text-error rounded-lg" onClick={handleSubscribe}>Un-Follow</DropdownMenuItem>
+                    <DropdownMenuItem className="rounded-lg">
+                      Turn On Alerts
+                    </DropdownMenuItem>
+                    <DropdownMenuItem
+                      className="hover:!text-text-text-error text-text-text-error rounded-lg"
+                      onClick={handleSubscribe}
+                    >
+                      Un-Follow
+                    </DropdownMenuItem>
                   </DropdownMenuContent>
                 </DropdownMenu>
               ) : (
@@ -324,34 +384,47 @@ const CompanyHeader = ({ companyDetails, user, chartData }: Props) => {
                   )}
                 </Button>
               )}
-              {isMobile ?
+              {isMobile ? (
                 <Drawer open={open} onOpenChange={setOpen}>
                   <DrawerTrigger asChild>
-                    <Button className="sm:rounded-lg sm:!h-auto !h-6 rounded-[7px] !text-paragraph-sm-medium !px-5 !bg-background-bg-secondary">Contact</Button>
+                    <Button className="sm:rounded-lg sm:!h-auto !h-6 rounded-[7px] !text-paragraph-sm-medium !px-5 !bg-background-bg-secondary">
+                      Contact
+                    </Button>
                   </DrawerTrigger>
                   <DrawerContent className="px-6 pb-6">
                     <DrawerHeader className="relative mb-3 flex flex-row justify-between items-center">
-                      <DrawerTitle className="text-paragraph-lg-semibold font-semibold sm:rounded-lg sm:h-auto !h-6 rounded-[7px]">Contact</DrawerTitle>
-                      <Button variant="ghost" className="!p-2 bg-background-bg-secondary !h-min" onClick={() => setOpen(false)}>
+                      <DrawerTitle className="text-paragraph-lg-semibold font-semibold sm:rounded-lg sm:h-auto !h-6 rounded-[7px]">
+                        Contact
+                      </DrawerTitle>
+                      <Button
+                        variant="ghost"
+                        className="!p-2 bg-background-bg-secondary !h-min"
+                        onClick={() => setOpen(false)}
+                      >
                         <X className="h-4 w-4 text-black" />
                         <span className="sr-only">Close</span>
                       </Button>
                     </DrawerHeader>
                     <ContactContent />
                   </DrawerContent>
-                </Drawer> :
+                </Drawer>
+              ) : (
                 <Dialog open={open} onOpenChange={setOpen}>
                   <DialogTrigger asChild>
-                    <Button className="!text-paragraph-sm-medium sm:rounded-lg sm:!h-auto !h-6 rounded-[7px] !px-5 !bg-background-bg-secondary">Contact</Button>
+                    <Button className="!text-paragraph-sm-medium sm:rounded-lg sm:!h-auto !h-6 rounded-[7px] !px-5 !bg-background-bg-secondary">
+                      Contact
+                    </Button>
                   </DialogTrigger>
                   <DialogContent className="sm:max-w-[500px] !rounded-2xl p-6">
                     <DialogHeader className="relative mb-3">
-                      <DialogTitle className="text-header-h6-semibold font-semibold">Contact</DialogTitle>
+                      <DialogTitle className="text-header-h6-semibold font-semibold">
+                        Contact
+                      </DialogTitle>
                     </DialogHeader>
                     <ContactContent />
                   </DialogContent>
                 </Dialog>
-              }
+              )}
             </div>
           </div>
         </div>
@@ -359,14 +432,19 @@ const CompanyHeader = ({ companyDetails, user, chartData }: Props) => {
       <div className={style["profile-info-text-down"]}>
         <div
           className={
-            style["company-name-container"] + " text-start !justify-start mt-9 mb-1"
+            style["company-name-container"] +
+            " text-start !justify-start mt-9 mb-1"
           }
         >
           {companyDetails.company?.companyName}
           {companyDetails?.company?.iconType &&
             Object.entries(companyIcons).map(([key, Icon]) =>
               companyDetails.company.iconType[key as keyof IconType]?.value ? (
-                <Icon key={key} className="w-[18px] h-[18px]" color={iconColors[key]} />
+                <Icon
+                  key={key}
+                  className="w-[18px] h-[18px]"
+                  color={iconColors[key]}
+                />
               ) : null
             )}
           <div className="text-paragraph-sm-semibold bg-backgroundInfo text-primary-brand-primary-500 !py-1 !px-2.5 rounded-lg !leading-[16px] w-max">
@@ -378,9 +456,14 @@ const CompanyHeader = ({ companyDetails, user, chartData }: Props) => {
           </div>
         </div>
         <div className={style["desc-text"]}>{companyBio}</div>
-        <Link href={companyDetails?.company?.link} className="pt-1 flex flex-row items-center gap-1 text-text-text-brand">
+        <Link
+          href={companyDetails?.company?.link || "#"}
+          className="pt-1 flex flex-row items-center gap-1 text-text-text-brand"
+        >
           <LinkIcon size={18} />
-          <span className="text-paragraph-sm-semibold">{companyDetails.company.link}</span>
+          <span className="text-paragraph-sm-semibold">
+            {companyDetails.company.link}
+          </span>
         </Link>
       </div>
     </div>
