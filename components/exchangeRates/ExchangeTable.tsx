@@ -1049,15 +1049,24 @@ const ExchangeTable = ({ rates, user }: Props) => {
 
                                   <p className="flex items-center font-light text-[#818181] text-[10px] tracking-wide">
                                     <span className="">{item.company.subCategory}</span>
-                                    {item?.company?.iconType &&
+                                    {/* {item?.company?.iconType &&
                                       Object.entries(companyIcons)
                                         .filter(([key]) => {
                                           const iconData = item?.company?.iconType?.[key as keyof IconType];
-                                          return iconData?.note && [1, 2, 3].includes(iconData.value);
+                                          if (!iconData?.value || [1, 2, 3].includes(iconData.value)) return false;
+                                          if (iconData.value === 3 && iconData.date) {
+                                            const listingDate = new Date(iconData.date);
+                                            const currentDate = new Date();
+                                            const diffDays = (currentDate.getTime() - listingDate.getTime()) / (1000 * 60 * 60 * 24);
+                                            return diffDays <= 7;
+                                          }
+                                          return true;
                                         })
                                         .sort((a, b) => {
                                           const priorityA = item?.company?.iconType?.[a[0] as keyof IconType]?.value ?? 999;
                                           const priorityB = item?.company?.iconType?.[b[0] as keyof IconType]?.value ?? 999;
+                                          if (priorityA === 3 && priorityB !== 3) return -1;
+                                          if (priorityB === 3 && priorityA !== 3) return 1;
                                           return priorityA - priorityB;
                                         })
                                         .slice(0, 1)
@@ -1067,7 +1076,7 @@ const ExchangeTable = ({ rates, user }: Props) => {
                                             className="ml-1 w-[14px] h-[14px]"
                                             color={iconColors[key]}
                                           />
-                                        ))}
+                                        ))} */}
                                   </p>
                                 </div>
                               </div>

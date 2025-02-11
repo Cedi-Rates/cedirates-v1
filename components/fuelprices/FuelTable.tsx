@@ -463,7 +463,7 @@ const FuelTable = ({ rates, user }: Props) => {
                                   <BadgeCheck className="ml-1 text-[#1896FE] w-[14px] h-[14px] flex-shrink-0" />
                                 )}
 
-                                {item.company.iconType &&
+                                {/* {item.company.iconType &&
                                   Object.entries(companyIcons)
                                     .filter(([key]) => {
                                       const iconData = item?.company?.iconType[key as keyof IconType];
@@ -481,7 +481,7 @@ const FuelTable = ({ rates, user }: Props) => {
                                         className="ml-1 w-[14px] h-[14px]"
                                         color={iconColors[key]}
                                       />
-                                    ))}
+                                    ))} */}
                               </p>
                             </div>
                           </div>
