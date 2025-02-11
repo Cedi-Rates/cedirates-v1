@@ -19,7 +19,10 @@ import {
   currencyRatesType,
 } from "@/utils/types";
 import { useToast } from "../ui/use-toast";
-import { getAvailableCurrencies } from "@/utils/currencyConverterFunc";
+import {
+  getAvailableCurrencies,
+  addCommasToNumber,
+} from "@/utils/currencyConverterFunc";
 
 type Props = {
   companyData: CompanyRate;
@@ -36,14 +39,14 @@ export default function CurrencyConverter({ companyData }: Props) {
 
   const symbolMap: Record<string, string> = {
     USD: "$",
-    GHS: "GHS",
+    GHS: "₵",
     GBP: "£",
     EUR: "€",
   };
 
   const paddingMap: Record<string, number> = {
     USD: 28,
-    GHS: 52,
+    GHS: 28,
     GBP: 28,
     EUR: 28,
   };
@@ -124,11 +127,11 @@ export default function CurrencyConverter({ companyData }: Props) {
       convertedAmount = (amount / rates2?.sellingRate).toFixed(2);
     }
 
-    if (convertedAmount === "-")
-      toast({
-        variant: "destructive",
-        title: `Rates unavailable due to missing buying or selling rates`,
-      });
+    // if (convertedAmount === "-")
+    //   toast({
+    //     variant: "destructive",
+    //     title: `Rates unavailable due to missing buying or selling rates`,
+    //   });
 
     return convertedAmount;
   };
@@ -141,7 +144,9 @@ export default function CurrencyConverter({ companyData }: Props) {
   React.useEffect(() => {
     if (isTypingInAmount1) {
       setAmount2(
-        convertCurrency(parseFloat(amount1 as string), currency1, currency2)
+        addCommasToNumber(
+          convertCurrency(parseFloat(amount1 as string), currency1, currency2)
+        )
       );
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
@@ -150,7 +155,9 @@ export default function CurrencyConverter({ companyData }: Props) {
   React.useEffect(() => {
     if (!isTypingInAmount1) {
       setAmount1(
-        convertCurrency(parseFloat(amount2 as string), currency2, currency1)
+        addCommasToNumber(
+          convertCurrency(parseFloat(amount2 as string), currency2, currency1)
+        )
       );
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
@@ -170,7 +177,8 @@ export default function CurrencyConverter({ companyData }: Props) {
             <div className="flex gap-0 h-[40px]">
               <div className="relative flex-1">
                 <Input
-                  type="number"
+                  type="tel"
+                  inputMode="decimal"
                   value={amount1}
                   onChange={(e) => {
                     setIsTypingInAmount1(true);
@@ -216,7 +224,8 @@ export default function CurrencyConverter({ companyData }: Props) {
             <div className="flex gap-0 h-[40px]">
               <div className="relative flex-1">
                 <Input
-                  type="number"
+                  type="tel"
+                  inputMode="decimal"
                   value={amount2}
                   onChange={(e) => {
                     setIsTypingInAmount1(false);

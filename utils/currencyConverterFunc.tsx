@@ -292,8 +292,8 @@ const getAvailableCurrencies = (companyData: CompanyRate) => {
 
   const currencyMappings: Record<string, keyof CompleteRateType> = {
     USD: "dollarRates",
-    EUR: "euroRates",
     GBP: "poundRates",
+    EUR: "euroRates",
   };
 
   Object.entries(currencyMappings).forEach(([currency, key]) => {
