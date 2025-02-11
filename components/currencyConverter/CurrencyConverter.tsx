@@ -145,6 +145,12 @@ const CurrencyConverter = () => {
     setFaqs(!faqs);
   };
 
+  // console.log("amount", amount);
+  // console.log("erd", ERD);
+  // console.log("from", from);
+  // console.log("to", to);
+  // console.log("isClosed", isClosed);
+  // console.log("finalPrice", finalPrice);
   return (
     <main className={styles.main}>
       {/* <NavbarLight /> */}

@@ -1,74 +1,174 @@
-"use client"
+"use client";
 
-import * as React from "react"
-import { ArrowUpDown } from "lucide-react"
-import { Button } from "@/components/ui/button"
-import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select"
-import { Input } from "@/components/ui/input"
-import { Card, CardContent } from "@/components/ui/card"
-import { Separator } from "../ui/separator"
+import * as React from "react";
+import { ArrowUpDown } from "lucide-react";
+import { Button } from "@/components/ui/button";
+import {
+  Select,
+  SelectContent,
+  SelectItem,
+  SelectTrigger,
+  SelectValue,
+} from "@/components/ui/select";
+import { Input } from "@/components/ui/input";
+import { Card, CardContent } from "@/components/ui/card";
+import { Separator } from "../ui/separator";
+import {
+  CompanyRate,
+  CompleteRateType,
+  currencyRatesType,
+} from "@/utils/types";
 
-export default function CurrencyConverter() {
-  const [amount1, setAmount1] = React.useState("0.00")
-  const [amount2, setAmount2] = React.useState("0.00")
-  const [currency1, setCurrency1] = React.useState("USD")
-  const [currency2, setCurrency2] = React.useState("GHS")
+type Props = {
+  companyData: CompanyRate;
+};
+
+export default function CurrencyConverter({ companyData }: Props) {
+  const [amount1, setAmount1] = React.useState("50.00");
+  const [amount2, setAmount2] = React.useState<string | number>("0.00");
+  const [currency1, setCurrency1] = React.useState("USD");
+  const [currency2, setCurrency2] = React.useState("GHS");
+
+  const symbolMap: Record<string, string> = {
+    USD: "$",
+    GHS: "GHS",
+    GBP: "£",
+    EUR: "€",
+  };
+
+  const paddingMap: Record<string, number> = {
+    USD: 28,
+    GHS: 52,
+    GBP: 28,
+    EUR: 28,
+  };
 
   const handleSwap = () => {
-    const tempCurrency = currency1
-    setCurrency1(currency2)
-    setCurrency2(tempCurrency)
-    const tempAmount = amount1
-    setAmount1(amount2)
-    setAmount2(tempAmount)
-  }
+    setCurrency1(currency2);
+    setCurrency2(currency1);
+    // setAmount1(amount2.toString());
+    // setAmount2(amount1);
+  };
+
+  const addCommasAndSave = (value: any) => {
+    // const inputVal = value.target.value.replace(/[^0-9.]/g, "");
+    // setAmount(inputVal);
+    const formattedVal = value.replace(/\B(?=(\d{3})+(?!\d))/g, ",");
+    setAmount2(formattedVal);
+  };
+
+  const isConversionSupported = (from: string, to: string) => {
+    const supportedConversions = [
+      "GHS/USD",
+      "GHS/GBP",
+      "GHS/EUR",
+      "USD/GHS",
+      "GBP/GHS",
+      "EUR/GHS",
+    ];
+    return supportedConversions.includes(`${from}/${to}`);
+  };
+
+  const convertCurrency = (amount: number, from: string, to: string) => {
+    if (!isConversionSupported(from, to) || !companyData) return "-";
+
+    const rates = companyData.data;
+    const fromSlug = from.toLowerCase();
+    const toSlug = to.toLowerCase();
+    let toCurrency = "";
+    let fromCurrency = "";
+
+    let convertedAmount: number | string = "-";
+
+    switch (fromSlug) {
+      case "usd":
+        fromCurrency = "dollar";
+        break;
+      case "eur":
+        fromCurrency = "euro";
+        break;
+      case "gbp":
+        fromCurrency = "pound";
+        break;
+      default:
+        break;
+    }
+
+    switch (toSlug) {
+      case "usd":
+        toCurrency = "dollar";
+        break;
+      case "eur":
+        toCurrency = "euro";
+        break;
+      case "gbp":
+        toCurrency = "pound";
+        break;
+      default:
+        break;
+    }
+
+    const key1 = `${toCurrency}Rates` as keyof CompleteRateType;
+    const rates1 = rates[key1] as currencyRatesType;
+
+    const key2 = `${fromCurrency}Rates` as keyof CompleteRateType;
+    const rates2 = rates[key2] as currencyRatesType;
+
+    if (from === "GHS" && amount && rates1?.buyingRate) {
+      convertedAmount = (amount / rates1?.buyingRate).toFixed(2);
+    } else if (to === "GHS" && amount && rates2?.sellingRate) {
+      convertedAmount = (amount * rates2?.sellingRate).toFixed(2);
+    }
+
+    return convertedAmount;
+  };
+
+  React.useEffect(() => {
+    // setAmount2(convertCurrency(parseFloat(amount1), currency1, currency2));
+    addCommasAndSave(
+      convertCurrency(parseFloat(amount1), currency1, currency2)
+    );
+  }, [amount1, currency1, currency2]);
 
   return (
     <div className="flex gap-3 w-full flex-col items-start justify-center">
       <p className="text-paragraph-md-semibold">Convert Any Amount</p>
       <Card className="w-full border rounded-lg p-4 shadow-sm border-border-border-tertiary">
-        <CardContent className="">
-          <h1 className="text-paragraph-md-semibold mb-2">Currency Converter</h1>
+        <CardContent>
+          <h1 className="text-paragraph-md-semibold mb-2">
+            Currency Converter
+          </h1>
           <Separator />
-          <div className="mt-6">  
+          <div className="mt-6">
+            {/* Input 1 */}
             <div className="flex gap-0 h-[40px]">
               <div className="relative flex-1">
                 <Input
-                  type="text"
+                  type="number"
                   value={amount1}
                   onChange={(e) => setAmount1(e.target.value)}
-                  className="pl-7 rounded-xl rounded-r-none focus:!ring-0 focus:!outline-none"
+                  style={{ paddingLeft: `${paddingMap[currency1]}px` }}
+                  className="rounded-xl rounded-r-none focus:!ring-0 focus:!outline-none"
                 />
-                <span className="absolute left-3 top-1/2 -translate-y-1/2 text-muted-foreground">$</span>
+                <span className="absolute left-3 top-1/2 -translate-y-1/2 text-muted-foreground">
+                  {symbolMap[currency1]}
+                </span>
               </div>
               <Select value={currency1} onValueChange={setCurrency1}>
                 <SelectTrigger className="w-fit gap-1 focus:!outline-none focus:!ring-0 h-full rounded-xl rounded-l-none border-l-0">
-                  <SelectValue>
-                    <div className="flex items-center gap-2">
-                      <img
-                        src={`https://flagcdn.com/192x144/${currency1.toLowerCase().slice(0, 2)}.png`}
-                        alt={currency1}
-                        className="w-5 h-5 rounded-full object-cover"
-                      />
-                      {currency1}
-                    </div>
-                  </SelectValue>
+                  <SelectValue>{currency1}</SelectValue>
                 </SelectTrigger>
                 <SelectContent>
-                  <SelectItem value="USD">
-                    <div className="flex items-center gap-2">
-                      <img
-                        src="https://flagcdn.com/w20/us.png"
-                        alt="USD"
-                        className="w-5 h-5 rounded-full object-cover"
-                      />
-                      USD
-                    </div>
-                  </SelectItem>
+                  {["USD", "GHS", "GBP", "EUR"].map((curr) => (
+                    <SelectItem key={curr} value={curr}>
+                      {curr}
+                    </SelectItem>
+                  ))}
                 </SelectContent>
               </Select>
             </div>
 
+            {/* Swap Button */}
             <div className="relative py-1.5 items-center flex">
               <div className="absolute left-1/2 -translate-x-1/2 z-10">
                 <Button
@@ -83,40 +183,31 @@ export default function CurrencyConverter() {
               <div className="h-px bg-border left-1/2 translate-x-1/2 my-4 w-1/2" />
             </div>
 
+            {/* Input 2 */}
             <div className="flex gap-0 h-[40px]">
               <div className="relative flex-1">
                 <Input
                   type="text"
                   value={amount2}
-                  onChange={(e) => setAmount2(e.target.value)}
-                  className="pl-[52px] rounded-xl rounded-r-none focus:!ring-0 focus:!outline-none"
+                  readOnly
+                  // onChange={(e) => setAmount2(e.target.value)}
+                  style={{ paddingLeft: `${paddingMap[currency2]}px` }}
+                  className="rounded-xl rounded-r-none focus:!ring-0 focus:!outline-none"
                 />
-                <span className="absolute left-3 top-1/2 -translate-y-1/2 text-muted-foreground">GHS</span>
+                <span className="absolute left-3 top-1/2 -translate-y-1/2 text-muted-foreground">
+                  {symbolMap[currency2]}
+                </span>
               </div>
               <Select value={currency2} onValueChange={setCurrency2}>
                 <SelectTrigger className="w-fit gap-1 focus:!outline-none focus:!ring-0 h-full rounded-xl rounded-l-none border-l-0">
-                  <SelectValue>
-                    <div className="flex items-center gap-2">
-                      <img
-                        src={`https://flagcdn.com/192x144/${currency2.toLowerCase().slice(0, 2)}.png`}
-                        alt={currency2}
-                        className="w-5 h-5 rounded-full object-cover"
-                      />
-                      {currency2}
-                    </div>
-                  </SelectValue>
+                  <SelectValue>{currency2}</SelectValue>
                 </SelectTrigger>
                 <SelectContent>
-                  <SelectItem value="USD">
-                    <div className="flex items-center gap-2">
-                      <img
-                        src="https://flagcdn.com/w20/us.png"
-                        alt="USD"
-                        className="w-5 h-5 rounded-full object-cover"
-                      />
-                      USD
-                    </div>
-                  </SelectItem>
+                  {["USD", "GHS", "GBP", "EUR"].map((curr) => (
+                    <SelectItem key={curr} value={curr}>
+                      {curr}
+                    </SelectItem>
+                  ))}
                 </SelectContent>
               </Select>
             </div>
@@ -124,6 +215,5 @@ export default function CurrencyConverter() {
         </CardContent>
       </Card>
     </div>
-  )
+  );
 }
-

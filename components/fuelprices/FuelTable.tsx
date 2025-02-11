@@ -34,7 +34,7 @@ import urlManager from "@/utils/urlManager";
 import { ProgressBarLink } from "@/app/progress-bar";
 import DisplayAd from "../home/components/displayAd";
 import { replacePlaceholders } from "@/utils/helpers/helperfunctions";
-import { TriangleAlert } from "lucide-react";
+import { BadgeCheck, TriangleAlert } from "lucide-react";
 import { companyIcons, iconColors } from "../Icons/companyIcon";
 
 type Props = {
@@ -43,7 +43,7 @@ type Props = {
 };
 
 const FuelTable = ({ rates, user }: Props) => {
-  // console.log('Fuel Table:', rates);
+  console.log('Fuel Table:', rates);
 
   const [calculatorInput, setCalculatorInput] = useState<number | string>("");
   const [order, setOrder] = useState<"ascending" | "descending">("descending");
@@ -459,39 +459,29 @@ const FuelTable = ({ rates, user }: Props) => {
                             >
                               <p className="flex items-center font-semibold text-[14px] text-[#4A4949] tracking-wide">
                                 <span className="truncate max-w-[120px] sm:max-w-full">{item.company.companyName}</span>
-                                {/* {item.company.iconType &&
-                                  Object.entries(companyIcons)
-                                    .filter(([key]) => item.company?.iconType?.[key as keyof IconType]?.value)
-                                    .slice(0, 2)
-                                    .map(([key, Icon]) =>
-                                      item?.company?.iconType[key as keyof IconType]?.note ? (
-                                        <Icon key={key} className="w-[18px] h-[18px]" />
-                                      ) : null
-                                    )} */}
+                                {item.company?.verified && (
+                                  <BadgeCheck className="ml-1 text-[#1896FE] w-[14px] h-[14px] flex-shrink-0" />
+                                )}
 
-                                {item.company.iconType &&
+                                {/* {item.company.iconType &&
                                   Object.entries(companyIcons)
                                     .filter(([key]) => {
                                       const iconData = item?.company?.iconType[key as keyof IconType];
-                                      return iconData?.value && [1, 2, 3].includes(iconData.value); // ✅ Only keep icons with values 1, 2, or 3
+                                      return iconData?.value && [1, 2, 3].includes(iconData.value);
                                     })
                                     .sort((a, b) => {
                                       const priorityA = item?.company?.iconType[a[0] as keyof IconType]?.value ?? 999;
                                       const priorityB = item?.company?.iconType[b[0] as keyof IconType]?.value ?? 999;
-                                      return priorityA - priorityB; // ✅ Sort by lowest value first (1,2,3)
+                                      return priorityA - priorityB;
                                     })
-                                    .slice(0, 2)
-                                    .map(([key, Icon]) => {
-                                      const color = iconColors[key];
-                                      return (
-                                        <Icon
-                                          key={key}
-                                          className="ml-1 w-[16px] h-[16px]"
-                                        // className={`ml-1 w-[18px] h-[18px] ${color.startsWith("#") ? "" : color}`}
-                                        // style={color.startsWith("#") ? { fill: color } : {}}
-                                        />
-                                      );
-                                    })}
+                                    .slice(0, 1)
+                                    .map(([key, Icon]) => (
+                                      <Icon
+                                        key={key}
+                                        className="ml-1 w-[14px] h-[14px]"
+                                        color={iconColors[key]}
+                                      />
+                                    ))} */}
                               </p>
                             </div>
                           </div>

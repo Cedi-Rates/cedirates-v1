@@ -79,7 +79,7 @@ export type CompleteRateType = {
   dollarRates: currencyRatesType;
   euroRates: currencyRatesType;
   poundRates: currencyRatesType;
-  
+
   petrol: number | null;
   diesel: number | null;
   premium: number | null;
@@ -333,17 +333,6 @@ export interface IconType {
   newListing: {
     value: 3;
     note: string | null;
-  };
-  bestRates: {
-    value: 4;
-    note?: never;
-  };
-  topRates: {
-    value: 5;
-    note?: never;
-  };
-  trending: {
-    value: 6;
-    note?: never;
+    date: string
   };
 }
