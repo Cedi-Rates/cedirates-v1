@@ -15,7 +15,7 @@ interface DatePickerWithRangeProps {
 export const DatePickerWithRange: React.FC<DatePickerWithRangeProps> = ({
   onChange,
 }) => {
-  const [dateRange, setDateRange] = useState<string>("all");
+  const [dateRange, setDateRange] = useState<string>("30d");
 
   const getDateRange = (range: string): DateRange => {
     const now = new Date();

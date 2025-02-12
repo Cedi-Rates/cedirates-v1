@@ -7,6 +7,7 @@ import {
 import React, { useEffect, useMemo, useRef, useState } from "react";
 import { DatePickerWithRange } from "./date-picker-tabs";
 import { EmptyState } from "@/components/ui/empty-state";
+import { CurrencyPicker } from "@/utils/currency-picker";
 
 interface ChartComponentProps {
   data?: { time: string; value: number }[];
@@ -335,6 +336,16 @@ const ChartComponent: React.FC<ChartComponentProps> = (props) => {
           <h1>No Data Found</h1>
         </div>
       )}
+      <div
+        style={{
+          position: "absolute",
+          top: "-70px",
+          right: "10px",
+          zIndex: 2,
+        }}
+      >
+        <CurrencyPicker />
+      </div>
     </div>
   );
 };
