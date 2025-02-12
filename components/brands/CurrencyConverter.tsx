@@ -121,17 +121,25 @@ export default function CurrencyConverter({ companyData }: Props) {
     const key2 = `${fromCurrency}Rates` as keyof CompleteRateType;
     const rates2 = rates[key2] as currencyRatesType;
 
-    if (from === "GHS" && amount && rates1?.buyingRate) {
-      convertedAmount = (amount * rates1?.buyingRate).toFixed(2);
-    } else if (to === "GHS" && amount && rates2?.sellingRate) {
-      convertedAmount = (amount / rates2?.sellingRate).toFixed(2);
+    // if (from === "GHS" && amount && rates1?.buyingRate) {
+    //   convertedAmount = (amount * rates1?.buyingRate).toFixed(2);
+    // } else if (to === "GHS" && amount && rates2?.sellingRate) {
+    //   convertedAmount = (amount / rates2?.sellingRate).toFixed(2);
+    // }
+    if (from === "GHS" && amount && rates1?.sellingRate) {
+      // ✅ GHS → Foreign Currency
+      convertedAmount = (amount / rates1.sellingRate).toFixed(2);
+    } else if (to === "GHS" && amount && rates2?.buyingRate) {
+      // ✅ Foreign Currency → GHS
+      convertedAmount = (amount * rates2.buyingRate).toFixed(2);
+    } else if (amount1 !== "" && amount2 !== "") {
+      // ❌ Block unsupported conversions (e.g., USD → EUR)
+      toast({
+        variant: "destructive",
+        title: `Direct conversion between ${from} and ${to} is not supported.`,
+      });
+      return "-";
     }
-
-    // if (convertedAmount === "-")
-    //   toast({
-    //     variant: "destructive",
-    //     title: `Rates unavailable due to missing buying or selling rates`,
-    //   });
 
     return convertedAmount;
   };
