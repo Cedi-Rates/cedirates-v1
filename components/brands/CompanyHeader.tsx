@@ -267,10 +267,21 @@ const CompanyHeader = ({ companyDetails, user, chartData }: Props) => {
             >
               {companyBio}
             </div>
-            <Link href={companyDetails?.company?.link} className="flex flex-row items-center gap-1 text-text-text-brand">
+            {companyDetails?.company?.link &&
+              <Link href={companyDetails?.company?.link} className="flex flex-row items-center gap-1 text-text-text-brand">
+                <LinkIcon size={18} />
+                <span className="text-paragraph-sm-semibold">
+                  {companyDetails?.company?.link}
+                </span>
+              </Link>
+            }
+
+            {/* <Link href={companyDetails?.company?.link} >
               <LinkIcon size={18} />
-              <span className="text-paragraph-sm-semibold">{companyDetails.company.link}</span>
-            </Link>
+              <span className="text-paragraph-sm-semibold">
+                {companyDetails?.company?.link}
+              </span>
+            </Link> */}
           </div>
           <div className={style["subscribe-section"]}>
             <div className='flex flex-row items-start justify-end gap-2'>
@@ -432,10 +443,14 @@ const CompanyHeader = ({ companyDetails, user, chartData }: Props) => {
           </div>
         </div>
         <div className={style["desc-text"]}>{companyBio}</div>
-        <Link href={companyDetails?.company?.link} className="pt-2 flex flex-row items-center gap-1 text-text-text-brand">
-          <LinkIcon size={18} />
-          <span className="text-paragraph-sm-semibold">{companyDetails.company.link}</span>
-        </Link>
+        {companyDetails?.company?.link &&
+          <Link href={companyDetails?.company?.link} className="pt-2 flex flex-row items-center gap-1 text-text-text-brand">
+            <LinkIcon size={18} />
+            <span className="text-paragraph-sm-semibold">
+              {companyDetails?.company?.link}
+            </span>
+          </Link>
+        }
       </div>
     </div>
   );
