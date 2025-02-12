@@ -152,9 +152,9 @@ const page = async ({ params }: { params: { slug: string } }) => {
                 reviews={reviews}
                 events={events}
               />
-              <div className="mb-3">
+              {/* <div className="mb-3">
                 <Faqs companyDetails={companyDetails} />
-              </div>
+              </div> */}
             </div>
             {/* <EventsSection companyDetails={companyDetails} events={events} /> */}
           </div>
@@ -162,9 +162,9 @@ const page = async ({ params }: { params: { slug: string } }) => {
             {companyDetails?.company?.category == "exchangeRates" && (
               <CurrencyConverter companyData={companyData} />
             )}
-            <div className="sm:w-auto sm:px-0 px-5 w-screen overflow-x-scroll">
+            {/* <div className="sm:w-auto sm:px-0 px-5 w-screen overflow-x-scroll">
               <LocationsList />
-            </div>
+            </div> */}
           </div>
         </div>
       </main>
