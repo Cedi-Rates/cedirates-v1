@@ -1,7 +1,7 @@
 "use client";
 
 import React, { useEffect, useState } from "react";
-import { CompleteCompanyDetailsType, IconType, UserDetailsType } from "@/utils/types";
+import { CompleteCompanyDetailsType, TagType, UserDetailsType } from "@/utils/types";
 import style from "../../assets/styles/company.module.css";
 import Image from "next/image";
 import { FaFacebook, FaPhoneAlt, FaWhatsapp } from "react-icons/fa";
@@ -245,9 +245,9 @@ const CompanyHeader = ({ companyDetails, user, chartData }: Props) => {
                 </span>
               )}
               <div className="flex items-center gap-1">
-                {companyDetails?.company?.iconType &&
+                {companyDetails?.company?.tagsType &&
                   Object.entries(companyIcons).map(([key, Icon]) =>
-                    companyDetails.company.iconType[key as keyof IconType]?.value ? (
+                    companyDetails.company.tagsType[key as keyof TagType]?.note ? (
                       <Icon key={key} className="w-[18px] h-[18px]" color={iconColors[key]} />
                     ) : null
                   )}
@@ -275,13 +275,6 @@ const CompanyHeader = ({ companyDetails, user, chartData }: Props) => {
                 </span>
               </Link>
             }
-
-            {/* <Link href={companyDetails?.company?.link} >
-              <LinkIcon size={18} />
-              <span className="text-paragraph-sm-semibold">
-                {companyDetails?.company?.link}
-              </span>
-            </Link> */}
           </div>
           <div className={style["subscribe-section"]}>
             <div className='flex flex-row items-start justify-end gap-2'>
@@ -428,9 +421,9 @@ const CompanyHeader = ({ companyDetails, user, chartData }: Props) => {
         >
           {companyDetails.company?.companyName}
           <div className="flex items-center gap-1">
-            {companyDetails?.company?.iconType &&
+            {companyDetails?.company?.tagsType &&
               Object.entries(companyIcons).map(([key, Icon]) =>
-                companyDetails.company.iconType[key as keyof IconType]?.value ? (
+                companyDetails.company.tagsType[key as keyof TagType]?.note ? (
                   <Icon key={key} className="w-[16px] h-[16px]" color={iconColors[key]} />
                 ) : null
               )}
