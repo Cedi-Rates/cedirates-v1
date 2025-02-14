@@ -165,34 +165,18 @@ export default function CurrencyConverter({ companyData }: Props) {
 
   return (
     <div className="flex gap-3 w-full flex-col items-start justify-center">
-      <p className="text-paragraph-md-semibold">Convert Any Amount</p>
-      <Card className="w-full border rounded-lg p-4 shadow-sm border-border-border-tertiary">
+      {/* <p className="text-paragraph-md-semibold">Convert Any Amount</p> */}
+      <Card className="w-full p-4 shadow-sm bg-background-bg-secondary rounded-2xl">
         <CardContent>
-          <h1 className="text-paragraph-md-semibold mb-2">
-            Currency Converter
-          </h1>
-          <Separator />
-          <div className="mt-6">
+          <div className="">
             {/* Input 1 */}
-            <div className="flex gap-0 h-[40px]">
-              <div className="relative flex-1">
-                <Input
-                  type="tel"
-                  inputMode="decimal"
-                  value={amount1}
-                  onChange={(e) => {
-                    setIsTypingInAmount1(true);
-                    setAmount1(e.target.value);
-                  }}
-                  style={{ paddingLeft: `${paddingMap[currency1]}px` }}
-                  className="rounded-xl rounded-r-none focus:!ring-0 focus:!outline-none"
-                />
-                <span className="absolute left-3 top-1/2 -translate-y-1/2 text-muted-foreground">
-                  {symbolMap[currency1]}
-                </span>
-              </div>
-              <Select value={currency1} onValueChange={setCurrency1}>
-                <SelectTrigger className="w-fit gap-1 focus:!outline-none focus:!ring-0 h-full rounded-xl rounded-l-none border-l-0">
+            <div className="flex gap-0 bg-white p-2 rounded-xl flex-col">
+            <p className="text-paragraph-md-semibold mb-1 px-1">
+            Amount
+          </p>
+          <div className="bg-white flex flex-row items-center">
+          <Select value={currency1} onValueChange={setCurrency1}>
+                <SelectTrigger className="w-fit gap-1 border-transparent focus:border-transparent focus:!ring-offset-0 focus:!outline-none focus:!ring-0 h-full rounded-xl !border-none  ">
                   <SelectValue>{currency1}</SelectValue>
                 </SelectTrigger>
                 <SelectContent>
@@ -203,6 +187,23 @@ export default function CurrencyConverter({ companyData }: Props) {
                   ))}
                 </SelectContent>
               </Select>
+              <div className="relative flex items-center w-full justify-end flex-row">
+              <span className="text-muted-foreground">
+                  {symbolMap[currency1]}
+                </span>
+                <Input
+  type="tel"
+  inputMode="decimal"
+  value={amount1}
+  onChange={(e) => {
+    setIsTypingInAmount1(true);
+    setAmount1(e.target.value);
+  }}
+  size={(amount1?.toString().length || 1)}
+  className="!border-none !p-0 !w-auto !min-w-0 !max-w-full text-right border-transparent focus:!ring-offset-0 focus:border-transparent focus:!ring-0 focus:!outline-none"
+/>
+              </div>
+              </div>
             </div>
 
             {/* Swap Button */}
