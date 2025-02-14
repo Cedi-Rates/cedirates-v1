@@ -1,7 +1,7 @@
 "use client";
 
 import React, { useEffect, useState } from "react";
-import { CompleteCompanyDetailsType, IconType, UserDetailsType } from "@/utils/types";
+import { CompleteCompanyDetailsType, TagType, UserDetailsType } from "@/utils/types";
 import style from "../../assets/styles/company.module.css";
 import Image from "next/image";
 import { FaFacebook, FaPhoneAlt, FaWhatsapp } from "react-icons/fa";
@@ -32,6 +32,7 @@ import { useToast } from "../ui/use-toast";
 import BadgeIcon from "../ui/avatarIcons/badge";
 import { ChevronDown, Globe, LinkIcon, LucidePhone, X } from "lucide-react";
 import { companyIcons, iconColors } from "../Icons/companyIcon";
+import TagTooltip from "../ui/tag-tooltip";
 
 const Dialog = dynamic(() => import("../ui/dialog").then((mod) => mod.Dialog), {
   ssr: false,
@@ -61,7 +62,6 @@ const useMediaQuery = (query: string) => {
 
   return matches
 }
-
 
 type Props = {
   companyDetails: CompleteCompanyDetailsType;
@@ -203,6 +203,30 @@ const CompanyHeader = ({ companyDetails, user, chartData }: Props) => {
     </>
   )
 
+  const TooltipIcon = () => (
+    <>
+      {companyDetails?.company?.tagsType &&
+        Object.entries(companyIcons).map(([key, Icon]) => {
+          const tagData = companyDetails.company.tagsType[key as keyof TagType];
+          if (!tagData || !tagData.note) return null;
+          if (key === "newListing" && tagData.date) {
+            const listingDate = new Date(tagData.date);
+            const currentDate = new Date();
+            const diffDays = (currentDate.getTime() - listingDate.getTime()) / (1000 * 60 * 60 * 24);
+
+            if (diffDays > 7) return null;
+          }
+          return (
+            <TagTooltip
+              key={key}
+              icon={<Icon className="w-[18px] h-[18px]" color={iconColors[key]} />}
+              content={tagData.note}
+            />
+          );
+        })}
+    </>
+  )
+
   return (
     <div>
       <div className={style.banner}>
@@ -245,12 +269,7 @@ const CompanyHeader = ({ companyDetails, user, chartData }: Props) => {
                 </span>
               )}
               <div className="flex items-center gap-1">
-                {companyDetails?.company?.iconType &&
-                  Object.entries(companyIcons).map(([key, Icon]) =>
-                    companyDetails.company.iconType[key as keyof IconType]?.value ? (
-                      <Icon key={key} className="w-[18px] h-[18px]" color={iconColors[key]} />
-                    ) : null
-                  )}
+                <TooltipIcon />
               </div>
               <div className="text-paragraph-sm-semibold bg-backgroundInfo text-primary-brand-primary-500 !py-1 !px-2.5 rounded-lg !leading-[16px] w-max">
                 {subscriberCount} Followers
@@ -275,13 +294,6 @@ const CompanyHeader = ({ companyDetails, user, chartData }: Props) => {
                 </span>
               </Link>
             }
-
-            {/* <Link href={companyDetails?.company?.link} >
-              <LinkIcon size={18} />
-              <span className="text-paragraph-sm-semibold">
-                {companyDetails?.company?.link}
-              </span>
-            </Link> */}
           </div>
           <div className={style["subscribe-section"]}>
             <div className='flex flex-row items-start justify-end gap-2'>
@@ -428,12 +440,7 @@ const CompanyHeader = ({ companyDetails, user, chartData }: Props) => {
         >
           {companyDetails.company?.companyName}
           <div className="flex items-center gap-1">
-            {companyDetails?.company?.iconType &&
-              Object.entries(companyIcons).map(([key, Icon]) =>
-                companyDetails.company.iconType[key as keyof IconType]?.value ? (
-                  <Icon key={key} className="w-[16px] h-[16px]" color={iconColors[key]} />
-                ) : null
-              )}
+            <TooltipIcon />
           </div>
           <div className="text-paragraph-sm-semibold bg-backgroundInfo text-primary-brand-primary-500 !py-1 !px-2.5 rounded-lg !leading-[16px] w-max">
             {subscriberCount} Followers

@@ -7,7 +7,7 @@ export interface companyType {
   verified: boolean;
   subCategory: string;
   UniqueID: string;
-  iconType: IconType;
+  tagsType: TagType;
 }
 
 export interface currencyRatesType {
@@ -109,7 +109,7 @@ export type CompanyDetailsType = {
   link: string;
   linkType: string;
   phone: string;
-  iconType: IconType;
+  tagsType: TagType;
 };
 
 export type CompanyRate = {
@@ -321,18 +321,17 @@ export type AdType = {
   url: string;
 };
 
-export interface IconType {
+export interface TagType {
   warning: {
-    value: 1;
     note: string | null;
+    date: string | null;
   };
   promotion: {
-    value: 2;
     note: string | null;
+    date: string | null;
   };
   newListing: {
-    value: 3;
     note: string | null;
-    date: string
+    date: string | null;
   };
 }

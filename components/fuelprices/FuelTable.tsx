@@ -4,7 +4,7 @@ import { Table } from "@medusajs/ui";
 import style from "../../assets/styles/fuelprices.module.css";
 import Image from "next/image";
 import { FaSortDown, FaSortUp, FaRegStar, FaStar } from "react-icons/fa";
-import { AverageRateData, IconType, UserDetailsType, fuelRatesType } from "@/utils/types";
+import { AverageRateData, TagType, UserDetailsType, fuelRatesType } from "@/utils/types";
 import Link from "next/link";
 import Calculator from "./Calculator";
 import {
@@ -463,16 +463,26 @@ const FuelTable = ({ rates, user }: Props) => {
                                   <BadgeCheck className="ml-1 text-[#1896FE] w-[14px] h-[14px] flex-shrink-0" />
                                 )}
 
-                                {/* {item.company.iconType &&
+                                {item?.company?.tagsType &&
                                   Object.entries(companyIcons)
                                     .filter(([key]) => {
-                                      const iconData = item?.company?.iconType[key as keyof IconType];
-                                      return iconData?.value && [1, 2, 3].includes(iconData.value);
+                                      const iconData = item?.company?.tagsType?.[key as keyof TagType];
+                                      if (!iconData) return false;
+                                      if (!iconData?.note) return false;
+
+                                      if (key === "newListing" && iconData.date) {
+                                        const listingDate = new Date(iconData.date);
+                                        const currentDate = new Date();
+                                        const diffDays = (currentDate.getTime() - listingDate.getTime()) / (1000 * 60 * 60 * 24);
+                                        return diffDays <= 7;
+                                      }
+                                      return true;
                                     })
                                     .sort((a, b) => {
-                                      const priorityA = item?.company?.iconType[a[0] as keyof IconType]?.value ?? 999;
-                                      const priorityB = item?.company?.iconType[b[0] as keyof IconType]?.value ?? 999;
-                                      return priorityA - priorityB;
+                                      const priorityOrder = ["warning", "promotion", "newListing"]
+                                      if (a[0] === "newListing" && b[0] !== "newListing") return -1;
+                                      if (b[0] === "newListing" && a[0] !== "newListing") return -1;
+                                      return priorityOrder.indexOf(a[0]) - priorityOrder.indexOf(b[0]);
                                     })
                                     .slice(0, 1)
                                     .map(([key, Icon]) => (
@@ -481,7 +491,7 @@ const FuelTable = ({ rates, user }: Props) => {
                                         className="ml-1 w-[14px] h-[14px]"
                                         color={iconColors[key]}
                                       />
-                                    ))} */}
+                                    ))}
                               </p>
                             </div>
                           </div>
