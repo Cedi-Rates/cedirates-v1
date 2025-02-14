@@ -43,7 +43,7 @@ const TagTooltip = (
                     <PopoverTrigger>
                         {icon}
                     </PopoverTrigger>
-                    <PopoverContent className='w-60 mx-4'>
+                    <PopoverContent className='w-60 mx-4 text-sm'>
                         {content}
                     </PopoverContent>
                 </Popover>
