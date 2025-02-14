@@ -32,6 +32,7 @@ import { useToast } from "../ui/use-toast";
 import BadgeIcon from "../ui/avatarIcons/badge";
 import { ChevronDown, Globe, LinkIcon, LucidePhone, X } from "lucide-react";
 import { companyIcons, iconColors } from "../Icons/companyIcon";
+import TagTooltip from "../ui/tag-tooltip";
 
 const Dialog = dynamic(() => import("../ui/dialog").then((mod) => mod.Dialog), {
   ssr: false,
@@ -61,7 +62,6 @@ const useMediaQuery = (query: string) => {
 
   return matches
 }
-
 
 type Props = {
   companyDetails: CompleteCompanyDetailsType;
@@ -246,11 +246,17 @@ const CompanyHeader = ({ companyDetails, user, chartData }: Props) => {
               )}
               <div className="flex items-center gap-1">
                 {companyDetails?.company?.tagsType &&
-                  Object.entries(companyIcons).map(([key, Icon]) =>
-                    companyDetails.company.tagsType[key as keyof TagType]?.note ? (
-                      <Icon key={key} className="w-[18px] h-[18px]" color={iconColors[key]} />
-                    ) : null
-                  )}
+                  Object.entries(companyIcons).map(([key, Icon]) => {
+                    const tagData = companyDetails.company.tagsType[key as keyof TagType];
+                    if (!tagData || !tagData.note) return null;
+                    return (
+                      <TagTooltip
+                        key={key}
+                        icon={<Icon className="w-[18px] h-[18px]" color={iconColors[key]} />}
+                        content={tagData.note}
+                      />
+                    );
+                  })}
               </div>
               <div className="text-paragraph-sm-semibold bg-backgroundInfo text-primary-brand-primary-500 !py-1 !px-2.5 rounded-lg !leading-[16px] w-max">
                 {subscriberCount} Followers
@@ -422,11 +428,16 @@ const CompanyHeader = ({ companyDetails, user, chartData }: Props) => {
           {companyDetails.company?.companyName}
           <div className="flex items-center gap-1">
             {companyDetails?.company?.tagsType &&
-              Object.entries(companyIcons).map(([key, Icon]) =>
-                companyDetails.company.tagsType[key as keyof TagType]?.note ? (
-                  <Icon key={key} className="w-[16px] h-[16px]" color={iconColors[key]} />
-                ) : null
-              )}
+              Object.entries(companyIcons).map(([key, Icon]) => {
+                const tagData = companyDetails.company.tagsType[key as keyof TagType];
+                return tagData?.note ? (
+                  <TagTooltip
+                    key={key}
+                    icon={<Icon className="w-[18px] h-[18px]" color={iconColors[key]} />}
+                    content={tagData.note}
+                  />
+                ) : null;
+              })}
           </div>
           <div className="text-paragraph-sm-semibold bg-backgroundInfo text-primary-brand-primary-500 !py-1 !px-2.5 rounded-lg !leading-[16px] w-max">
             {subscriberCount} Followers
