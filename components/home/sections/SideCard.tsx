@@ -16,7 +16,7 @@ const SideCard: React.FC<PressReleasesProps> = ({ pollData }) => {
     <div className="h-full min-[1200px]:w-[434px] w-full max-[1023px]:max-w-[700px] max-[1199px]:mx-auto p-spacing-12 pt-spacing-0 lg:p-spacing-0 sidecard">
       <Card className="h-full pt-1 rounded-lg border bg-card text-card-foreground shadow-sm overflow-hidden">
         {/* underline tabs full-width */}
-        <Tabs defaultValue="rates" className="relative h-full p-2 !pb-0 w-full">
+        <Tabs defaultValue="rates" className="relative h-full p-2 !pb-0 w-full overflow-x-scroll">
           <div className="w-full overflow-scroll no-scrollbar">
             <TabsList className="!p-0 !bg-transparent !h-full">
               <TabsTrigger
@@ -45,7 +45,7 @@ const SideCard: React.FC<PressReleasesProps> = ({ pollData }) => {
               </TabsTrigger>
             </TabsList>
           </div>
-          <TabsContent value="rates" className="overflow-hidden h-full mt-0">
+          <TabsContent value="rates" className="overflow-x-scroll h-full mt-0">
             <ExchangeRatesCard className="!w-full" />
           </TabsContent>
           <TabsContent value="fuel" className="w-full  h-full mt-0">

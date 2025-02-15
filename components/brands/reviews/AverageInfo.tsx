@@ -5,7 +5,6 @@ import {
 import style from '../../../assets/styles/premiumListing.module.css'
 import { FaStar } from 'react-icons/fa';
 import { Progress } from "@/components/ui/progress"
-import ReactStars from "react-rating-star-with-type";
 
 
 interface AverageInfoProps {
@@ -48,8 +47,8 @@ const AverageInfo = ({ companyDetails, user, reviews }: AverageInfoProps) => {
   };
 
   return (
-    <div className='grid grid-cols-1 min-[1300px]:grid-cols-3 min-[1300px]:divide-x  divide-y min-[1300px]:divide-y-0  divide-gray-100 py-4  border-b border-b-gray-100 pb-6'>
-      {/* <div className={style["average-rating"]}>
+    <div className={style["info-section"]}>
+      <div className={style["average-rating"]}>
         <p className={style["average-number"]}>
           {averageRating?.toFixed(1)} <span>out of 5</span>
         </p>
@@ -58,36 +57,64 @@ const AverageInfo = ({ companyDetails, user, reviews }: AverageInfoProps) => {
             {numOfRatings} {numOfRatings > 1 ? "Reviews" : "Review"}
           </p>
         </div>
-      </div> */}
-      <div className='flex flex-col h-full justify-center min-[1300px]:py-0 py-5 gap-4 px-8'>
-        <p className="text-paragraph-sm-medium">Total reviews</p>
-        <p className='text-header-h3-regular leading-[36px]'>{numOfRatings}</p>
-      </div>
-      <div className='flex flex-col h-full justify-center min-[1300px]:py-0 py-5 gap-4 px-8'>
-        <p className="text-paragraph-sm-medium">Average reviews</p>
-        <div className='flex flex-row gap-2'>
-        <p className='text-header-h3-regular leading-[36px]'>{averageRating.toFixed(1)}</p>
-        <ReactStars
-            value={averageRating}
-            isEdit={false}
-            activeColor="#faaf00"
-            inactiveColor='#A3A3A3'
-            size={20}
-          />   
-        </div>
       </div>
 
-
-      <div className={style["star-progress-sec"] + ' !gap-2 min-[1300px]:py-0 py-5 px-8 h-full'}>
-        {Array(5).fill('').map((item, index) => <div key={index} className={style["detailed-rating"] + ' gap-2'}>
-          <div className="flex flex-row gap-0.5 items-center [&>svg]:text-icon-icon-warning-secondary">
-            <FaStar size={8} /> <span className='text-caption-md-regular'>{5-(index)}</span>
+      <div className={style["star-progress-sec"]}>
+        <div className={style["detailed-rating"]}>
+          <div className={style["star-container"]}>
+            <FaStar />
+            <FaStar />
+            <FaStar />
+            <FaStar />
+            <FaStar />
           </div>
           <Progress
             className="rounded-3xl h-1"
-            value={getRatingFraction(ratingArrays[5-index])}
+            value={getRatingFraction(ratingArrays[5])}
           />
-        </div>)}
+        </div>
+        <div className={style["detailed-rating"]}>
+          <div className={style["star-container"]}>
+            <FaStar />
+            <FaStar />
+            <FaStar />
+            <FaStar />
+          </div>
+          <Progress
+            className='rounded-3xl h-1'
+            value={getRatingFraction(ratingArrays[4])}
+          />
+        </div>
+        <div className={style["detailed-rating"]}>
+          <div className={style["star-container"]}>
+            <FaStar />
+            <FaStar />
+            <FaStar />
+          </div>
+          <Progress
+            className="rounded-3xl h-1"
+            value={getRatingFraction(ratingArrays[3])}
+          />
+        </div>
+        <div className={style["detailed-rating"]}>
+          <div className={style["star-container"]}>
+            <FaStar />
+            <FaStar />
+          </div>
+          <Progress
+            className="rounded-3xl h-1"
+            value={getRatingFraction(ratingArrays[2])}
+          />
+        </div>
+        <div className={style["detailed-rating"]}>
+          <div className={style["star-container"]}>
+            <FaStar />
+          </div>
+          <Progress
+            className="rounded-3xl h-1"
+            value={getRatingFraction(ratingArrays[1])}
+          />
+        </div>
         <div className={style["total-rating-mini"]}>
           <p>
             {numOfRatings === 1

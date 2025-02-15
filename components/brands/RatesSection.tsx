@@ -20,6 +20,7 @@ import { getChartData, getFuelChartData } from "@/utils/company";
 import urlManager from "@/utils/urlManager";
 import FuelChartComponent from "./components/tradeview-chart-fuel";
 import AuthDialog from "../auth/AuthDialog";
+import CurrencyConverter from "./CurrencyConverter";
 
 type TabContextType = {
   selectedTab: string;
@@ -175,7 +176,10 @@ const RatesSection = ({ companyDetails, user, companyData }: Props) => {
               companyData={companyData}
             />
           )}
-
+{companyDetails?.company?.category == "exchangeRates" && (
+              <CurrencyConverter className="block sm:hidden mb-0 mt-4" companyData={companyData} />
+            )}
+            
           <div className="flex flex-col mb-8">
             <div
               className="my-4 w-max flex flex-row gap-2 text-primary cursor-pointer"

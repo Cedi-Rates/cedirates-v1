@@ -76,12 +76,12 @@ export const DatePickerWithRange: React.FC<DatePickerWithRangeProps> = ({
   };
 
   return (
-    <Tabs value={dateRange} onValueChange={handleTabChange} className="mt-4">
-      <TabsList className="flex justify-center space-x-2">
-        <TabsTrigger value="7d">7D</TabsTrigger>
-        <TabsTrigger value="30d">1M</TabsTrigger>
-        <TabsTrigger value="1y">1Y</TabsTrigger>
-        <TabsTrigger value="all">All</TabsTrigger>
+    <Tabs value={dateRange} onValueChange={handleTabChange} className="mt-4 mr-2">
+      <TabsList className="flex justify-center space-x-0.5 rounded-lg">
+        <TabsTrigger className="rounded-md !px-1.5" value="7d">7 days</TabsTrigger>
+        <TabsTrigger className="rounded-md !px-1.5" value="30d">1 month</TabsTrigger>
+        <TabsTrigger className="rounded-md !px-1.5" value="1y">1 year</TabsTrigger>
+        <TabsTrigger className="rounded-md !px-1.5" value="all">All</TabsTrigger>
       </TabsList>
     </Tabs>
   );

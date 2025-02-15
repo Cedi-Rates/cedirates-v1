@@ -286,12 +286,7 @@ const ChartComponent: React.FC<ChartComponentProps> = (props) => {
     >
       <div
         ref={chartContainerRef}
-        style={{
-          position: "relative",
-          width: "100%",
-          height: "300px",
-          zIndex: 1,
-        }}
+        className="relative w-full h-[300px] z-[1] sm:top-0 top-24"
       />
       <div
         ref={tooltipRef}
@@ -310,15 +305,12 @@ const ChartComponent: React.FC<ChartComponentProps> = (props) => {
           zIndex: 3,
         }}
       />
-      <div
-        style={{
-          position: "absolute",
-          top: "-70px",
-          left: "10px",
-          zIndex: 2,
-        }}
-      >
+      <div className="absolute top-[-70px] w-full flex flex-col sm:flex-row justify-between items-start sm:items-center z-2">
+        <p className="text-paragraph-lg-semibold mt-6">Exchange Rate Tracker</p>
+        <div className="flex flex-col sm:flex-row">
         <DatePickerWithRange onChange={handleDateChange} />
+        <CurrencyPicker />
+        </div>
       </div>{" "}
       {!filteredData.length && !sellingFilteredData.length && (
         <div
@@ -336,16 +328,6 @@ const ChartComponent: React.FC<ChartComponentProps> = (props) => {
           <h1>No Data Found</h1>
         </div>
       )}
-      <div
-        style={{
-          position: "absolute",
-          top: "-70px",
-          right: "10px",
-          zIndex: 2,
-        }}
-      >
-        <CurrencyPicker />
-      </div>
     </div>
   );
 };
