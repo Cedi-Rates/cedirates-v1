@@ -216,7 +216,10 @@ export default function CurrencyConverter({ companyData, className }: Props) {
             <div className="flex gap-0 bg-white p-2 rounded-xl flex-col">
               <p className="text-paragraph-md-semibold mb-1 px-1">Amount</p>
               <div className="bg-white flex flex-row items-center">
-                <Select value={currency1} onValueChange={setCurrency1}>
+                <Select
+                  value={currency1}
+                  onValueChange={(value) => onChangeCurrencyOneFunc(value)}
+                >
                   <SelectTrigger className="w-fit gap-1 border-transparent [&>span]:flex [&>span]:items-center [&>span]:gap-1 [&>span]:!flex-row focus:border-transparent focus:!ring-offset-0 focus:!outline-none focus:!ring-0 h-full rounded-xl !border-none  ">
                     <SelectValue>
                       <div className="h-6 w-6 bg-black rounded-full" />{" "}
@@ -271,7 +274,10 @@ export default function CurrencyConverter({ companyData, className }: Props) {
                 Converted to
               </p>
               <div className="bg-white flex flex-row items-center">
-                <Select value={currency2} onValueChange={setCurrency1}>
+                <Select
+                  value={currency2}
+                  onValueChange={(value) => onChangeCurrencyTwoFunc(value)}
+                >
                   <SelectTrigger className="w-fit gap-1 border-transparent [&>span]:flex [&>span]:items-center [&>span]:gap-1 [&>span]:!flex-row focus:border-transparent focus:!ring-offset-0 focus:!outline-none focus:!ring-0 h-full rounded-xl !border-none  ">
                     <SelectValue>
                       <div className="h-6 w-6 bg-black rounded-full" />{" "}
