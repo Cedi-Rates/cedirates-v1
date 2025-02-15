@@ -80,7 +80,6 @@ export default function CurrencyConverter({ companyData }: Props) {
         variant: "destructive",
         title: `Exchange rate data not available for the selected currency pair`,
       });
-      // return "-";
     }
 
     const rates = companyData.data;
@@ -125,11 +124,6 @@ export default function CurrencyConverter({ companyData }: Props) {
     const key2 = `${fromCurrency}Rates` as keyof CompleteRateType;
     const rates2 = rates[key2] as currencyRatesType;
 
-    // if (from === "GHS" && amount && rates1?.buyingRate) {
-    //   convertedAmount = (amount * rates1?.buyingRate).toFixed(2);
-    // } else if (to === "GHS" && amount && rates2?.sellingRate) {
-    //   convertedAmount = (amount / rates2?.sellingRate).toFixed(2);
-    // }
     if (isTypingInAmount1) {
       if (from === "GHS" && amount && rates1?.sellingRate) {
         // ✅ GHS → Foreign Currency
