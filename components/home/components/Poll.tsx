@@ -81,7 +81,7 @@ const PollOption: React.FC<PollOptionProps> = ({
           </div>
         </div>
       ) : (
-        <div className="flex space-x-2 items-center h-full w-full">
+        <div onClick={() => handleOption(item._id)} className="flex space-x-2 cursor-pointer items-center h-full w-full">
           <div className="h-full w-4 ml-3 flex flex-col justify-center">
             <Checkbox
               className="rounded-full !text-white"
@@ -91,8 +91,8 @@ const PollOption: React.FC<PollOptionProps> = ({
             />
           </div>
           <div className="w-full">
-            <div onClick={() => handleOption(item._id)}>
-              <p className="cursor-pointer text-sm">{item.value}</p>
+            <div>
+              <p className="text-sm">{item.value}</p>
             </div>
             {/* <div className="border-t-[2px] w-full border-slate-200 h-[6px]" /> */}
           </div>

@@ -344,16 +344,24 @@ const FuelChartComponent: React.FC<ChartComponentProps> = (props) => {
         }}
       />
 
-      <div
+<div
         style={{
           position: "absolute",
           top: "-70px",
-          left: "10px",
+          width: "100%",
+          display: "flex",
+          flexDirection: "row",
+          justifyContent: "space-between",
+          alignItems: "center",
           zIndex: 2,
         }}
       >
+        <p className="text-paragraph-lg-semibold mt-6">Fuel Price Tracker</p>
+        <div className="flex flex-row">
         <DatePickerWithRange onChange={handleDateChange} />
-      </div>
+        {/* <CurrencyPicker /> */}
+        </div>
+        </div>
 
       {!filteredData.length &&
         !dieselFilteredData.length &&
