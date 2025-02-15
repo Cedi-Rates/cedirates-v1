@@ -55,10 +55,11 @@ export default function CurrencyConverter({ companyData }: Props) {
   };
 
   const handleSwap = () => {
-    setAmount1(savedAmount2);
-    // setAmount2(savedAmount2);
+    setAmount1(amount2); // Use the current state, not saved session values
+    setAmount2(amount1);
     setCurrency1(currency2);
     setCurrency2(currency1);
+    setIsTypingInAmount1(!isTypingInAmount1); // Flip the typing state
   };
 
   const isConversionSupported = (from: string, to: string) => {
@@ -79,10 +80,7 @@ export default function CurrencyConverter({ companyData }: Props) {
         variant: "destructive",
         title: `Exchange rate data not available for the selected currency pair`,
       });
-      // return "-";
     }
-
-    console.log(amount, from, to);
 
     const rates = companyData.data;
     const fromSlug = from.toLowerCase();
@@ -126,11 +124,6 @@ export default function CurrencyConverter({ companyData }: Props) {
     const key2 = `${fromCurrency}Rates` as keyof CompleteRateType;
     const rates2 = rates[key2] as currencyRatesType;
 
-    // if (from === "GHS" && amount && rates1?.buyingRate) {
-    //   convertedAmount = (amount * rates1?.buyingRate).toFixed(2);
-    // } else if (to === "GHS" && amount && rates2?.sellingRate) {
-    //   convertedAmount = (amount / rates2?.sellingRate).toFixed(2);
-    // }
     if (isTypingInAmount1) {
       if (from === "GHS" && amount && rates1?.sellingRate) {
         // ✅ GHS → Foreign Currency
@@ -153,7 +146,7 @@ export default function CurrencyConverter({ companyData }: Props) {
       } else if (to === "GHS" && amount && rates2?.sellingRate) {
         // ✅ Foreign Currency → GHS
         convertedAmount = (amount * rates2.sellingRate).toFixed(2);
-      } else if (amount1 !== "" && amount2 !== "") {
+      } else if (amount1 !== "-" && amount2 !== "-") {
         // ❌ Block unsupported conversions (e.g., USD → EUR)
         toast({
           variant: "destructive",
