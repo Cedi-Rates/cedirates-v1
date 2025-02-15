@@ -9,6 +9,7 @@ import Footer from "@/components/footer";
 import og from "@/assets/images/Exchange Rates shrink.png";
 import GoogleOneTapLogin from "@/components/auth/GoogleOneTapLogin";
 import Header from "@/components/navbar/Header";
+import ScrollToTop from "@/components/scroll-to-top";
 
 const title = "Euro to Cedis Card Payment Rates Today";
 const content =
@@ -41,6 +42,7 @@ const ExchangeRates = async () => {
 
   return (
     <>
+      <ScrollToTop />
       <GoogleOneTapLogin user={user} />
       <Header user={user} />
       {/* <NavbarLight user={user} cookie={cookies().toString()} /> */}
@@ -52,6 +54,11 @@ const ExchangeRates = async () => {
         />
       </main>
       <Footer />
+      {/* <script
+        dangerouslySetInnerHTML={{
+          __html: `window.scrollTo(0, 0);`,
+        }}
+      /> */}
     </>
   );
 };

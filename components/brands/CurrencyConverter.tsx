@@ -35,9 +35,6 @@ export default function CurrencyConverter({ companyData }: Props) {
   const [currency2, setCurrency2] = React.useState("GHS");
   const [isTypingInAmount1, setIsTypingInAmount1] = React.useState(true);
 
-  const savedAmount1 = sessionStorage.getItem("cedirates-amount1") || "";
-  const savedAmount2 = sessionStorage.getItem("cedirates-amount2") || "";
-
   const { toast } = useToast();
 
   const symbolMap: Record<string, string> = {
@@ -55,11 +52,11 @@ export default function CurrencyConverter({ companyData }: Props) {
   };
 
   const handleSwap = () => {
-    setAmount1(amount2); // Use the current state, not saved session values
+    setAmount1(amount2);
     setAmount2(amount1);
     setCurrency1(currency2);
     setCurrency2(currency1);
-    setIsTypingInAmount1(!isTypingInAmount1); // Flip the typing state
+    setIsTypingInAmount1(!isTypingInAmount1);
   };
 
   const isConversionSupported = (from: string, to: string) => {
@@ -186,6 +183,24 @@ export default function CurrencyConverter({ companyData }: Props) {
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [amount2, currency1, currency2]);
 
+  const onChangeCurrencyOneFunc = (value: string) => {
+    setCurrency1((prev) => {
+      if (value === currency2) {
+        setCurrency2(prev);
+      }
+      return value;
+    });
+  };
+
+  const onChangeCurrencyTwoFunc = (value: string) => {
+    setCurrency2((prev) => {
+      if (value === currency1) {
+        setCurrency1(prev);
+      }
+      return value;
+    });
+  };
+
   return (
     <div className="flex gap-3 w-full flex-col items-start justify-center">
       <p className="text-paragraph-md-semibold">Convert Any Amount</p>
@@ -206,7 +221,6 @@ export default function CurrencyConverter({ companyData }: Props) {
                   onChange={(e) => {
                     setIsTypingInAmount1(true);
                     setAmount1(e.target.value);
-                    sessionStorage.setItem("cedirates-amount1", e.target.value);
                   }}
                   style={{ paddingLeft: `${paddingMap[currency1]}px` }}
                   className="rounded-xl rounded-r-none focus:!ring-0 focus:!outline-none"
@@ -215,7 +229,10 @@ export default function CurrencyConverter({ companyData }: Props) {
                   {symbolMap[currency1]}
                 </span>
               </div>
-              <Select value={currency1} onValueChange={setCurrency1}>
+              <Select
+                value={currency1}
+                onValueChange={(value) => onChangeCurrencyOneFunc(value)}
+              >
                 <SelectTrigger className="w-fit gap-1 focus:!outline-none focus:!ring-0 h-full rounded-xl rounded-l-none border-l-0">
                   <SelectValue>{currency1}</SelectValue>
                 </SelectTrigger>
@@ -254,7 +271,6 @@ export default function CurrencyConverter({ companyData }: Props) {
                   onChange={(e) => {
                     setIsTypingInAmount1(false);
                     setAmount2(e.target.value);
-                    sessionStorage.setItem("cedirates-amount2", e.target.value);
                   }}
                   style={{ paddingLeft: `${paddingMap[currency2]}px` }}
                   className="rounded-xl rounded-r-none focus:!ring-0 focus:!outline-none"
@@ -263,7 +279,10 @@ export default function CurrencyConverter({ companyData }: Props) {
                   {symbolMap[currency2]}
                 </span>
               </div>
-              <Select value={currency2} onValueChange={setCurrency2}>
+              <Select
+                value={currency2}
+                onValueChange={(value) => onChangeCurrencyTwoFunc(value)}
+              >
                 <SelectTrigger className="w-fit gap-1 focus:!outline-none focus:!ring-0 h-full rounded-xl rounded-l-none border-l-0">
                   <SelectValue>{currency2}</SelectValue>
                 </SelectTrigger>
