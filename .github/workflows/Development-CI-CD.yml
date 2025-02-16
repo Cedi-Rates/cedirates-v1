@@ -3,7 +3,7 @@ name: Test Admin Dashboard CI/CD
 on:
   push:
     branches:
-      - devv
+      - staging
 
 jobs:
   build-react-app:
