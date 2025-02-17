@@ -32,7 +32,7 @@ export const CurrencyPicker = () => {
   };
 
   return (
-    <div className="flex flex-col items-center gap-y-4 mt-4 ">
+    <div className="flex flex-col items-start sm:items-center gap-y-4 mt-4">
       <Select
         value={selectedTab}
         onValueChange={(value) => onValueChangeFunc(value)}

@@ -55,7 +55,7 @@
 .profile-picture {
   background-color: #fff;
   border-radius: 50%;
-  padding: 8px;
+  padding: 5px;
   height: 112px;
   width: 112px;
 }
@@ -206,7 +206,7 @@
   .profile-picture {
     background-color: #fff;
     border-radius: 50%;
-    padding: 8px;
+    padding: 5px;
     height: 100px;
     width: 100px;
   }
@@ -234,16 +234,14 @@
     font-size: 3rem;
   }
 }
-@media (max-width: 375px) {
-  .banner {
-    height: 30vw;
+
+@media (max-width: 1000px) {
+  .profile-info {
+    flex-direction: column;
   }
   .profile-picture {
     height: 80px;
     width: 80px;
-  }
-  .profile-info {
-    flex-direction: column;
   }
   .profile-container {
     margin: -20px 0 0 1rem;
@@ -251,6 +249,12 @@
     justify-content: flex-end;
     width: 100%;
     padding-right: 10px;
+  }
+}
+
+@media (max-width: 375px) {
+  .banner {
+    height: 30vw;
   }
   .subscribe-section {
     gap: 0.5rem;
