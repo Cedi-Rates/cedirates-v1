@@ -43,7 +43,7 @@ const ExchangeRates = async () => {
 
   return (
     <>
-      <ScrollToTop />
+      {/* <ScrollToTop /> */}
       <GoogleOneTapLogin user={user} />
       <Header user={user} />
       {/* <NavbarLight user={user} cookie={cookies().toString()} /> */}

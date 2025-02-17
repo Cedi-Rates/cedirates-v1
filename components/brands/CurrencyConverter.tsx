@@ -29,12 +29,27 @@ type Props = {
   className?: string;
 };
 
+const MAX_VALUE = 1e15;
+
 export default function CurrencyConverter({ companyData, className }: Props) {
   const [amount1, setAmount1] = React.useState<string | number>("50.00");
   const [amount2, setAmount2] = React.useState<string | number>("0.00");
   const [currency1, setCurrency1] = React.useState("USD");
   const [currency2, setCurrency2] = React.useState("GHS");
   const [isTypingInAmount1, setIsTypingInAmount1] = React.useState(true);
+  // General typing
+  const [isTyping, setIsTyping] = React.useState(false);
+  const [isTyping2, setIsTyping2] = React.useState(false);
+
+  const formatAmount = (amount: string | number, currency: string) => {
+    if (!amount) return ""; // If empty, return nothing
+    return isTyping ? amount : `${symbolMap[currency]}${amount}`;
+  };
+
+  const formatAmount2 = (amount: string | number, currency: string) => {
+    if (!amount) return ""; // If empty, return nothing
+    return isTyping2 ? amount : `${symbolMap[currency]}${amount}`;
+  };
 
   const { toast } = useToast();
 
@@ -43,13 +58,6 @@ export default function CurrencyConverter({ companyData, className }: Props) {
     GHS: "₵",
     GBP: "£",
     EUR: "€",
-  };
-
-  const paddingMap: Record<string, number> = {
-    USD: 28,
-    GHS: 28,
-    GBP: 28,
-    EUR: 28,
   };
 
   const handleSwap = () => {
@@ -86,7 +94,7 @@ export default function CurrencyConverter({ companyData, className }: Props) {
     let toCurrency = "";
     let fromCurrency = "";
 
-    let convertedAmount: number | string = "-";
+    let convertedAmount: number | string = "";
 
     switch (fromSlug) {
       case "usd":
@@ -135,7 +143,7 @@ export default function CurrencyConverter({ companyData, className }: Props) {
           variant: "destructive",
           title: `Direct conversion between ${from} and ${to} is not supported.`,
         });
-        return "-";
+        // return "-";
       }
     } else {
       if (from === "GHS" && amount && rates1?.buyingRate) {
@@ -150,7 +158,7 @@ export default function CurrencyConverter({ companyData, className }: Props) {
           variant: "destructive",
           title: `Direct conversion between ${from} and ${to} is not supported.`,
         });
-        return "-";
+        // return "-";
       }
     }
 
@@ -162,6 +170,29 @@ export default function CurrencyConverter({ companyData, className }: Props) {
     [companyData]
   );
 
+  const sanitizeInput = (value: string) => {
+    return value.replace(/[^0-9.eE+-]/g, "");
+  };
+
+  const handleAmount1Change = (e: React.ChangeEvent<HTMLInputElement>) => {
+    let rawValue = sanitizeInput(e.target.value);
+    setIsTypingInAmount1(true);
+
+    // Prevent multiple decimal points or 'e' in the input
+    if ((rawValue.match(/\./g) || []).length > 1) return;
+    if ((rawValue.match(/e/gi) || []).length > 1) return;
+
+    let num = parseFloat(rawValue);
+    if (isNaN(num)) {
+      setAmount1(""); // Reset if input is invalid
+      return;
+    }
+
+    // Convert to exponential notation if large
+    const formattedValue = num >= MAX_VALUE ? num.toExponential(4) : rawValue;
+    setAmount1(formattedValue);
+  };
+
   React.useEffect(() => {
     if (isTypingInAmount1) {
       setAmount2(
@@ -172,6 +203,25 @@ export default function CurrencyConverter({ companyData, className }: Props) {
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [amount1, currency1, currency2]);
+
+  const handleAmount2Change = (e: React.ChangeEvent<HTMLInputElement>) => {
+    let rawValue = sanitizeInput(e.target.value);
+    setIsTypingInAmount1(false);
+
+    // Prevent multiple decimal points or 'e' in the input
+    if ((rawValue.match(/\./g) || []).length > 1) return;
+    if ((rawValue.match(/e/gi) || []).length > 1) return;
+
+    let num = parseFloat(rawValue);
+    if (isNaN(num)) {
+      setAmount2(""); // Reset if input is invalid
+      return;
+    }
+
+    // Convert to exponential notation if large
+    const formattedValue = num >= MAX_VALUE ? num.toExponential(4) : rawValue;
+    setAmount2(formattedValue);
+  };
 
   React.useEffect(() => {
     if (!isTypingInAmount1) {
@@ -235,10 +285,10 @@ export default function CurrencyConverter({ companyData, className }: Props) {
                   </SelectContent>
                 </Select>
                 <div className="relative flex items-center w-full justify-end flex-row">
-                  <span className="text-muted-foreground">
+                  {/* <span className="text-muted-foreground">
                     {symbolMap[currency1]}
-                  </span>
-                  <Input
+                  </span> */}
+                  {/* <Input
                     type="tel"
                     inputMode="decimal"
                     value={amount1}
@@ -247,6 +297,15 @@ export default function CurrencyConverter({ companyData, className }: Props) {
                       setAmount1(e.target.value);
                     }}
                     size={amount1?.toString().length || 1}
+                    className="!border-none !p-0 !w-auto !min-w-0 !max-w-full text-right border-transparent focus:!ring-offset-0 focus:border-transparent focus:!ring-0 focus:!outline-none"
+                  /> */}
+                  <Input
+                    type="tel"
+                    inputMode="decimal"
+                    placeholder={symbolMap[currency1]}
+                    value={formatAmount(amount1, currency1)}
+                    onChange={handleAmount1Change}
+                    onBlur={() => setIsTyping(false)}
                     className="!border-none !p-0 !w-auto !min-w-0 !max-w-full text-right border-transparent focus:!ring-offset-0 focus:border-transparent focus:!ring-0 focus:!outline-none"
                   />
                 </div>
@@ -293,7 +352,7 @@ export default function CurrencyConverter({ companyData, className }: Props) {
                   </SelectContent>
                 </Select>
                 <div className="relative flex items-center w-full justify-end flex-row">
-                  <span className="text-muted-foreground">
+                  {/* <span className="text-muted-foreground">
                     {symbolMap[currency2]}
                   </span>
                   <Input
@@ -305,6 +364,16 @@ export default function CurrencyConverter({ companyData, className }: Props) {
                       setAmount2(e.target.value);
                     }}
                     size={amount2?.toString().length || 1}
+                    className="!border-none !p-0 !w-auto !min-w-0 !max-w-full text-right border-transparent focus:!ring-offset-0 focus:border-transparent focus:!ring-0 focus:!outline-none"
+                  /> */}
+
+                  <Input
+                    type="tel"
+                    inputMode="decimal"
+                    placeholder={symbolMap[currency2]}
+                    value={formatAmount2(amount2, currency2)}
+                    onChange={handleAmount2Change}
+                    onBlur={() => setIsTyping2(false)}
                     className="!border-none !p-0 !w-auto !min-w-0 !max-w-full text-right border-transparent focus:!ring-offset-0 focus:border-transparent focus:!ring-0 focus:!outline-none"
                   />
                 </div>
