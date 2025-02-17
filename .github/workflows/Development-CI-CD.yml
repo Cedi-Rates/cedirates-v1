@@ -36,7 +36,7 @@ jobs:
           username: azureuser
           key: ${{ secrets.TEST_SSH_PRIVATE_KEY }}
           source: build-artifacts.tar.gz
-          target: /home/cediratesvm/cedi-rates-frontend-test/
+          target: /home/azureuser/cedi-rates-frontend-test/
 
       - name: Deploy to Azure VM
         uses: appleboy/ssh-action@master
