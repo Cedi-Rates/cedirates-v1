@@ -9,6 +9,7 @@ import Footer from "@/components/footer";
 import og from "@/assets/images/Exchange Rates shrink.png";
 import GoogleOneTapLogin from "@/components/auth/GoogleOneTapLogin";
 import Header from "@/components/navbar/Header";
+import ScrollToTop from "@/components/scroll-to-top";
 
 const title = "Pound to Cedis Bank Rates Today";
 const content =
@@ -41,13 +42,19 @@ const ExchangeRates = async () => {
 
   return (
     <>
+      <ScrollToTop />
       <GoogleOneTapLogin user={user} />
-      <Header user={user}/>
+      <Header user={user} />
       {/* <NavbarLight user={user} cookie={cookies().toString()} /> */}
       <main className="max-w-[1450px] mx-auto">
         <ExchangeTable rates={rates} categoryHeading="Bank" user={user} />
       </main>
       <Footer />
+      {/* <script
+        dangerouslySetInnerHTML={{
+          __html: `window.scrollTo(0, 0);`,
+        }}
+      /> */}
     </>
   );
 };

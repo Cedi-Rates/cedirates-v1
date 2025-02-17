@@ -36,9 +36,6 @@ export default function CurrencyConverter({ companyData, className }: Props) {
   const [currency2, setCurrency2] = React.useState("GHS");
   const [isTypingInAmount1, setIsTypingInAmount1] = React.useState(true);
 
-  const savedAmount1 = sessionStorage.getItem("cedirates-amount1") || "";
-  const savedAmount2 = sessionStorage.getItem("cedirates-amount2") || "";
-
   const { toast } = useToast();
 
   const symbolMap: Record<string, string> = {
@@ -56,11 +53,11 @@ export default function CurrencyConverter({ companyData, className }: Props) {
   };
 
   const handleSwap = () => {
-    setAmount1(amount2); // Use the current state, not saved session values
+    setAmount1(amount2);
     setAmount2(amount1);
     setCurrency1(currency2);
     setCurrency2(currency1);
-    setIsTypingInAmount1(!isTypingInAmount1); // Flip the typing state
+    setIsTypingInAmount1(!isTypingInAmount1);
   };
 
   const isConversionSupported = (from: string, to: string) => {
@@ -187,8 +184,30 @@ export default function CurrencyConverter({ companyData, className }: Props) {
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [amount2, currency1, currency2]);
 
+  const onChangeCurrencyOneFunc = (value: string) => {
+    setCurrency1((prev) => {
+      if (value === currency2) {
+        setCurrency2(prev);
+      }
+      return value;
+    });
+  };
+
+  const onChangeCurrencyTwoFunc = (value: string) => {
+    setCurrency2((prev) => {
+      if (value === currency1) {
+        setCurrency1(prev);
+      }
+      return value;
+    });
+  };
+
   return (
-    <div className={"flex gap-3 w-full flex-col items-start justify-center " + className}>
+    <div
+      className={
+        "flex gap-3 w-full flex-col items-start justify-center " + className
+      }
+    >
       {/* <p className="text-paragraph-md-semibold">Convert Any Amount</p> */}
       <Card className="w-full sm:p-4 p-2 shadow-sm bg-background-bg-secondary rounded-2xl">
         <CardContent>

@@ -9,6 +9,7 @@ import Footer from "@/components/footer";
 import og from "@/assets/images/Exchange Rates shrink.png";
 import GoogleOneTapLogin from "@/components/auth/GoogleOneTapLogin";
 import Header from "@/components/navbar/Header";
+import ScrollToTop from "@/components/scroll-to-top";
 
 const title = "Pound to Cedis Money Transfer Rates Today";
 const content =
@@ -31,7 +32,8 @@ export const metadata: Metadata = {
     images: og.src,
   },
   alternates: {
-    canonical: "https://cedirates.com/exchange-rates/gbp-to-ghs/money-transfer/",
+    canonical:
+      "https://cedirates.com/exchange-rates/gbp-to-ghs/money-transfer/",
   },
 };
 
@@ -41,13 +43,19 @@ const ExchangeRates = async () => {
 
   return (
     <>
+      <ScrollToTop />
       <GoogleOneTapLogin user={user} />
-      <Header user={user}/>
+      <Header user={user} />
       {/* <NavbarLight user={user} cookie={cookies().toString()} /> */}
       <main className="max-w-[1450px] mx-auto">
         <ExchangeTable rates={rates} categoryHeading="Remittance" user={user} />
       </main>
       <Footer />
+      {/* <script
+        dangerouslySetInnerHTML={{
+          __html: `window.scrollTo(0, 0);`,
+        }}
+      /> */}
     </>
   );
 };

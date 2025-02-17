@@ -10,6 +10,7 @@ import Footer from "@/components/footer";
 import GoogleOneTapLogin from "@/components/auth/GoogleOneTapLogin";
 import { MobileNav } from "@/components/mobile-nav";
 import Header from "@/components/navbar/Header";
+import ScrollToTop from "@/components/scroll-to-top";
 
 const title = "Dollar to Cedi Exchange Rate Today";
 const content =
@@ -42,13 +43,19 @@ const ExchangeRates = async () => {
 
   return (
     <>
+      <ScrollToTop />
       <GoogleOneTapLogin user={user} />
       <Header user={user} />
-      <main className="max-w-[1450px] mx-auto">
+      <main className="max-w-[1450px] mx-auto" id="top">
         <ExchangeTable rates={rates} user={user} />
       </main>
       <Footer />
       <MobileNav user={user} />
+      {/* <script
+        dangerouslySetInnerHTML={{
+          __html: `window.scrollTo(0, 0);`,
+        }}
+      /> */}
     </>
   );
 };
