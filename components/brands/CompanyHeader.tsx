@@ -257,7 +257,7 @@ const CompanyHeader = ({ companyDetails, user, chartData }: Props) => {
           // loading="lazy"
           />
         </div>
-        <div className={style["profile-container"]}>
+        <div className={style["profile-container"] + ' !-mt-8 sm:!mt-12'}>
           <div className={style["profile-info-text-up"]}>
             <div className={'!justify-center sm:!justify-start mb-1 ' + style["company-name-container"]}>
               <h3 className="text-paragraph-lg-semibold !leading-[17px]">
@@ -290,13 +290,13 @@ const CompanyHeader = ({ companyDetails, user, chartData }: Props) => {
               <Link href={companyDetails?.company?.link} className="flex flex-row items-center gap-1 text-text-text-brand">
                 <LinkIcon size={18} />
                 <span className="text-paragraph-sm-semibold">
-                  {companyDetails?.company?.link}
+                  {companyDetails?.company?.link.replace(/^(https?:\/\/)?(www\.)?/, '').replace(/\/$/, '')}
                 </span>
               </Link>
             }
           </div>
           <div className={style["subscribe-section"]}>
-            <div className='flex flex-row items-start justify-end gap-2'>
+            <div className='flex flex-row items-start justify-end gap-1 sm:gap-2'>
               {userDetails?.watchList?.includes(
                 companyDetails?.company?.UniqueID
               ) ? (
@@ -308,6 +308,7 @@ const CompanyHeader = ({ companyDetails, user, chartData }: Props) => {
                         variant='secondary'
                         trailing={<ChevronDown className="w-4 h-4" color="#0A0A0A" />}
                         size='sm'
+                        className="!text-caption-md-semibold !px-3 !h-6"
                       >
                         {loading ? (
                           <SpinnerCircular
@@ -322,7 +323,7 @@ const CompanyHeader = ({ companyDetails, user, chartData }: Props) => {
                       </Button>
                     ) : (
                       <Button
-                        // className="text-white sm:rounded-lg sm:!h-auto !h-6 rounded-[7px] !text-paragraph-sm-medium !px-5 !bg-background-bg-secondary"
+                        className="text-white sm:rounded-lg !h-6 rounded-[7px] !text-paragraph-sm-medium !px-5 !bg-background-bg-secondary"
                         onClick={() => setOpen(true)}
                         variant='secondary'
                         size='lg'
@@ -354,6 +355,8 @@ const CompanyHeader = ({ companyDetails, user, chartData }: Props) => {
                     <Button
                       onClick={handleSubscribe}
                       size='sm'
+                      style={{ color: "#fff" }}
+                      className="!text-caption-md-semibold !px-3 !h-6"
                     >
                       {loading ? (
                         <SpinnerCircular
@@ -368,7 +371,7 @@ const CompanyHeader = ({ companyDetails, user, chartData }: Props) => {
                     </Button>
                   ) : (
                     <Button
-                      // className="text-white sm:rounded-lg sm:!h-auto !h-6 rounded-[7px] !text-paragraph-sm-medium !px-5"
+                      className="text-white sm:rounded-lg !h-6 rounded-[7px] !text-paragraph-sm-medium !px-5"
                       onClick={handleSubscribe}
                       size='lg'
                     >
@@ -391,7 +394,7 @@ const CompanyHeader = ({ companyDetails, user, chartData }: Props) => {
                 <Drawer open={open} onOpenChange={setOpen}>
                   <DrawerTrigger asChild>
                     <Button
-                      // className="sm:rounded-lg sm:!h-auto !h-6 rounded-[7px] !text-paragraph-sm-medium !px-5 !bg-background-bg-secondary"
+                      className="!text-caption-md-semibold !px-3 sm:rounded-lg !h-6 rounded-[7px] !bg-background-bg-secondary"
                       variant='secondary'
                       size='sm'
                     >
@@ -413,7 +416,7 @@ const CompanyHeader = ({ companyDetails, user, chartData }: Props) => {
                 <Dialog open={open} onOpenChange={setOpen}>
                   <DialogTrigger asChild>
                     <Button
-                      // className="!text-paragraph-sm-medium sm:rounded-lg sm:!h-auto !h-6 rounded-[7px] !px-5 !bg-background-bg-secondary"
+                      className="!text-paragraph-sm-medium sm:rounded-lg !h-6 rounded-[7px] !px-5 !bg-background-bg-secondary"
                       variant='secondary'
                       size='lg'
                     >
@@ -435,17 +438,17 @@ const CompanyHeader = ({ companyDetails, user, chartData }: Props) => {
       <div className={style["profile-info-text-down"]}>
         <div
           className={
-            style["company-name-container"] + " text-start !justify-start mt-9 mb-1"
+            style["company-name-container"] + " text-start !justify-start items-center mt-9 mb-1"
           }
         >
           {companyDetails.company?.companyName}
           <div className="flex items-center gap-1">
             <TooltipIcon />
           </div>
-          <div className="text-paragraph-sm-semibold bg-backgroundInfo text-primary-brand-primary-500 !py-1 !px-2.5 rounded-lg !leading-[16px] w-max">
+          <div className="mt-1 text-caption-sm-semibold tracking-normal bg-backgroundInfo text-primary-brand-primary-500 !py-0 !px-2.5 rounded-[5px] w-max">
             {subscriberCount} Followers
           </div>
-          <div className="text-paragraph-sm-semibold bg-background-bg-quarternary text-text-text-secondary !py-1 !px-2.5 rounded-lg !leading-[16px] w-max">
+          <div className="mt-1 text-caption-sm-semibold tracking-normal bg-background-bg-quarternary text-text-text-secondary !py-0 !px-2.5 rounded-[5px] w-max">
             {companyDetails.company.subCategory ?? "OMC"}
           </div>
         </div>
@@ -454,7 +457,7 @@ const CompanyHeader = ({ companyDetails, user, chartData }: Props) => {
           <Link href={companyDetails?.company?.link} className="pt-2 flex flex-row items-center gap-1 text-text-text-brand">
             <LinkIcon size={18} />
             <span className="text-paragraph-sm-semibold">
-              {companyDetails?.company?.link}
+              {companyDetails?.company?.link.replace(/^(https?:\/\/)?(www\.)?/, '').replace(/\/$/, '')}
             </span>
           </Link>
         }

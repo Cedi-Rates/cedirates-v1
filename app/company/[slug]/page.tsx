@@ -139,7 +139,7 @@ const page = async ({ params }: { params: { slug: string } }) => {
           chartData={chartData}
         />
         <div className="flex flex-col md:flex-row gap-3 sm:gap-6 lg:gap-20">
-          <div className={style["main-section"] + " basis-[60%] w-full"}>
+          <div className={style["main-section"] + " basis-[60%] max-w-screen-size-size sm:max-w-[50vw] w-full"}>
             <div className={style[""]}>
               <RatesSection
                 companyDetails={companyDetails}

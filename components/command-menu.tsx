@@ -280,7 +280,7 @@ export function CommandMenu() {
                 {/* Show filtered Exchange Rates */}
                 {filteredExchangeCompanies.length > 0 && (
                   <CommandGroup
-                    heading={<span className="text-lg">Exchange Rates</span>}
+                    heading={<span className="text-lg text-text-text-tertiary">Exchange Rates</span>}
                     className="py-2"
                   >
                     {filteredExchangeCompanies.map((company, index) => (
@@ -313,7 +313,7 @@ export function CommandMenu() {
                 {/* Show filtered Fuel Prices */}
                 {filteredFuelCompanies.length > 0 && (
                   <CommandGroup
-                    heading={<span className="text-lg">Fuel Prices</span>}
+                    heading={<span className="text-lg text-text-text-tertiary">Fuel Prices</span>}
                     className="py-2 !mt-1"
                   >
                     {filteredFuelCompanies.slice(0, 3).map((company, index) => (
@@ -348,7 +348,7 @@ export function CommandMenu() {
                 {/* Trending Exchange Rates */}
                 <CommandGroup
                   heading={
-                    <div className="inline-flex gap-1.5 items-center text-lg">
+                    <div className="inline-flex gap-1.5 items-center text-text-text-tertiary text-lg">
                       Trending Exchange Rates{" "}
                       <Flame color="#FF745B" size={16} />
                     </div>
@@ -400,7 +400,7 @@ export function CommandMenu() {
                 {/* Trending Fuel Prices */}
                 <CommandGroup
                   heading={
-                    <div className="inline-flex gap-1.5 items-center text-lg">
+                    <div className="inline-flex gap-1.5 items-center text-text-text-tertiary text-lg">
                       Trending Fuel Prices <Flame color="#FF745B" size={16} />
                     </div>
                   }

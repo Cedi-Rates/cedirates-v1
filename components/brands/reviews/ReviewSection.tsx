@@ -58,7 +58,7 @@ const ReviewSection = ({ companyDetails, user, reviews, events }: Props) => {
   };
 
   return (
-    <div>
+    <div className="sm:mt-0 mt-24">
       <div>
         <div className={style["headline-rating-review"]}>
           <p className="text-paragraph-md-bold">Ratings & Reviews</p>

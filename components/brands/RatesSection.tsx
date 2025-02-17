@@ -116,7 +116,7 @@ const RatesSection = ({ companyDetails, user, companyData }: Props) => {
         <div className="w-auto">
           <div className="flex justify-between items-center my-3">
             <div className="w-fit">
-              <h1 className="sm:text-[16px] text-[14px] mb-2 font-bold">
+              <h1 className="sm:text-[16px] text-[14px] mb-1 font-bold">
                 {isFuelCompany ? (
                   <>
                     {companyDetails.company?.companyName} {"  "} Fuel Prices
