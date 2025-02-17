@@ -956,6 +956,7 @@
 
 .write-review-section {
   width: 100%;
+  /* max-width: 40dvb; */
   display: flex;
   align-items: center;
   gap: 20px;

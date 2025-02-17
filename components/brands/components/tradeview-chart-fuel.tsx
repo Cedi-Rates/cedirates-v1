@@ -318,12 +318,7 @@ const FuelChartComponent: React.FC<ChartComponentProps> = (props) => {
     >
       <div
         ref={chartContainerRef}
-        style={{
-          position: "relative",
-          width: "100%",
-          height: "300px",
-          zIndex: 1,
-        }}
+        className="relative w-full h-[300px] z-[1] sm:top-0 top-20"
       />
 
       <div
@@ -345,16 +340,7 @@ const FuelChartComponent: React.FC<ChartComponentProps> = (props) => {
       />
 
 <div
-        style={{
-          position: "absolute",
-          top: "-70px",
-          width: "100%",
-          display: "flex",
-          flexDirection: "row",
-          justifyContent: "space-between",
-          alignItems: "center",
-          zIndex: 2,
-        }}
+       className="absolute top-[-110px] w-full flex flex-col sm:flex-row justify-between items-start sm:items-center z-2"
       >
         <p className="text-paragraph-lg-semibold mt-6">Fuel Price Tracker</p>
         <div className="flex flex-row">

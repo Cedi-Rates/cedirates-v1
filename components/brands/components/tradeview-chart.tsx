@@ -286,7 +286,7 @@ const ChartComponent: React.FC<ChartComponentProps> = (props) => {
     >
       <div
         ref={chartContainerRef}
-        className="relative w-full h-[300px] z-[1] sm:top-0 top-24"
+        className="relative w-full h-[300px] z-[1] sm:top-0 top-20"
       />
       <div
         ref={tooltipRef}
@@ -305,7 +305,7 @@ const ChartComponent: React.FC<ChartComponentProps> = (props) => {
           zIndex: 3,
         }}
       />
-      <div className="absolute top-[-70px] w-full flex flex-col sm:flex-row justify-between items-start sm:items-center z-2">
+      <div className="absolute top-[-110px] w-full flex flex-col sm:flex-row justify-between items-start sm:items-center z-2">
         <p className="text-paragraph-lg-semibold mt-6">Exchange Rate Tracker</p>
         <div className="flex flex-col sm:flex-row">
         <DatePickerWithRange onChange={handleDateChange} />

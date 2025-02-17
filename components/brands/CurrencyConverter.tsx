@@ -209,47 +209,43 @@ export default function CurrencyConverter({ companyData, className }: Props) {
       }
     >
       {/* <p className="text-paragraph-md-semibold">Convert Any Amount</p> */}
-      <Card className="w-full p-4 shadow-sm bg-background-bg-secondary rounded-2xl">
+      <Card className="w-full sm:p-4 p-2 shadow-sm bg-background-bg-secondary rounded-2xl">
         <CardContent>
           <div className="">
             {/* Input 1 */}
             <div className="flex gap-0 bg-white p-2 rounded-xl flex-col">
-              <p className="text-paragraph-md-semibold mb-1 px-1">Amount</p>
-              <div className="bg-white flex flex-row items-center">
-                <Select
-                  value={currency1}
-                  onValueChange={(value) => onChangeCurrencyOneFunc(value)}
-                >
-                  <SelectTrigger className="w-fit gap-1 border-transparent [&>span]:flex [&>span]:items-center [&>span]:gap-1 [&>span]:!flex-row focus:border-transparent focus:!ring-offset-0 focus:!outline-none focus:!ring-0 h-full rounded-xl !border-none  ">
-                    <SelectValue>
-                      <div className="h-6 w-6 bg-black rounded-full" />{" "}
-                      {currency1}
-                    </SelectValue>
-                  </SelectTrigger>
-                  <SelectContent>
-                    {availableCurrencies.map((curr) => (
-                      <SelectItem key={curr} value={curr}>
-                        {curr}
-                      </SelectItem>
-                    ))}
-                  </SelectContent>
-                </Select>
-                <div className="relative flex items-center w-full justify-end flex-row">
-                  <span className="text-muted-foreground">
-                    {symbolMap[currency1]}
-                  </span>
-                  <Input
-                    type="tel"
-                    inputMode="decimal"
-                    value={amount1}
-                    onChange={(e) => {
-                      setIsTypingInAmount1(true);
-                      setAmount1(e.target.value);
-                    }}
-                    size={amount1?.toString().length || 1}
-                    className="!border-none !p-0 !w-auto !min-w-0 !max-w-full text-right border-transparent focus:!ring-offset-0 focus:border-transparent focus:!ring-0 focus:!outline-none"
-                  />
-                </div>
+            <p className="text-paragraph-sm-semibold sm:text-paragraph-md-semibold mb-1 px-1">
+            Amount
+          </p>
+          <div className="bg-white flex flex-row items-center">
+          <Select value={currency1} onValueChange={setCurrency1}>
+                <SelectTrigger className="w-fit gap-1 border-transparent [&>span]:flex [&>span]:items-center [&>span]:gap-1 [&>span]:!flex-row focus:border-transparent focus:!ring-offset-0 focus:!outline-none focus:!ring-0 h-full rounded-xl !border-none  ">
+                  <SelectValue><div className="h-6 w-6 bg-black rounded-full" /> {currency1}</SelectValue>
+                </SelectTrigger>
+                <SelectContent>
+                  {availableCurrencies.map((curr) => (
+                    <SelectItem key={curr} value={curr}>
+                      {curr}
+                    </SelectItem>
+                  ))}
+                </SelectContent>
+              </Select>
+              <div className="relative flex items-center w-full justify-end flex-row">
+              <span className="text-muted-foreground">
+                  {symbolMap[currency1]}
+                </span>
+                <Input
+  type="tel"
+  inputMode="decimal"
+  value={amount1}
+  onChange={(e) => {
+    setIsTypingInAmount1(true);
+    setAmount1(e.target.value);
+  }}
+  size={(amount1?.toString().length || 1)}
+  className="!border-none !p-0 !w-auto !min-w-0 !max-w-full text-right border-transparent focus:!ring-offset-0 focus:border-transparent focus:!ring-0 focus:!outline-none"
+/>
+              </div>
               </div>
             </div>
 
@@ -270,55 +266,49 @@ export default function CurrencyConverter({ companyData, className }: Props) {
 
             {/* Input 2 */}
             <div className="flex gap-0 bg-white p-2 rounded-xl flex-col">
-              <p className="text-paragraph-md-semibold mb-1 px-1">
-                Converted to
-              </p>
-              <div className="bg-white flex flex-row items-center">
-                <Select
-                  value={currency2}
-                  onValueChange={(value) => onChangeCurrencyTwoFunc(value)}
-                >
-                  <SelectTrigger className="w-fit gap-1 border-transparent [&>span]:flex [&>span]:items-center [&>span]:gap-1 [&>span]:!flex-row focus:border-transparent focus:!ring-offset-0 focus:!outline-none focus:!ring-0 h-full rounded-xl !border-none  ">
-                    <SelectValue>
-                      <div className="h-6 w-6 bg-black rounded-full" />{" "}
-                      {currency2}
-                    </SelectValue>
-                  </SelectTrigger>
-                  <SelectContent>
-                    {availableCurrencies.map((curr) => (
-                      <SelectItem key={curr} value={curr}>
-                        {curr}
-                      </SelectItem>
-                    ))}
-                  </SelectContent>
-                </Select>
-                <div className="relative flex items-center w-full justify-end flex-row">
-                  <span className="text-muted-foreground">
-                    {symbolMap[currency2]}
-                  </span>
-                  <Input
-                    type="tel"
-                    inputMode="decimal"
-                    value={amount2}
-                    onChange={(e) => {
-                      setIsTypingInAmount1(false);
-                      setAmount2(e.target.value);
-                    }}
-                    size={amount2?.toString().length || 1}
-                    className="!border-none !p-0 !w-auto !min-w-0 !max-w-full text-right border-transparent focus:!ring-offset-0 focus:border-transparent focus:!ring-0 focus:!outline-none"
-                  />
-                </div>
+            <p className="text-paragraph-sm-semibold sm:text-paragraph-md-semibold mb-1 px-1">
+            Converted to
+          </p>
+          <div className="bg-white flex flex-row items-center">
+          <Select value={currency2} onValueChange={setCurrency1}>
+                <SelectTrigger className="w-fit gap-1 border-transparent [&>span]:flex [&>span]:items-center [&>span]:gap-1 [&>span]:!flex-row focus:border-transparent focus:!ring-offset-0 focus:!outline-none focus:!ring-0 h-full rounded-xl !border-none  ">
+                  <SelectValue><div className="h-6 w-6 bg-black rounded-full" /> {currency2}</SelectValue>
+                </SelectTrigger>
+                <SelectContent>
+                  {availableCurrencies.map((curr) => (
+                    <SelectItem key={curr} value={curr}>
+                      {curr}
+                    </SelectItem>
+                  ))}
+                </SelectContent>
+              </Select>
+              <div className="relative flex items-center w-full justify-end flex-row">
+              <span className="text-muted-foreground">
+                  {symbolMap[currency2]}
+                </span>
+                <Input
+  type="tel"
+  inputMode="decimal"
+  value={amount2}
+  onChange={(e) => {
+    setIsTypingInAmount1(false);
+    setAmount2(e.target.value);
+  }}
+  size={(amount2?.toString().length || 1)}
+  className="!border-none !p-0 !w-auto !min-w-0 !max-w-full text-right border-transparent focus:!ring-offset-0 focus:border-transparent focus:!ring-0 focus:!outline-none"
+/>
+              </div>
               </div>
             </div>
 
             {/* Current rate */}
             <div className="flex mt-2 gap-0 bg-white p-2 rounded-xl flex-row justify-between items-center">
-              <p className="text-paragraph-md-semibold mb-1 px-1">
-                Our current rate
-              </p>
-              <p className="text-paragraph-md-semibold mb-1 px-1">
-                $1 = ¢15.46
-              </p>
+            <p className="text-paragraph-sm-semibold sm:text-paragraph-md-semibold px-1">
+            Our current rate
+          </p>
+          <p className="text-paragraph-sm-semibold sm:text-paragraph-md-semibold px-1">
+            $1 = ¢15.46
+          </p>
             </div>
           </div>
         </CardContent>
