@@ -31,6 +31,7 @@ const Dollar: React.FC<AlertDialogDemoProps> = ({
   const [poundPriceData, setPoundPriceData] = useState<any>(currentPrices);
 
   const [loading, setLoading] = useState(false);
+  console.log(currentPrices);
 
   useEffect(() => {
     setPoundPriceData(currentPrices);
@@ -117,8 +118,8 @@ const Dollar: React.FC<AlertDialogDemoProps> = ({
 
   useEffect(() => {
     if (poundPriceData) {
-      setValue("buying", poundPriceData?.rates?.poundRates?.buyingRate);
-      setValue("selling", poundPriceData?.rates?.poundRates?.sellingRate);
+      setValue("buying", poundPriceData?.buyingRate);
+      setValue("selling", poundPriceData?.sellingRate);
     }
   }, [poundPriceData, setValue]);
 
