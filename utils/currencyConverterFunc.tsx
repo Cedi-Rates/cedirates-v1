@@ -65,6 +65,25 @@ const addCommasToNumber = (amount: any) => {
 //   });
 // }
 
+const getValidCurrencyPairs = (companyData: CompanyRate) => {
+  const rates = companyData.data;
+  const validPairs = new Set<string>();
+
+  // Check dollar rates
+  if (rates.dollarRates?.buyingRate) validPairs.add("USD/GHS");
+  if (rates.dollarRates?.sellingRate) validPairs.add("GHS/USD");
+
+  // Check euro rates
+  if (rates.euroRates?.buyingRate) validPairs.add("EUR/GHS");
+  if (rates.euroRates?.sellingRate) validPairs.add("GHS/EUR");
+
+  // Check pound rates
+  if (rates.poundRates?.buyingRate) validPairs.add("GBP/GHS");
+  if (rates.poundRates?.sellingRate) validPairs.add("GHS/GBP");
+
+  return validPairs;
+};
+
 const isConversionSupported = (fromCurrency: any, toCurrency: any) => {
   const supportedConversions = [
     "GHS/USD",
@@ -312,6 +331,7 @@ export {
   addCommasToNumber,
   isConversionSupported,
   convertCurrency,
+  getValidCurrencyPairs,
   todayAverage,
   getAvailableCurrencies,
 };
