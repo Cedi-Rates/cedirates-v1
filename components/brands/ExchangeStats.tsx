@@ -18,18 +18,21 @@ const ExchangeStats = ({ companyDetails, companyData }: Props) => {
   const rates = {
     dollarRates: {
       title: "Dollar",
+      shortName: "USD",
       icon: DollarSign,
       buying: currentRate?.dollarRates?.buyingRate ?? null,
       selling: currentRate?.dollarRates?.sellingRate ?? null,
     },
     poundRates: {
       title: "Pound",
+      shortName: "GBP",
       icon: PoundSterling,
       buying: currentRate?.poundRates?.buyingRate ?? null,
       selling: currentRate?.poundRates?.sellingRate ?? null,
     },
     euroRates: {
       title: "Euro",
+      shortName: "EUR",
       icon: Euro,
       buying: currentRate?.euroRates?.buyingRate ?? null,
       selling: currentRate?.euroRates?.sellingRate ?? null,
@@ -43,6 +46,7 @@ const ExchangeStats = ({ companyDetails, companyData }: Props) => {
   // Tabs mapping
   const tabs = Object.entries(rates).map(([key, value]) => ({
     id: key,
+    shortName: value.shortName,
     icon: value.icon,
     label: value.title,
     disabled: !value.buying && !value.selling,
@@ -56,7 +60,7 @@ const ExchangeStats = ({ companyDetails, companyData }: Props) => {
       {/* Currency Tabs */}
       <Tabs value={selectedTab} className="rounded-xl" onValueChange={(id) => context?.setSelectedTab(id)}>
         <TabsList className="flex gap-1 w-min rounded-lg">
-          {tabs.map(({ id, icon: Icon, label, disabled }) => (
+          {tabs.map(({ id, icon: Icon, label, disabled }) => !disabled && (
             <TabsTrigger key={id} value={id} disabled={disabled} className={`flex items-center rounded-md gap-1 text-sm font-medium ${disabled ? "opacity-50 cursor-not-allowed" : "cursor-pointer"}`}>
               {/* <Icon size={18} /> */}
               {label}
@@ -66,22 +70,19 @@ const ExchangeStats = ({ companyDetails, companyData }: Props) => {
 
         {/* Exchange Rate Display */}
         <div className="w-full overflow-x-scroll">
-        <TabsContent value={selectedTab}>
-          <div className="flex flex-row gap-3">
-            {["Buying", "Selling"].map((type, index) => (
+        <TabsContent value={selectedTab} className="sm:w-full w-max">
+          <div className="flex flex-row gap-3 sm:w-full w-max">
+            {[`${selectedRate.shortName} to GHS`, `GHS to ${selectedRate.shortName}`].map((type, index) => {
+              if ((index === 0 ? selectedRate?.buying : selectedRate?.selling) !== null && (index === 0 ? selectedRate?.buying : selectedRate?.selling) !== undefined && (index === 0 ? selectedRate?.buying : selectedRate?.selling) !== 0) return (
               <div
                 key={type}
-                className="px-spacing-16 sm:w-full w-min flex max-w-[320px] flex-col border-2 rounded-xl border-[#E5E5E5]"
+                className="px-spacing-16 sm:w-full w-[60vw] flex sm:max-w-[50%] max-w-[320px] flex-col border-2 rounded-xl border-[#E5E5E5]"
               >
                 <p className="text-text-text-primary text-paragraph-lg-semibold my-spacing-12">
                   {type}
                 </p>
                 <p
-                  className={`text-header-h3-medium w-max leading-[30px] my-spacing-20 ${
-                    index === 0
-                      ? "text-text-text-success"
-                      : "text-text-text-warning"
-                  }`}
+                  className={`text-header-h3-medium w-max leading-[30px] my-spacing-20`}
                 >
                   ¢{""}
                   {formatRate(
@@ -89,7 +90,7 @@ const ExchangeStats = ({ companyDetails, companyData }: Props) => {
                   )}
                 </p>
               </div>
-            ))}
+            )})}
           </div>
         </TabsContent>
         </div>

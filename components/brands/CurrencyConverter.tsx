@@ -259,7 +259,7 @@ export default function CurrencyConverter({ companyData, className }: Props) {
       }
     >
       {/* <p className="text-paragraph-md-semibold">Convert Any Amount</p> */}
-      <Card className="w-full p-4 shadow-sm bg-background-bg-secondary rounded-2xl">
+      <Card className="w-full sm:p-4 p-2 shadow-sm bg-background-bg-secondary rounded-2xl">
         <CardContent>
           <div className="">
             {/* Input 1 */}
@@ -382,10 +382,10 @@ export default function CurrencyConverter({ companyData, className }: Props) {
 
             {/* Current rate */}
             <div className="flex mt-2 gap-0 bg-white p-2 rounded-xl flex-row justify-between items-center">
-              <p className="text-paragraph-md-semibold mb-1 px-1">
+              <p className="text-paragraph-sm-semibold sm:text-paragraph-md-semibold px-1">
                 Our current rate
               </p>
-              <p className="text-paragraph-md-semibold mb-1 px-1">
+              <p className="text-paragraph-sm-semibold sm:text-paragraph-md-semibold px-1">
                 $1 = ¢15.46
               </p>
             </div>
