@@ -22,6 +22,7 @@ import { useToast } from "../ui/use-toast";
 import {
   getAvailableCurrencies,
   addCommasToNumber,
+  getValidCurrencyPairs,
 } from "@/utils/currencyConverterFunc";
 
 type Props = {
@@ -40,6 +41,15 @@ export default function CurrencyConverter({ companyData, className }: Props) {
   // General typing
   const [isTyping, setIsTyping] = React.useState(false);
   const [isTyping2, setIsTyping2] = React.useState(false);
+  const [currentRate, setCurrentRate] = React.useState<{
+    from: string;
+    to: string;
+    rate: number;
+  }>({
+    from: "",
+    to: "",
+    rate: 0,
+  });
 
   const formatAmount = (amount: string | number, currency: string) => {
     if (!amount) return ""; // If empty, return nothing
@@ -69,15 +79,18 @@ export default function CurrencyConverter({ companyData, className }: Props) {
   };
 
   const isConversionSupported = (from: string, to: string) => {
-    const supportedConversions = [
-      "GHS/USD",
-      "GHS/GBP",
-      "GHS/EUR",
-      "USD/GHS",
-      "GBP/GHS",
-      "EUR/GHS",
-    ];
-    return supportedConversions.includes(`${from}/${to}`);
+    const validPairs = getValidCurrencyPairs(companyData);
+    return validPairs.has(`${from}/${to}`);
+
+    // const supportedConversions = [
+    //   "GHS/USD",
+    //   "GHS/GBP",
+    //   "GHS/EUR",
+    //   "USD/GHS",
+    //   "GBP/GHS",
+    //   "EUR/GHS",
+    // ];
+    // return;
   };
 
   const convertCurrency = (amount: number, from: string, to: string) => {
@@ -86,6 +99,7 @@ export default function CurrencyConverter({ companyData, className }: Props) {
         variant: "destructive",
         title: `Exchange rate data not available for the selected currency pair`,
       });
+      return "0";
     }
 
     const rates = companyData.data;
@@ -132,9 +146,21 @@ export default function CurrencyConverter({ companyData, className }: Props) {
 
     if (isTypingInAmount1) {
       if (from === "GHS" && amount && rates1?.sellingRate) {
+        setCurrentRate({
+          from: from,
+          to: to,
+          rate: rates1?.sellingRate,
+        });
         // ✅ GHS → Foreign Currency
+
         convertedAmount = (amount / rates1.sellingRate).toFixed(2);
       } else if (to === "GHS" && amount && rates2?.buyingRate) {
+        setCurrentRate({
+          from: from,
+          to: to,
+          rate: rates2?.buyingRate,
+        });
+
         // ✅ Foreign Currency → GHS
         convertedAmount = (amount * rates2.buyingRate).toFixed(2);
       } else if (amount1 !== "" && amount2 !== "") {
@@ -147,9 +173,19 @@ export default function CurrencyConverter({ companyData, className }: Props) {
       }
     } else {
       if (from === "GHS" && amount && rates1?.buyingRate) {
+        setCurrentRate({
+          from: from,
+          to: to,
+          rate: rates1?.buyingRate,
+        });
         // ✅ GHS → Foreign Currency
         convertedAmount = (amount / rates1.buyingRate).toFixed(2);
       } else if (to === "GHS" && amount && rates2?.sellingRate) {
+        setCurrentRate({
+          from: from,
+          to: to,
+          rate: rates2?.sellingRate,
+        });
         // ✅ Foreign Currency → GHS
         convertedAmount = (amount * rates2.sellingRate).toFixed(2);
       } else if (amount1 !== "-" && amount2 !== "-") {
@@ -285,20 +321,6 @@ export default function CurrencyConverter({ companyData, className }: Props) {
                   </SelectContent>
                 </Select>
                 <div className="relative flex items-center w-full justify-end flex-row">
-                  {/* <span className="text-muted-foreground">
-                    {symbolMap[currency1]}
-                  </span> */}
-                  {/* <Input
-                    type="tel"
-                    inputMode="decimal"
-                    value={amount1}
-                    onChange={(e) => {
-                      setIsTypingInAmount1(true);
-                      setAmount1(e.target.value);
-                    }}
-                    size={amount1?.toString().length || 1}
-                    className="!border-none !p-0 !w-auto !min-w-0 !max-w-full text-right border-transparent focus:!ring-offset-0 focus:border-transparent focus:!ring-0 focus:!outline-none"
-                  /> */}
                   <Input
                     type="tel"
                     inputMode="decimal"
@@ -352,21 +374,6 @@ export default function CurrencyConverter({ companyData, className }: Props) {
                   </SelectContent>
                 </Select>
                 <div className="relative flex items-center w-full justify-end flex-row">
-                  {/* <span className="text-muted-foreground">
-                    {symbolMap[currency2]}
-                  </span>
-                  <Input
-                    type="tel"
-                    inputMode="decimal"
-                    value={amount2}
-                    onChange={(e) => {
-                      setIsTypingInAmount1(false);
-                      setAmount2(e.target.value);
-                    }}
-                    size={amount2?.toString().length || 1}
-                    className="!border-none !p-0 !w-auto !min-w-0 !max-w-full text-right border-transparent focus:!ring-offset-0 focus:border-transparent focus:!ring-0 focus:!outline-none"
-                  /> */}
-
                   <Input
                     type="tel"
                     inputMode="decimal"
@@ -386,7 +393,8 @@ export default function CurrencyConverter({ companyData, className }: Props) {
                 Our current rate
               </p>
               <p className="text-paragraph-sm-semibold sm:text-paragraph-md-semibold px-1">
-                $1 = ¢15.46
+                {symbolMap[currentRate.from]}1 = {symbolMap[currentRate.to]}
+                {currentRate.rate.toFixed(2)}
               </p>
             </div>
           </div>
