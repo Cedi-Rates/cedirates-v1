@@ -33,7 +33,7 @@ const Dollar: React.FC<AlertDialogDemoProps> = ({
   const [loading, setLoading] = useState(false);
 
   useEffect(() => {
-    // setDollarPriceData(currentPrices);
+    setDollarPriceData(currentPrices);
   }, [companyDetails, currentPrices]);
 
   const onSubmit = async (data: any) => {
@@ -117,8 +117,8 @@ const Dollar: React.FC<AlertDialogDemoProps> = ({
 
   useEffect(() => {
     if (dollarPriceData) {
-      setValue("buying", dollarPriceData?.rates?.dollarRates?.buyingRate);
-      setValue("selling", dollarPriceData?.rates?.dollarRates?.sellingRate);
+      setValue("buying", dollarPriceData?.buyingRate);
+      setValue("selling", dollarPriceData?.sellingRate);
     }
   }, [dollarPriceData, setValue]);
 
