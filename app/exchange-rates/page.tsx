@@ -43,7 +43,7 @@ const ExchangeRates = async () => {
 
   return (
     <>
-      <ScrollToTop />
+      {/* <ScrollToTop /> */}
       <GoogleOneTapLogin user={user} />
       <Header user={user} />
       <main className="max-w-[1450px] mx-auto" id="top">

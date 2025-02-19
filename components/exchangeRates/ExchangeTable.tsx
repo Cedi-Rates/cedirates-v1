@@ -68,8 +68,6 @@ type Props = {
 };
 
 const ExchangeTable = ({ rates, user }: Props) => {
-  console.log("Exchange Table:", rates);
-
   const [calculatorInput, setCalculatorInput] = useState<number | string>("");
   const [order, setOrder] = useState<"ascending" | "descending">("descending");
   const [exchangeType, setExchangeType] = useState<
@@ -104,8 +102,8 @@ const ExchangeTable = ({ rates, user }: Props) => {
 
   useEffect(() => {
     if (activeSubcategory === "Money Transfer") setRatesValue("Buying");
+    else setRatesValue("Selling");
   }, [activeSubcategory]);
-  console.log(ratesValue);
 
   useEffect(() => {
     const page = searchParams.get("page");

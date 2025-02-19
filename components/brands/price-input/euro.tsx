@@ -20,7 +20,7 @@ interface AlertDialogDemoProps {
   companyData: CompanyRate;
 }
 
-const Dollar: React.FC<AlertDialogDemoProps> = ({
+const Euros: React.FC<AlertDialogDemoProps> = ({
   companyDetails,
   companyData,
 }) => {
@@ -116,8 +116,8 @@ const Dollar: React.FC<AlertDialogDemoProps> = ({
 
   useEffect(() => {
     if (euroPriceData) {
-      setValue("buying", euroPriceData?.rates?.euroRates?.buyingRate);
-      setValue("selling", euroPriceData?.rates?.euroRates?.sellingRate);
+      setValue("buying", euroPriceData?.buyingRate);
+      setValue("selling", euroPriceData?.sellingRate);
     }
   }, [euroPriceData, setValue]);
 
@@ -170,4 +170,4 @@ const Dollar: React.FC<AlertDialogDemoProps> = ({
   );
 };
 
-export default Dollar;
+export default Euros;

@@ -3,7 +3,7 @@ name: Test Admin Dashboard CI/CD
 on:
   push:
     branches:
-      - devv
+      - staging
 
 jobs:
   build-react-app:
@@ -33,18 +33,18 @@ jobs:
         uses: appleboy/scp-action@master
         with:
           host: 51.116.110.49
-          username: cediratesvm
+          username: azureuser
           key: ${{ secrets.TEST_SSH_PRIVATE_KEY }}
           source: build-artifacts.tar.gz
-          target: /home/cediratesvm/test-admin-dashboard/
+          target: /home/azureuser/cedi-rates-frontend-test/
 
       - name: Deploy to Azure VM
         uses: appleboy/ssh-action@master
         with:
           host: 51.116.110.49
-          username: cediratesvm
+          username: azureuser
           key: ${{ secrets.TEST_SSH_PRIVATE_KEY }}
           script: |
-            cd /home/cediratesvm/test-admin-dashboard
+            cd /home/azureuser/cedi-rates-frontend-test
             tar -xzf build-artifacts.tar.gz
-            /home/cediratesvm/.nvm/versions/node/v18.20.3/bin/pm2 restart test-admin-dashboard
+            /home/azureuser/.nvm/versions/node/v18.20.4/bin/pm2 restart cedi-rates-frontend-test

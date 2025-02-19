@@ -22,6 +22,7 @@ import { useToast } from "../ui/use-toast";
 import {
   getAvailableCurrencies,
   addCommasToNumber,
+  getValidCurrencyPairs,
 } from "@/utils/currencyConverterFunc";
 
 type Props = {
@@ -29,12 +30,36 @@ type Props = {
   className?: string;
 };
 
+const MAX_VALUE = 1e15;
+
 export default function CurrencyConverter({ companyData, className }: Props) {
   const [amount1, setAmount1] = React.useState<string | number>("50.00");
   const [amount2, setAmount2] = React.useState<string | number>("0.00");
   const [currency1, setCurrency1] = React.useState("USD");
   const [currency2, setCurrency2] = React.useState("GHS");
   const [isTypingInAmount1, setIsTypingInAmount1] = React.useState(true);
+  // General typing
+  const [isTyping, setIsTyping] = React.useState(false);
+  const [isTyping2, setIsTyping2] = React.useState(false);
+  const [currentRate, setCurrentRate] = React.useState<{
+    from: string;
+    to: string;
+    rate: number;
+  }>({
+    from: "",
+    to: "",
+    rate: 0,
+  });
+
+  const formatAmount = (amount: string | number, currency: string) => {
+    if (!amount) return ""; // If empty, return nothing
+    return isTyping ? amount : `${symbolMap[currency]}${amount}`;
+  };
+
+  const formatAmount2 = (amount: string | number, currency: string) => {
+    if (!amount) return ""; // If empty, return nothing
+    return isTyping2 ? amount : `${symbolMap[currency]}${amount}`;
+  };
 
   const { toast } = useToast();
 
@@ -43,13 +68,6 @@ export default function CurrencyConverter({ companyData, className }: Props) {
     GHS: "₵",
     GBP: "£",
     EUR: "€",
-  };
-
-  const paddingMap: Record<string, number> = {
-    USD: 28,
-    GHS: 28,
-    GBP: 28,
-    EUR: 28,
   };
 
   const handleSwap = () => {
@@ -61,24 +79,46 @@ export default function CurrencyConverter({ companyData, className }: Props) {
   };
 
   const isConversionSupported = (from: string, to: string) => {
-    const supportedConversions = [
-      "GHS/USD",
-      "GHS/GBP",
-      "GHS/EUR",
-      "USD/GHS",
-      "GBP/GHS",
-      "EUR/GHS",
-    ];
-    return supportedConversions.includes(`${from}/${to}`);
+    const validPairs = getValidCurrencyPairs(companyData);
+    return validPairs.has(`${from}/${to}`);
+
+    // const supportedConversions = [
+    //   "GHS/USD",
+    //   "GHS/GBP",
+    //   "GHS/EUR",
+    //   "USD/GHS",
+    //   "GBP/GHS",
+    //   "EUR/GHS",
+    // ];
+    // return;
   };
 
   const convertCurrency = (amount: number, from: string, to: string) => {
-    if (!isConversionSupported(from, to) || !companyData) {
+    // if (!isConversionSupported(from, to) || !companyData) {
+    //   toast({
+    //     variant: "destructive",
+    //     title: `Exchange rate data not available for the selected currency pair`,
+    //   });
+    //   // return "0";
+    // }
+
+    if (!isConversionSupported(from, to)) {
+      if (isConversionSupported(to, from)) {
+        setCurrency1(to);
+        setCurrency2(from);
+        return "";
+      }
+
+      // If neither direction is supported, show error and proceed
       toast({
         variant: "destructive",
-        title: `Exchange rate data not available for the selected currency pair`,
+        title: `Exchange rate data not available for ${from}/${to}`,
+        description: "This currency pair is not supported by this company.",
       });
     }
+
+    // setCurrency1(from);
+    // setCurrency2(to);
 
     const rates = companyData.data;
     const fromSlug = from.toLowerCase();
@@ -86,7 +126,7 @@ export default function CurrencyConverter({ companyData, className }: Props) {
     let toCurrency = "";
     let fromCurrency = "";
 
-    let convertedAmount: number | string = "-";
+    let convertedAmount: number | string = "";
 
     switch (fromSlug) {
       case "usd":
@@ -124,33 +164,55 @@ export default function CurrencyConverter({ companyData, className }: Props) {
 
     if (isTypingInAmount1) {
       if (from === "GHS" && amount && rates1?.sellingRate) {
+        setCurrentRate({
+          from: from,
+          to: to,
+          rate: rates1?.sellingRate,
+        });
         // ✅ GHS → Foreign Currency
+
         convertedAmount = (amount / rates1.sellingRate).toFixed(2);
       } else if (to === "GHS" && amount && rates2?.buyingRate) {
+        setCurrentRate({
+          from: from,
+          to: to,
+          rate: rates2?.buyingRate,
+        });
+
         // ✅ Foreign Currency → GHS
         convertedAmount = (amount * rates2.buyingRate).toFixed(2);
       } else if (amount1 !== "" && amount2 !== "") {
         // ❌ Block unsupported conversions (e.g., USD → EUR)
         toast({
           variant: "destructive",
-          title: `Direct conversion between ${from} and ${to} is not supported.`,
+          title: `Direct conversion from ${to} to ${from} is not supported.`,
         });
-        return "-";
+        // return "-";
       }
     } else {
       if (from === "GHS" && amount && rates1?.buyingRate) {
+        setCurrentRate({
+          from: from,
+          to: to,
+          rate: rates1?.buyingRate,
+        });
         // ✅ GHS → Foreign Currency
         convertedAmount = (amount / rates1.buyingRate).toFixed(2);
       } else if (to === "GHS" && amount && rates2?.sellingRate) {
+        setCurrentRate({
+          from: from,
+          to: to,
+          rate: rates2?.sellingRate,
+        });
         // ✅ Foreign Currency → GHS
         convertedAmount = (amount * rates2.sellingRate).toFixed(2);
-      } else if (amount1 !== "-" && amount2 !== "-") {
+      } else if (amount1 !== "" && amount2 !== "") {
         // ❌ Block unsupported conversions (e.g., USD → EUR)
         toast({
           variant: "destructive",
-          title: `Direct conversion between ${from} and ${to} is not supported.`,
+          title: `Direct conversion from ${to} to ${from} is not supported.`,
         });
-        return "-";
+        // return "-";
       }
     }
 
@@ -162,6 +224,29 @@ export default function CurrencyConverter({ companyData, className }: Props) {
     [companyData]
   );
 
+  const sanitizeInput = (value: string) => {
+    return value.replace(/[^0-9.eE+-]/g, "");
+  };
+
+  const handleAmount1Change = (e: React.ChangeEvent<HTMLInputElement>) => {
+    let rawValue = sanitizeInput(e.target.value);
+    setIsTypingInAmount1(true);
+
+    // Prevent multiple decimal points or 'e' in the input
+    if ((rawValue.match(/\./g) || []).length > 1) return;
+    if ((rawValue.match(/e/gi) || []).length > 1) return;
+
+    let num = parseFloat(rawValue);
+    if (isNaN(num)) {
+      setAmount1(""); // Reset if input is invalid
+      return;
+    }
+
+    // Convert to exponential notation if large
+    const formattedValue = num >= MAX_VALUE ? num.toExponential(4) : rawValue;
+    setAmount1(formattedValue);
+  };
+
   React.useEffect(() => {
     if (isTypingInAmount1) {
       setAmount2(
@@ -172,6 +257,25 @@ export default function CurrencyConverter({ companyData, className }: Props) {
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [amount1, currency1, currency2]);
+
+  const handleAmount2Change = (e: React.ChangeEvent<HTMLInputElement>) => {
+    let rawValue = sanitizeInput(e.target.value);
+    setIsTypingInAmount1(false);
+
+    // Prevent multiple decimal points or 'e' in the input
+    if ((rawValue.match(/\./g) || []).length > 1) return;
+    if ((rawValue.match(/e/gi) || []).length > 1) return;
+
+    let num = parseFloat(rawValue);
+    if (isNaN(num)) {
+      setAmount2(""); // Reset if input is invalid
+      return;
+    }
+
+    // Convert to exponential notation if large
+    const formattedValue = num >= MAX_VALUE ? num.toExponential(4) : rawValue;
+    setAmount2(formattedValue);
+  };
 
   React.useEffect(() => {
     if (!isTypingInAmount1) {
@@ -214,38 +318,37 @@ export default function CurrencyConverter({ companyData, className }: Props) {
           <div className="">
             {/* Input 1 */}
             <div className="flex gap-0 bg-white p-2 rounded-xl flex-col">
-            <p className="text-paragraph-sm-semibold sm:text-paragraph-md-semibold mb-1 px-1">
-            Amount
-          </p>
-          <div className="bg-white flex flex-row items-center">
-          <Select value={currency1} onValueChange={setCurrency1}>
-                <SelectTrigger className="w-fit gap-1 border-transparent [&>span]:flex [&>span]:items-center [&>span]:gap-1 [&>span]:!flex-row focus:border-transparent focus:!ring-offset-0 focus:!outline-none focus:!ring-0 h-full rounded-xl !border-none  ">
-                  <SelectValue><div className="h-6 w-6 bg-black rounded-full" /> {currency1}</SelectValue>
-                </SelectTrigger>
-                <SelectContent>
-                  {availableCurrencies.map((curr) => (
-                    <SelectItem key={curr} value={curr}>
-                      {curr}
-                    </SelectItem>
-                  ))}
-                </SelectContent>
-              </Select>
-              <div className="relative flex items-center w-full justify-end flex-row">
-              <span className="text-muted-foreground">
-                  {symbolMap[currency1]}
-                </span>
-                <Input
-  type="tel"
-  inputMode="decimal"
-  value={amount1}
-  onChange={(e) => {
-    setIsTypingInAmount1(true);
-    setAmount1(e.target.value);
-  }}
-  size={(amount1?.toString().length || 1)}
-  className="!border-none !p-0 !w-auto !min-w-0 !max-w-full text-right border-transparent focus:!ring-offset-0 focus:border-transparent focus:!ring-0 focus:!outline-none"
-/>
-              </div>
+              <p className="text-paragraph-md-semibold mb-1 px-1">Amount</p>
+              <div className="bg-white flex flex-row items-center">
+                <Select
+                  value={currency1}
+                  onValueChange={(value) => onChangeCurrencyOneFunc(value)}
+                >
+                  <SelectTrigger className="w-fit gap-1 border-transparent [&>span]:flex [&>span]:items-center [&>span]:gap-1 [&>span]:!flex-row focus:border-transparent focus:!ring-offset-0 focus:!outline-none focus:!ring-0 h-full rounded-xl !border-none  ">
+                    <SelectValue>
+                      <div className="h-6 w-6 bg-black rounded-full" />{" "}
+                      {currency1}
+                    </SelectValue>
+                  </SelectTrigger>
+                  <SelectContent>
+                    {availableCurrencies.map((curr) => (
+                      <SelectItem key={curr} value={curr}>
+                        {curr}
+                      </SelectItem>
+                    ))}
+                  </SelectContent>
+                </Select>
+                <div className="relative flex items-center w-full justify-end flex-row">
+                  <Input
+                    type="tel"
+                    inputMode="decimal"
+                    placeholder={symbolMap[currency1]}
+                    value={formatAmount(amount1, currency1)}
+                    onChange={handleAmount1Change}
+                    onBlur={() => setIsTyping(false)}
+                    className="!border-none !p-0 !w-auto !min-w-0 !max-w-full text-right border-transparent focus:!ring-offset-0 focus:border-transparent focus:!ring-0 focus:!outline-none"
+                  />
+                </div>
               </div>
             </div>
 
@@ -266,49 +369,51 @@ export default function CurrencyConverter({ companyData, className }: Props) {
 
             {/* Input 2 */}
             <div className="flex gap-0 bg-white p-2 rounded-xl flex-col">
-            <p className="text-paragraph-sm-semibold sm:text-paragraph-md-semibold mb-1 px-1">
-            Converted to
-          </p>
-          <div className="bg-white flex flex-row items-center">
-          <Select value={currency2} onValueChange={setCurrency1}>
-                <SelectTrigger className="w-fit gap-1 border-transparent [&>span]:flex [&>span]:items-center [&>span]:gap-1 [&>span]:!flex-row focus:border-transparent focus:!ring-offset-0 focus:!outline-none focus:!ring-0 h-full rounded-xl !border-none  ">
-                  <SelectValue><div className="h-6 w-6 bg-black rounded-full" /> {currency2}</SelectValue>
-                </SelectTrigger>
-                <SelectContent>
-                  {availableCurrencies.map((curr) => (
-                    <SelectItem key={curr} value={curr}>
-                      {curr}
-                    </SelectItem>
-                  ))}
-                </SelectContent>
-              </Select>
-              <div className="relative flex items-center w-full justify-end flex-row">
-              <span className="text-muted-foreground">
-                  {symbolMap[currency2]}
-                </span>
-                <Input
-  type="tel"
-  inputMode="decimal"
-  value={amount2}
-  onChange={(e) => {
-    setIsTypingInAmount1(false);
-    setAmount2(e.target.value);
-  }}
-  size={(amount2?.toString().length || 1)}
-  className="!border-none !p-0 !w-auto !min-w-0 !max-w-full text-right border-transparent focus:!ring-offset-0 focus:border-transparent focus:!ring-0 focus:!outline-none"
-/>
-              </div>
+              <p className="text-paragraph-md-semibold mb-1 px-1">
+                Converted to
+              </p>
+              <div className="bg-white flex flex-row items-center">
+                <Select
+                  value={currency2}
+                  onValueChange={(value) => onChangeCurrencyTwoFunc(value)}
+                >
+                  <SelectTrigger className="w-fit gap-1 border-transparent [&>span]:flex [&>span]:items-center [&>span]:gap-1 [&>span]:!flex-row focus:border-transparent focus:!ring-offset-0 focus:!outline-none focus:!ring-0 h-full rounded-xl !border-none  ">
+                    <SelectValue>
+                      <div className="h-6 w-6 bg-black rounded-full" />{" "}
+                      {currency2}
+                    </SelectValue>
+                  </SelectTrigger>
+                  <SelectContent>
+                    {availableCurrencies.map((curr) => (
+                      <SelectItem key={curr} value={curr}>
+                        {curr}
+                      </SelectItem>
+                    ))}
+                  </SelectContent>
+                </Select>
+                <div className="relative flex items-center w-full justify-end flex-row">
+                  <Input
+                    type="tel"
+                    inputMode="decimal"
+                    placeholder={symbolMap[currency2]}
+                    value={formatAmount2(amount2, currency2)}
+                    onChange={handleAmount2Change}
+                    onBlur={() => setIsTyping2(false)}
+                    className="!border-none !p-0 !w-auto !min-w-0 !max-w-full text-right border-transparent focus:!ring-offset-0 focus:border-transparent focus:!ring-0 focus:!outline-none"
+                  />
+                </div>
               </div>
             </div>
 
             {/* Current rate */}
             <div className="flex mt-2 gap-0 bg-white p-2 rounded-xl flex-row justify-between items-center">
-            <p className="text-paragraph-sm-semibold sm:text-paragraph-md-semibold px-1">
-            Our current rate
-          </p>
-          <p className="text-paragraph-sm-semibold sm:text-paragraph-md-semibold px-1">
-            $1 = ¢15.46
-          </p>
+              <p className="text-paragraph-sm-semibold sm:text-paragraph-md-semibold px-1">
+                Our current rate
+              </p>
+              <p className="text-paragraph-sm-semibold sm:text-paragraph-md-semibold px-1">
+                {symbolMap[currentRate.from]}1 = {symbolMap[currentRate.to]}
+                {currentRate.rate.toFixed(2)}
+              </p>
             </div>
           </div>
         </CardContent>

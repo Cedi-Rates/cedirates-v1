@@ -1,32 +1,29 @@
-import { getCompany } from "@/utils/helpers/api";
+import { getCompanyDetails } from "@/utils/helpers/api";
 import moment from "moment";
 import { ImageResponse } from "next/og";
 import { fileURLToPath } from "url";
-import template from "@/assets/images/template small.png";
-import Image from "next/image";
 
 moment.suppressDeprecationWarnings = true;
-
 export const runtime = "edge";
 
 export async function GET(request: Request) {
   const { searchParams } = new URL(request.url);
 
-  const gellix = await fetch(
-    new URL("../../../assets/fonts/Gellix-SemiBold.ttf", import.meta.url)
+  const inter = await fetch(
+    new URL("../../../assets/fonts/Inter-SemiBold.otf", import.meta.url)
   ).then((res) => res.arrayBuffer());
 
-  const gellixBold = await fetch(
-    new URL("../../../assets/fonts/Gellix-Bold.ttf", import.meta.url)
+  const interBold = await fetch(
+    new URL("../../../assets/fonts/Inter-Bold.otf", import.meta.url)
   ).then((res) => res.arrayBuffer());
 
   const hasCompany = searchParams.has('company');
   const company = hasCompany
     ? searchParams.get('company')?.slice(0, 100)
-    : 'A Company';
+    : 'A Company'
+    ;
 
-  const companyDetails = getCompany(company ?? ''
-  );
+  const companyDetails = await getCompanyDetails(company ?? '');
 
   return new ImageResponse(
     (
@@ -35,8 +32,6 @@ export async function GET(request: Request) {
         style={{
           backgroundImage:
             "url('https://cediratesstorage.blob.core.windows.net/cedirates/image1724931067764-CediRates-Company-Template.jpg')",
-          // `url(${template})`,
-          // backgroundSize: "1140px 630px",
           backgroundSize: "900px 473px",
           backgroundRepeat: "no-repeat",
           backgroundAttachment: "fixed",
@@ -45,23 +40,23 @@ export async function GET(request: Request) {
         <div
           tw="flex flex-row items-center justify-center"
         >
-          <Image
+          <img
             tw="h-28 w-28 rounded-full mr-4"
-            src={(await companyDetails).company.image}
-            alt={(await companyDetails).company.companyName}
+            src={companyDetails.company?.image}
+            alt={companyDetails.company?.companyName}
           />
           <div tw="flex flex-col">
             <p
               tw="text-white opacity-100 !m-0 h-min text-[48px]"
-              style={{ fontFamily: "GellixBold" }}
+              style={{ fontFamily: "InterBold" }}
             >
-              {(await companyDetails).company.companyName}
+              {companyDetails.company?.companyName}
             </p>
             <p
               tw="text-white -mt-5 !m-0 text-slate-300 text-[28px]"
-              style={{ fontFamily: "Gellix" }}
+              style={{ fontFamily: "Inter" }}
             >
-              {(await companyDetails).company.category.replace(/([A-Z])/g, (match) => ` ${match}`)
+              {companyDetails.company?.category.replace(/([A-Z])/g, (match) => ` ${match}`)
                 .replace(/^./, (match) => match.toUpperCase())
                 .trim()} Today
             </p>
@@ -74,16 +69,16 @@ export async function GET(request: Request) {
       height: 473,
       fonts: [
         {
-          name: "Gellix",
-          data: gellix,
-          style: "normal",
+          name: "Inter",
+          data: inter,
+          style: "normal"
         },
         {
-          name: "GellixBold",
-          data: gellixBold,
+          name: "InterBold",
+          data: interBold,
           style: "normal",
         }
-      ],
+      ]
     }
   );
 }
