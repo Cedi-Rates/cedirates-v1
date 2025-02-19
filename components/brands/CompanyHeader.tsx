@@ -343,7 +343,7 @@ const CompanyHeader = ({ companyDetails, user, chartData }: Props) => {
                     .replace(/\/$/, "")}
                 </span>
               </Link>
-            )}
+            }
           </div>
           <div className={style["subscribe-section"]}>
             <div className="flex flex-row items-start justify-end gap-1 sm:gap-2">
@@ -529,7 +529,7 @@ const CompanyHeader = ({ companyDetails, user, chartData }: Props) => {
                 .replace(/\/$/, "")}
             </span>
           </Link>
-        )}
+        }
       </div>
     </div>
   );
