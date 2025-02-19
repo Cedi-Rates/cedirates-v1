@@ -317,7 +317,8 @@ const getAvailableCurrencies = (companyData: CompanyRate) => {
 
   Object.entries(currencyMappings).forEach(([currency, key]) => {
     const rates = companyData.data[key] as currencyRatesType;
-    if (rates?.buyingRate !== null || rates?.sellingRate !== null) {
+
+    if (rates?.buyingRate || rates?.sellingRate) {
       availableCurrencies.push(currency);
     }
   });
