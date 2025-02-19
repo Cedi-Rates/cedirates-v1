@@ -59,7 +59,7 @@ export async function generateMetadata({
       : `Find the latest fuel petrol and diesel prices in Ghana from ${companyDetails.company?.companyName}. Subscribe for updates.`;
 
   const canonical = `https://cedirates.com/company/${companyDetails.company?.url}/`;
-  const image = `/api/og/?company=${companyDetails.company?.companyName}`;
+  const image = `/api/og/?company=${companyDetails.company?.url}`;
 
   return {
     title: title,
@@ -139,8 +139,13 @@ const page = async ({ params }: { params: { slug: string } }) => {
           chartData={chartData}
         />
         <div className="flex flex-col md:flex-row gap-3 sm:gap-6 lg:gap-20">
-          <div className={style["main-section"] + " basis-[60%] max-w-screen-size-size sm:max-w-[50vw] w-full"}>
-            <div className={style[""]}>
+          <div
+            className={
+              style["main-section"] +
+              " basis-[60%] max-w-screen-size-size sm:max-w-[50vw] w-full"
+            }
+          >
+            <div className="w-full">
               <RatesSection
                 companyDetails={companyDetails}
                 companyData={companyData}
@@ -160,7 +165,10 @@ const page = async ({ params }: { params: { slug: string } }) => {
           </div>
           <div className=" basis-[40%] w-full  flex flex-col gap-6 items-center">
             {companyDetails?.company?.category == "exchangeRates" && (
-              <CurrencyConverter className="sm:block hidden" companyData={companyData} />
+              <CurrencyConverter
+                className="sm:block hidden"
+                companyData={companyData}
+              />
             )}
             {/* <div className="sm:w-auto sm:px-0 px-5 w-screen overflow-x-scroll">
               <LocationsList />

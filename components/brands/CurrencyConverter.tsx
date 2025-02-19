@@ -94,13 +94,31 @@ export default function CurrencyConverter({ companyData, className }: Props) {
   };
 
   const convertCurrency = (amount: number, from: string, to: string) => {
-    if (!isConversionSupported(from, to) || !companyData) {
+    // if (!isConversionSupported(from, to) || !companyData) {
+    //   toast({
+    //     variant: "destructive",
+    //     title: `Exchange rate data not available for the selected currency pair`,
+    //   });
+    //   // return "0";
+    // }
+
+    if (!isConversionSupported(from, to)) {
+      if (isConversionSupported(to, from)) {
+        setCurrency1(to);
+        setCurrency2(from);
+        return "";
+      }
+
+      // If neither direction is supported, show error and proceed
       toast({
         variant: "destructive",
-        title: `Exchange rate data not available for the selected currency pair`,
+        title: `Exchange rate data not available for ${from}/${to}`,
+        description: "This currency pair is not supported by this company.",
       });
-      return "0";
     }
+
+    // setCurrency1(from);
+    // setCurrency2(to);
 
     const rates = companyData.data;
     const fromSlug = from.toLowerCase();
@@ -167,7 +185,7 @@ export default function CurrencyConverter({ companyData, className }: Props) {
         // ❌ Block unsupported conversions (e.g., USD → EUR)
         toast({
           variant: "destructive",
-          title: `Direct conversion between ${from} and ${to} is not supported.`,
+          title: `Direct conversion from ${to} to ${from} is not supported.`,
         });
         // return "-";
       }
@@ -188,11 +206,11 @@ export default function CurrencyConverter({ companyData, className }: Props) {
         });
         // ✅ Foreign Currency → GHS
         convertedAmount = (amount * rates2.sellingRate).toFixed(2);
-      } else if (amount1 !== "-" && amount2 !== "-") {
+      } else if (amount1 !== "" && amount2 !== "") {
         // ❌ Block unsupported conversions (e.g., USD → EUR)
         toast({
           variant: "destructive",
-          title: `Direct conversion between ${from} and ${to} is not supported.`,
+          title: `Direct conversion from ${to} to ${from} is not supported.`,
         });
         // return "-";
       }

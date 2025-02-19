@@ -1,7 +1,11 @@
 "use client";
 
 import React, { useEffect, useState } from "react";
-import { CompleteCompanyDetailsType, TagType, UserDetailsType } from "@/utils/types";
+import {
+  CompleteCompanyDetailsType,
+  TagType,
+  UserDetailsType,
+} from "@/utils/types";
 import style from "../../assets/styles/company.module.css";
 import Image from "next/image";
 import { FaFacebook, FaPhoneAlt, FaWhatsapp } from "react-icons/fa";
@@ -9,7 +13,11 @@ import { Button } from "../ui/button";
 import BellSVGComponent from "../../assets/svgs/BellSVGComponent";
 import { PremiumIcon } from "@/assets/Icons";
 import { addToWatchList } from "@/utils/helpers/api";
-import { DialogHeader, DialogTitle, DialogTrigger } from "@/components/ui/dialog"
+import {
+  DialogHeader,
+  DialogTitle,
+  DialogTrigger,
+} from "@/components/ui/dialog";
 import { SpinnerCircular } from "spinners-react";
 import ColorThief from "colorthief";
 import {
@@ -19,9 +27,15 @@ import {
   DropdownMenuLabel,
   DropdownMenuSeparator,
   DropdownMenuTrigger,
-} from "@/components/ui/dropdown-menu"
+} from "@/components/ui/dropdown-menu";
 import { getBase64ImageFromUrl } from "@/utils/helpers/helperfunctions";
-import { Drawer, DrawerContent, DrawerHeader, DrawerTitle, DrawerTrigger } from "@/components/ui/drawer"
+import {
+  Drawer,
+  DrawerContent,
+  DrawerHeader,
+  DrawerTitle,
+  DrawerTrigger,
+} from "@/components/ui/drawer";
 import axios from "axios";
 import dynamic from "next/dynamic";
 import Link from "next/link";
@@ -46,22 +60,21 @@ const DialogContent = dynamic(
   { ssr: false }
 );
 
-
 const useMediaQuery = (query: string) => {
-  const [matches, setMatches] = useState(false)
+  const [matches, setMatches] = useState(false);
 
   useEffect(() => {
-    const media = window.matchMedia(query)
+    const media = window.matchMedia(query);
     if (media.matches !== matches) {
-      setMatches(media.matches)
+      setMatches(media.matches);
     }
-    const listener = () => setMatches(media.matches)
-    window.addEventListener("resize", listener)
-    return () => window.removeEventListener("resize", listener)
-  }, [matches, query])
+    const listener = () => setMatches(media.matches);
+    window.addEventListener("resize", listener);
+    return () => window.removeEventListener("resize", listener);
+  }, [matches, query]);
 
-  return matches
-}
+  return matches;
+};
 
 type Props = {
   companyDetails: CompleteCompanyDetailsType;
@@ -70,10 +83,8 @@ type Props = {
 };
 
 const CompanyHeader = ({ companyDetails, user, chartData }: Props) => {
-  console.log('Company Details:', companyDetails);
-
   const { toast } = useToast();
-  const isMobile = useMediaQuery("(max-width: 640px)")
+  const isMobile = useMediaQuery("(max-width: 640px)");
   const [loading, setLoading] = useState(false);
   const [subscriberCount, setSubscriberCount] = useState(
     companyDetails?.subscriberCount
@@ -192,16 +203,44 @@ const CompanyHeader = ({ companyDetails, user, chartData }: Props) => {
     <>
       <div className="space-y-3">
         <div className="space-y-1 pl-3">
-          <h3 className={`${isMobile ? 'text-paragraph-md-semibold' : 'text-paragraph-lg-semibold'} font-medium`}>WhatsApp</h3>
-          <p className={`${isMobile ? 'text-paragraph-md-medium' : 'text-paragraph-lg-medium'} text-text-text-quarternary`}>{companyDetails.company.phone}</p>
+          <h3
+            className={`${
+              isMobile
+                ? "text-paragraph-md-semibold"
+                : "text-paragraph-lg-semibold"
+            } font-medium`}
+          >
+            WhatsApp
+          </h3>
+          <p
+            className={`${
+              isMobile ? "text-paragraph-md-medium" : "text-paragraph-lg-medium"
+            } text-text-text-quarternary`}
+          >
+            {companyDetails.company.phone}
+          </p>
         </div>
         <div className="space-y-1 border-t pt-3 pl-3">
-          <h3 className={`${isMobile ? 'text-paragraph-md-semibold' : 'text-paragraph-lg-semibold'} font-medium`}>Call</h3>
-          <p className={`${isMobile ? 'text-paragraph-md-medium' : 'text-paragraph-lg-medium'} text-text-text-quarternary`}>{companyDetails.company.phone}</p>
+          <h3
+            className={`${
+              isMobile
+                ? "text-paragraph-md-semibold"
+                : "text-paragraph-lg-semibold"
+            } font-medium`}
+          >
+            Call
+          </h3>
+          <p
+            className={`${
+              isMobile ? "text-paragraph-md-medium" : "text-paragraph-lg-medium"
+            } text-text-text-quarternary`}
+          >
+            {companyDetails.company.phone}
+          </p>
         </div>
       </div>
     </>
-  )
+  );
 
   const TooltipIcon = () => (
     <>
@@ -212,20 +251,24 @@ const CompanyHeader = ({ companyDetails, user, chartData }: Props) => {
           if (key === "newListing" && tagData.date) {
             const listingDate = new Date(tagData.date);
             const currentDate = new Date();
-            const diffDays = (currentDate.getTime() - listingDate.getTime()) / (1000 * 60 * 60 * 24);
+            const diffDays =
+              (currentDate.getTime() - listingDate.getTime()) /
+              (1000 * 60 * 60 * 24);
 
             if (diffDays > 7) return null;
           }
           return (
             <TagTooltip
               key={key}
-              icon={<Icon className="w-[18px] h-[18px]" color={iconColors[key]} />}
+              icon={
+                <Icon className="w-[18px] h-[18px]" color={iconColors[key]} />
+              }
               content={tagData.note}
             />
           );
         })}
     </>
-  )
+  );
 
   return (
     <div>
@@ -254,12 +297,17 @@ const CompanyHeader = ({ companyDetails, user, chartData }: Props) => {
             width={120}
             height={120}
             priority
-          // loading="lazy"
+            // loading="lazy"
           />
         </div>
-        <div className={style["profile-container"] + ' !-mt-8 sm:!mt-12'}>
+        <div className={style["profile-container"] + " !-mt-8 sm:!mt-12"}>
           <div className={style["profile-info-text-up"]}>
-            <div className={'!justify-center sm:!justify-start mb-1 ' + style["company-name-container"]}>
+            <div
+              className={
+                "!justify-center sm:!justify-start mb-1 " +
+                style["company-name-container"]
+              }
+            >
               <h3 className="text-paragraph-lg-semibold !leading-[17px]">
                 {companyDetails.company?.companyName}
               </h3>
@@ -286,17 +334,22 @@ const CompanyHeader = ({ companyDetails, user, chartData }: Props) => {
             >
               {companyBio}
             </div>
-            {companyDetails?.company?.link &&
-              <Link href={companyDetails?.company?.link} className="flex flex-row items-center gap-1 text-text-text-brand">
+            {companyDetails?.company?.link && (
+              <Link
+                href={companyDetails?.company?.link}
+                className="flex flex-row items-center gap-1 text-text-text-brand"
+              >
                 <LinkIcon size={18} />
                 <span className="text-paragraph-sm-semibold">
-                  {companyDetails?.company?.link.replace(/^(https?:\/\/)?(www\.)?/, '').replace(/\/$/, '')}
+                  {companyDetails?.company?.link
+                    .replace(/^(https?:\/\/)?(www\.)?/, "")
+                    .replace(/\/$/, "")}
                 </span>
               </Link>
-            }
+            )}
           </div>
           <div className={style["subscribe-section"]}>
-            <div className='flex flex-row items-start justify-end gap-1 sm:gap-2'>
+            <div className="flex flex-row items-start justify-end gap-1 sm:gap-2">
               {userDetails?.watchList?.includes(
                 companyDetails?.company?.UniqueID
               ) ? (
@@ -305,9 +358,11 @@ const CompanyHeader = ({ companyDetails, user, chartData }: Props) => {
                     {isMobile ? (
                       <Button
                         onClick={() => setOpen(true)}
-                        variant='secondary'
-                        trailing={<ChevronDown className="w-4 h-4" color="#0A0A0A" />}
-                        size='sm'
+                        variant="secondary"
+                        trailing={
+                          <ChevronDown className="w-4 h-4" color="#0A0A0A" />
+                        }
+                        size="sm"
                         className="!text-caption-md-semibold !px-3 !h-6"
                       >
                         {loading ? (
@@ -325,9 +380,11 @@ const CompanyHeader = ({ companyDetails, user, chartData }: Props) => {
                       <Button
                         className="text-white sm:rounded-lg !h-6 rounded-[7px] !text-paragraph-sm-medium !px-5 !bg-background-bg-secondary"
                         onClick={() => setOpen(true)}
-                        variant='secondary'
-                        size='lg'
-                        trailing={<ChevronDown className="w-4 h-4" color="#0A0A0A" />}
+                        variant="secondary"
+                        size="lg"
+                        trailing={
+                          <ChevronDown className="w-4 h-4" color="#0A0A0A" />
+                        }
                       >
                         {loading ? (
                           <SpinnerCircular
@@ -343,8 +400,13 @@ const CompanyHeader = ({ companyDetails, user, chartData }: Props) => {
                     )}
                   </DropdownMenuTrigger>
                   <DropdownMenuContent className="rounded-xl">
-                    <DropdownMenuItem className="rounded-lg">Turn On Alerts</DropdownMenuItem>
-                    <DropdownMenuItem className="hover:!text-text-text-error text-text-text-error rounded-lg" onClick={handleSubscribe}>
+                    <DropdownMenuItem className="rounded-lg">
+                      Turn On Alerts
+                    </DropdownMenuItem>
+                    <DropdownMenuItem
+                      className="hover:!text-text-text-error text-text-text-error rounded-lg"
+                      onClick={handleSubscribe}
+                    >
                       Unfollow
                     </DropdownMenuItem>
                   </DropdownMenuContent>
@@ -354,7 +416,7 @@ const CompanyHeader = ({ companyDetails, user, chartData }: Props) => {
                   {isMobile ? (
                     <Button
                       onClick={handleSubscribe}
-                      size='sm'
+                      size="sm"
                       style={{ color: "#fff" }}
                       className="!text-caption-md-semibold !px-3 !h-6"
                     >
@@ -373,7 +435,7 @@ const CompanyHeader = ({ companyDetails, user, chartData }: Props) => {
                     <Button
                       className="text-white sm:rounded-lg !h-6 rounded-[7px] !text-paragraph-sm-medium !px-5"
                       onClick={handleSubscribe}
-                      size='lg'
+                      size="lg"
                     >
                       {loading ? (
                         <SpinnerCircular
@@ -395,16 +457,22 @@ const CompanyHeader = ({ companyDetails, user, chartData }: Props) => {
                   <DrawerTrigger asChild>
                     <Button
                       className="!text-caption-md-semibold !px-3 sm:rounded-lg !h-6 rounded-[7px] !bg-background-bg-secondary"
-                      variant='secondary'
-                      size='sm'
+                      variant="secondary"
+                      size="sm"
                     >
                       Contact
                     </Button>
                   </DrawerTrigger>
                   <DrawerContent className="px-6 pb-6">
                     <DrawerHeader className="relative mb-3 flex flex-row justify-between items-center">
-                      <DrawerTitle className="text-paragraph-lg-semibold font-semibold sm:rounded-lg sm:h-auto !h-6 rounded-[7px]">Contact</DrawerTitle>
-                      <Button variant="ghost" className="!p-2 bg-background-bg-secondary !h-min" onClick={() => setOpen(false)}>
+                      <DrawerTitle className="text-paragraph-lg-semibold font-semibold sm:rounded-lg sm:h-auto !h-6 rounded-[7px]">
+                        Contact
+                      </DrawerTitle>
+                      <Button
+                        variant="ghost"
+                        className="!p-2 bg-background-bg-secondary !h-min"
+                        onClick={() => setOpen(false)}
+                      >
                         <X className="h-4 w-4 text-black" />
                         <span className="sr-only">Close</span>
                       </Button>
@@ -417,15 +485,17 @@ const CompanyHeader = ({ companyDetails, user, chartData }: Props) => {
                   <DialogTrigger asChild>
                     <Button
                       className="!text-paragraph-sm-medium sm:rounded-lg !h-6 rounded-[7px] !px-5 !bg-background-bg-secondary"
-                      variant='secondary'
-                      size='lg'
+                      variant="secondary"
+                      size="lg"
                     >
                       Contact
                     </Button>
                   </DialogTrigger>
                   <DialogContent className="sm:max-w-[500px] !rounded-2xl p-6">
                     <DialogHeader className="relative mb-3">
-                      <DialogTitle className="text-header-h6-semibold font-semibold">Contact</DialogTitle>
+                      <DialogTitle className="text-header-h6-semibold font-semibold">
+                        Contact
+                      </DialogTitle>
                     </DialogHeader>
                     <ContactContent />
                   </DialogContent>
@@ -438,7 +508,8 @@ const CompanyHeader = ({ companyDetails, user, chartData }: Props) => {
       <div className={style["profile-info-text-down"]}>
         <div
           className={
-            style["company-name-container"] + " text-start !justify-start items-center mt-9 mb-1"
+            style["company-name-container"] +
+            " text-start !justify-start items-center mt-9 mb-1"
           }
         >
           {companyDetails.company?.companyName}
@@ -453,14 +524,19 @@ const CompanyHeader = ({ companyDetails, user, chartData }: Props) => {
           </div>
         </div>
         <div className={style["desc-text"]}>{companyBio}</div>
-        {companyDetails?.company?.link &&
-          <Link href={companyDetails?.company?.link} className="pt-2 flex flex-row items-center gap-1 text-text-text-brand">
+        {companyDetails?.company?.link && (
+          <Link
+            href={companyDetails?.company?.link}
+            className="pt-2 flex flex-row items-center gap-1 text-text-text-brand"
+          >
             <LinkIcon size={18} />
             <span className="text-paragraph-sm-semibold">
-              {companyDetails?.company?.link.replace(/^(https?:\/\/)?(www\.)?/, '').replace(/\/$/, '')}
+              {companyDetails?.company?.link
+                .replace(/^(https?:\/\/)?(www\.)?/, "")
+                .replace(/\/$/, "")}
             </span>
           </Link>
-        }
+        )}
       </div>
     </div>
   );

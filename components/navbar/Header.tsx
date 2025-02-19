@@ -24,7 +24,7 @@ const Header = ({ user }: any) => {
   const [currentPath, setCurrentPath] = useState("");
   const [storedUser, setStoredUser] = useState<UserDetailsType>(
     typeof window !== "undefined" &&
-      JSON.parse(sessionStorage.getItem(CEDIRATES_USER) as string)
+    JSON.parse(sessionStorage.getItem(CEDIRATES_USER) as string)
     // {} as UserDetailsType
   );
 
@@ -207,9 +207,8 @@ const Header = ({ user }: any) => {
               {navigation.map((item, idx) => (
                 <li
                   key={idx}
-                  className={`block md:border-none border-b border-[#f2f2f2] hover:text-primary text-[0.95rem] ${
-                    currentPath === item.path ? "text-primary" : ""
-                  }`}
+                  className={`block md:border-none border-b border-[#f2f2f2] hover:text-primary text-[0.95rem] ${currentPath === item.path ? "text-primary" : ""
+                    }`}
                 >
                   <ProgressBarLink href={item.path}>
                     {item.title}
@@ -246,9 +245,8 @@ const Header = ({ user }: any) => {
             </div>
           </div>
           <div
-            className={`items-center ${
-              menu ? "block" : "hidden"
-            } w-full lg:hidden lg:w-auto lg:order-1`}
+            className={`items-center ${menu ? "block" : "hidden"
+              } w-full lg:hidden lg:w-auto lg:order-1`}
           >
             <ul className="flex flex-col my-4 font-medium lg:flex-row lg:gap-spacing-12 md:my-0 md:border-0 mx-auto">
               {navigation.map((item, idx) => (
@@ -281,11 +279,16 @@ const Header = ({ user }: any) => {
                 Get Listed
               </Button>
             </ProgressBarLink>
-            <ProgressBarLink href={"/developer"}>
+            {/* <ProgressBarLink href={"/developer"}>
               <Button size={"sm"} variant={"secondary"}>
                 API
               </Button>
-            </ProgressBarLink>
+            </ProgressBarLink> */}
+            <Link href={'https://public-api.cedirates.com/api-docs/'} target="_blank">
+              <Button size={"sm"} variant={"secondary"}>
+                API
+              </Button>
+            </Link>
             <ProgressBarLink href={"/watchlist"}>
               <Button size={"sm"} variant={"secondary"}>
                 Watchlist
