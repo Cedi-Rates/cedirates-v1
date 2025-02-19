@@ -31,7 +31,7 @@ const PressReleases: React.FC<PressReleasesProps> = ({ blogs, pollData }) => {
           <NewsCard blog={blogs?.pressReleases[0]} description={false} />
           <NewsCard blog={blogs?.pressReleases[1]} description={false} />
           <NewsCard blog={blogs?.pressReleases[2]} description={false} />
-          <NewsCard blog={blogs?.pressReleases[0]} description={false} />
+          <NewsCard blog={blogs?.pressReleases[3]} description={false} />
         </div>
       </div>
       <div className="flex flex-col gap-4 sm:hidden my-6">

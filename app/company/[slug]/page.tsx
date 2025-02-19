@@ -59,7 +59,7 @@ export async function generateMetadata({
       : `Find the latest fuel petrol and diesel prices in Ghana from ${companyDetails.company?.companyName}. Subscribe for updates.`;
 
   const canonical = `https://cedirates.com/company/${companyDetails.company?.url}/`;
-  const image = `/api/og/?company=${companyDetails.company?.companyName}`;
+  const image = `/api/og/?company=${companyDetails.company?.url}`;
 
   return {
     title: title,
