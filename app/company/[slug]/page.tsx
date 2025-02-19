@@ -22,6 +22,7 @@ import { MobileNav } from "@/components/mobile-nav";
 import Header from "@/components/navbar/Header";
 import CurrencyConverter from "@/components/brands/CurrencyConverter";
 import LocationsList from "@/components/brands/Locations";
+import FuelTankCalc from "@/components/brands/FuelTankCalc";
 
 const CompanyHeader = dynamic(
   () => import("@/components/brands/CompanyHeader")
@@ -138,9 +139,8 @@ const page = async ({ params }: { params: { slug: string } }) => {
           user={user}
           chartData={chartData}
         />
-        <div className="flex flex-col md:flex-row gap-3 sm:gap-6 lg:gap-20">
-          <div className={style["main-section"] + " basis-[60%] max-w-screen-size-size sm:max-w-[50vw] w-full"}>
-            <div className={style[""]}>
+        <div className="flex flex-col md:flex-row gap-3 sm:gap-6 lg:gap-10">
+          <div className={style["main-section"] + " flex flex-col basis-full min-[1400px]:basis-[60%] min-[1400px]:max-w-[870px] max-w-full w-full"}>
               <RatesSection
                 companyDetails={companyDetails}
                 companyData={companyData}
@@ -155,13 +155,12 @@ const page = async ({ params }: { params: { slug: string } }) => {
               {/* <div className="mb-3">
                 <Faqs companyDetails={companyDetails} />
               </div> */}
-            </div>
             {/* <EventsSection companyDetails={companyDetails} events={events} /> */}
           </div>
-          <div className=" basis-[40%] w-full  flex flex-col gap-6 items-center">
-            {companyDetails?.company?.category == "exchangeRates" && (
-              <CurrencyConverter className="sm:block hidden" companyData={companyData} />
-            )}
+          <div className="min-[1400px]:flex basis-[40%] w-full  hidden flex-col gap-6 items-center">
+            {companyDetails?.company?.category == "exchangeRates" ? (
+              <CurrencyConverter className="min-[1400px]:block hidden" companyData={companyData} />
+            ) : <FuelTankCalc companyData={companyData} />}
             {/* <div className="sm:w-auto sm:px-0 px-5 w-screen overflow-x-scroll">
               <LocationsList />
             </div> */}

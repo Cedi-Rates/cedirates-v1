@@ -151,6 +151,10 @@ const ReviewSection = ({ companyDetails, user, reviews, events }: Props) => {
                   slidesPerView: 2,
                   spaceBetween: 30,
                 },
+                1400: {
+                  slidesPerView: 1.4,
+                  spaceBetween: 20
+                }
               }}
               navigation={{
                 nextEl: ".swiper-forward",
@@ -165,7 +169,7 @@ const ReviewSection = ({ companyDetails, user, reviews, events }: Props) => {
               pagination={{ clickable: true }}
               scrollbar={{ draggable: true }}
             >
-              <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+              <div className="flex flex-row gap-4">
                 {filteredReviewsCollection
                   .sort(
                     (a, b) =>

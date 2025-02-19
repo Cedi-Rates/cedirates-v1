@@ -49,8 +49,8 @@ const AverageInfo = ({ companyDetails, user, reviews }: AverageInfoProps) => {
   return (
     <div className={style["info-section"]}>
       <div className={style["average-rating"]}>
-        <p className={style["average-number"]}>
-          {averageRating?.toFixed(1)} <span>out of 5</span>
+        <p className={style["average-number"] + ' !leading-none mt-2'}>
+          <p className='leading-none'>{averageRating?.toFixed(1)}</p> <span className='leading-none'>out of 5</span>
         </p>
         <div className={style["total-rating"]}>
           <p>

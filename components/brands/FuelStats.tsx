@@ -3,6 +3,7 @@ import React from "react";
 import { CiCircleInfo } from "react-icons/ci";
 import style from "../../assets/styles/company.module.css";
 import { FaSortDown, FaSortUp } from "react-icons/fa";
+import DecorativeIcon from "@/assets/Icons/DecorativeIcon";
 
 type Props = {
   companyDetails: CompleteCompanyDetailsType;
@@ -17,7 +18,7 @@ console.log(currentRate)
     <div className="w-full overflow-x-scroll">
     <div className="flex flex-row gap-3">
       <div
-        className="px-spacing-16 sm:w-full w-min flex max-w-[320px] flex-col border-2 rounded-xl border-[#E5E5E5]"
+        className="px-spacing-16 sm:w-full relative w-min flex max-w-[320px] flex-col border-2 rounded-xl border-[#E5E5E5]"
         style={{
           display: !currentRate?.petrol ? "none" : "flex",
         }}
@@ -25,6 +26,17 @@ console.log(currentRate)
         {/* <span className="absolute top-2 right-2 cursor-pointer">
           <CiCircleInfo />
         </span> */}
+         <div className="absolute inset-0 overflow-hidden">
+        {/* Top left pattern */}
+        <div className="absolute -top-4 opacity-[8%] -left-2 text-green-100 transform rotate-[-15deg] scale-[2.5]">
+          <DecorativeIcon index={0} />
+        </div>
+
+        {/* Bottom right pattern */}
+        <div className="absolute -bottom-4 opacity-[8%] -right-4 text-green-100 transform rotate-[165deg] scale-[2.5]">
+          <DecorativeIcon index={0} />
+        </div>
+      </div>
 
         <p className="text-text-text-primary text-paragraph-lg-semibold my-spacing-12">Petrol</p>
           <p className="text-header-h3-medium w-max pr-6 items-center flex-row flex leading-[30px] my-spacing-20">
@@ -42,7 +54,7 @@ console.log(currentRate)
       </div>
 
       <div
-        className="px-spacing-16 sm:w-full w-min flex max-w-[320px] flex-col border-2 rounded-xl border-[#E5E5E5]"
+        className="px-spacing-16 relative sm:w-full w-min flex max-w-[320px] flex-col border-2 rounded-xl border-[#E5E5E5]"
         style={{
           display: !currentRate?.petrol ? "none" : "flex",
         }}
@@ -50,6 +62,18 @@ console.log(currentRate)
         {/* <span className="absolute top-2 right-2 cursor-pointer">
           <CiCircleInfo />
         </span> */}
+
+<div className="absolute inset-0 overflow-hidden">
+        {/* Top left pattern */}
+        <div className="absolute -top-4 opacity-[8%] -left-2 text-green-100 transform rotate-[-15deg] scale-[2.5]">
+          <DecorativeIcon index={1} />
+        </div>
+
+        {/* Bottom right pattern */}
+        <div className="absolute -bottom-4 opacity-[8%] -right-4 text-green-100 transform rotate-[165deg] scale-[2.5]">
+          <DecorativeIcon index={1} />
+        </div>
+      </div>
 
         <p className="text-text-text-primary text-paragraph-lg-semibold my-spacing-12">Diesel</p>
           <p className="text-header-h3-medium w-max pr-6 flex-row flex items-center leading-[30px] my-spacing-20">
@@ -76,7 +100,7 @@ console.log(currentRate)
       </div>
 
       <div
-        className="px-spacing-16 sm:w-full w-min max-w-[320px] flex flex-col border-2 rounded-xl border-[#E5E5E5]"
+        className="px-spacing-16 relative sm:w-full w-min max-w-[320px] flex flex-col border-2 rounded-xl border-[#E5E5E5]"
         style={{
           display: !currentRate?.premium ? "none" : "flex",
         }}
@@ -84,6 +108,18 @@ console.log(currentRate)
         {/* <span className="absolute top-2 right-2 cursor-pointer">
           <CiCircleInfo />
         </span> */}
+
+<div className="absolute inset-0 overflow-hidden">
+        {/* Top left pattern */}
+        <div className="absolute -top-4 opacity-[8%] -left-2 text-green-100 transform rotate-[-15deg] scale-[2.5]">
+          <DecorativeIcon index={2} />
+        </div>
+
+        {/* Bottom right pattern */}
+        <div className="absolute -bottom-4 opacity-[8%] -right-4 text-green-100 transform rotate-[165deg] scale-[2.5]">
+          <DecorativeIcon index={2} />
+        </div>
+      </div>
 
         <p className="text-text-text-primary text-paragraph-lg-semibold my-spacing-12">Premium</p>
           <p className="text-header-h3-medium w-max pr-6 flex-row items-center flex leading-[30px] my-spacing-20">

@@ -246,7 +246,7 @@ const CompanyHeader = ({ companyDetails, user, chartData }: Props) => {
           ></div>
         )}
       </div>
-      <div className={style["profile-info"]}>
+      <div className={style["profile-info"] + ' !mr-0 !pr-0'}>
         <div className={style["profile-picture"]}>
           <Image
             src={companyDetails.company?.image}
@@ -257,7 +257,7 @@ const CompanyHeader = ({ companyDetails, user, chartData }: Props) => {
           // loading="lazy"
           />
         </div>
-        <div className={style["profile-container"] + ' !-mt-8 sm:!mt-12'}>
+        <div className={style["profile-container"] + ' !-mt-8 min-[1000px]:!mt-12'}>
           <div className={style["profile-info-text-up"]}>
             <div className={'!justify-center sm:!justify-start mb-1 ' + style["company-name-container"]}>
               <h3 className="text-paragraph-lg-semibold !leading-[17px]">
@@ -287,7 +287,7 @@ const CompanyHeader = ({ companyDetails, user, chartData }: Props) => {
               {companyBio}
             </div>
             {companyDetails?.company?.link &&
-              <Link href={companyDetails?.company?.link} className="flex flex-row items-center gap-1 text-text-text-brand">
+              <Link href={companyDetails?.company?.link} className="flex w-fit flex-row items-center gap-1 text-text-text-brand">
                 <LinkIcon size={18} />
                 <span className="text-paragraph-sm-semibold">
                   {companyDetails?.company?.link.replace(/^(https?:\/\/)?(www\.)?/, '').replace(/\/$/, '')}
@@ -435,10 +435,10 @@ const CompanyHeader = ({ companyDetails, user, chartData }: Props) => {
           </div>
         </div>
       </div>
-      <div className={style["profile-info-text-down"]}>
+      <div className={style["profile-info-text-down"] + ' mt-9'}>
         <div
           className={
-            style["company-name-container"] + " text-start !justify-start items-center mt-9 mb-1"
+            style["company-name-container"] + " text-start !justify-start items-center mb-1"
           }
         >
           {companyDetails.company?.companyName}
@@ -454,7 +454,7 @@ const CompanyHeader = ({ companyDetails, user, chartData }: Props) => {
         </div>
         <div className={style["desc-text"]}>{companyBio}</div>
         {companyDetails?.company?.link &&
-          <Link href={companyDetails?.company?.link} className="pt-2 flex flex-row items-center gap-1 text-text-text-brand">
+          <Link href={companyDetails?.company?.link} className="pt-2 flex flex-row items-center gap-1 text-text-text-brand w-fit">
             <LinkIcon size={18} />
             <span className="text-paragraph-sm-semibold">
               {companyDetails?.company?.link.replace(/^(https?:\/\/)?(www\.)?/, '').replace(/\/$/, '')}
