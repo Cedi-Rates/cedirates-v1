@@ -96,7 +96,7 @@ const ExchangeStats = ({ companyDetails, companyData }: Props) => {
                 <p
                   className={`text-header-h3-medium w-max leading-[30px] my-spacing-20`}
                 >
-                  ¢{""}
+                  ₵{""}
                   {formatRate(
                     index === 0 ? selectedRate?.buying : selectedRate?.selling
                   )}
