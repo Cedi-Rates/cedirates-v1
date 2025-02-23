@@ -39,23 +39,20 @@ export const CurrencyPicker = () => {
         // className=" bg-black/5"
       >
         <SelectTrigger
-          className="w-[160px] rounded-lg sm:ml-auto"
+          className="w-[100px] rounded-lg sm:ml-auto"
           aria-label="Select a value"
         >
           <SelectValue placeholder="Select a range" />
         </SelectTrigger>
         <SelectContent className="rounded-xl">
-          <SelectItem value="default" className="rounded-lg">
-            Select a currency
-          </SelectItem>
           <SelectItem value="dollarRates" className="rounded-lg">
-            Dollar
+            USD
           </SelectItem>
           <SelectItem value="poundRates" className="rounded-lg">
-            Pound
+            GBP
           </SelectItem>
           <SelectItem value="euroRates" className="rounded-lg">
-            Euro
+            EUR
           </SelectItem>
         </SelectContent>
       </Select>

@@ -70,7 +70,7 @@ export function CommandMenu() {
           name: item.company.companyName,
           value: `GHS ${item.dollarRates.sellingRate?.toFixed(2) ?? "00.00"}`,
           id: item.company.UniqueID,
-          url: `${window?.location?.origin}/${item.company?.url}`,
+          url: `${window?.location?.origin}/company/${item.company?.url}`,
           image: item.company?.image,
         }));
       const otherCompanies = data
@@ -79,7 +79,7 @@ export function CommandMenu() {
           name: item.company.companyName,
           value: `GHS ${item.dollarRates.sellingRate?.toFixed(2) ?? "00.00"}`,
           id: item.company.UniqueID,
-          url: `${window?.location?.origin}/${item.company?.url}`,
+          url: `${window?.location?.origin}/company/${item.company?.url}`,
           image: item.company?.image,
         }));
       setExchangeRateCompaines([...pinnedCompanies, ...otherCompanies]);
@@ -99,7 +99,7 @@ export function CommandMenu() {
           name: item.company?.companyName,
           value: `GHS ${item.diesel?.toFixed(2) ?? "00.00"}`,
           id: item.company?.UniqueID,
-          url: `${window.location.origin}/${item.company?.url}`,
+          url: `${window.location.origin}/company/${item.company?.url}`,
           image: item.company?.image,
         }));
       const otherCompanies = data
@@ -112,7 +112,7 @@ export function CommandMenu() {
           name: item.company?.companyName,
           value: `GHS ${item.diesel?.toFixed(2) ?? "00.00"}`,
           id: item.company?.UniqueID,
-          url: `${window.location.origin}/${item.company?.url}`,
+          url: `${window.location.origin}/company/${item.company?.url}`,
           image: item.company?.image,
         }));
       setFuelCompaines([...pinnedCompanies, ...otherCompanies]);
@@ -301,7 +301,7 @@ export function CommandMenu() {
                             />
                             <span className="font-medium">{company.name}</span>
                           </div>
-                          <span className="text-xs font-semibold text-muted-foreground">
+                          <span className="text-xs font-semibold text-black">
                             {company.value}
                           </span>
                         </CommandItem>
@@ -334,7 +334,7 @@ export function CommandMenu() {
                             />
                             <span className="font-medium">{company.name}</span>
                           </div>
-                          <span className="text-xs font-semibold text-muted-foreground">
+                          <span className="text-xs font-semibold text-black">
                             {company.value}
                           </span>
                         </CommandItem>
@@ -378,7 +378,7 @@ export function CommandMenu() {
                                 {company.name}
                               </span>
                             </div>
-                            <span className="text-xs font-semibold text-muted-foreground">
+                            <span className="text-xs font-semibold text-black">
                               {company.value}
                             </span>
                           </CommandItem>
@@ -425,7 +425,7 @@ export function CommandMenu() {
                             />
                             <span className="font-medium">{company.name}</span>
                           </div>
-                          <span className="text-xs font-semibold text-muted-foreground">
+                          <span className="text-xs font-semibold text-black">
                             {company.value}
                           </span>
                         </CommandItem>
