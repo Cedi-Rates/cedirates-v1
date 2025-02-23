@@ -32,8 +32,12 @@ type Props = {
 
 const MAX_VALUE = 1e15;
 
+const sanitizeInput = (value: string) => {
+  return value.replace(/[^0-9.eE+-]/g, "");
+};
+
 export default function CurrencyConverter({ companyData, className }: Props) {
-  const [amount1, setAmount1] = React.useState<string | number>("50.00");
+  const [amount1, setAmount1] = React.useState<string | number>("500.00");
   const [amount2, setAmount2] = React.useState<string | number>("0.00");
   const [currency1, setCurrency1] = React.useState("USD");
   const [currency2, setCurrency2] = React.useState("GHS");
@@ -70,72 +74,68 @@ export default function CurrencyConverter({ companyData, className }: Props) {
     EUR: "€",
   };
 
+  const formatRateDisplay = (from: string, to: string, rate: number) => {
+    if (from === "GHS") {
+      // GHS to other currency: ₵1 = $0.xx
+      return `₵1 = ${symbolMap[to]}${rate.toFixed(2)}`;
+    } else if (to === "GHS") {
+      // Other currency to GHS: $1 = ₵xx.xx
+      return `₵1 = ${symbolMap[from]}${rate.toFixed(2)}`;
+    }
+    return ""; // Handle other cases if needed
+  };
+
   const handleSwap = () => {
     setAmount1(amount2);
     setAmount2(amount1);
     setCurrency1(currency2);
     setCurrency2(currency1);
     setIsTypingInAmount1(!isTypingInAmount1);
+
+    convertCurrency(parseFloat(amount1 as string), currency2, currency1);
   };
 
   const isConversionSupported = (from: string, to: string) => {
     const validPairs = getValidCurrencyPairs(companyData);
     return validPairs.has(`${from}/${to}`);
-
-    // const supportedConversions = [
-    //   "GHS/USD",
-    //   "GHS/GBP",
-    //   "GHS/EUR",
-    //   "USD/GHS",
-    //   "GBP/GHS",
-    //   "EUR/GHS",
-    // ];
-    // return;
   };
 
   const convertCurrency = (amount: number, from: string, to: string) => {
-    // if (!isConversionSupported(from, to) || !companyData) {
-    //   toast({
-    //     variant: "destructive",
-    //     title: `Exchange rate data not available for the selected currency pair`,
-    //   });
-    //   // return "0";
-    // }
-
-    if (!isConversionSupported(from, to)) {
-      if (isConversionSupported(to, from)) {
-        setCurrency1(to);
-        setCurrency2(from);
-        return "";
-      }
-
-      // If neither direction is supported, show error and proceed
-      toast({
-        variant: "destructive",
-        title: `Exchange rate data not available for ${from}/${to}`,
-        description: "This currency pair is not supported by this company.",
-      });
-    }
-
-    // setCurrency1(from);
-    // setCurrency2(to);
-
     const rates = companyData.data;
-    const fromSlug = from.toLowerCase();
-    const toSlug = to.toLowerCase();
+    let fromSlug = from;
+    let toSlug = to;
     let toCurrency = "";
     let fromCurrency = "";
 
     let convertedAmount: number | string = "";
 
+    if (!isConversionSupported(from, to)) {
+      if (isConversionSupported(to, from)) {
+        setCurrency1(to);
+        setCurrency2(from);
+        // convertCurrency(amount, to, from);
+        fromSlug = from;
+        toSlug = to;
+        // return "";
+      } else {
+        // toast({
+        //   variant: "destructive",
+        //   title: `Exchange rate data not available for ${fromSlug}/${toSlug}`,
+        //   description: "This currency pair is not supported by this company.",
+        // });
+
+        setCurrency1("GHS");
+      }
+    }
+
     switch (fromSlug) {
-      case "usd":
+      case "USD":
         fromCurrency = "dollar";
         break;
-      case "eur":
+      case "EUR":
         fromCurrency = "euro";
         break;
-      case "gbp":
+      case "GBP":
         fromCurrency = "pound";
         break;
       default:
@@ -143,13 +143,13 @@ export default function CurrencyConverter({ companyData, className }: Props) {
     }
 
     switch (toSlug) {
-      case "usd":
+      case "USD":
         toCurrency = "dollar";
         break;
-      case "eur":
+      case "EUR":
         toCurrency = "euro";
         break;
-      case "gbp":
+      case "GBP":
         toCurrency = "pound";
         break;
       default:
@@ -163,19 +163,19 @@ export default function CurrencyConverter({ companyData, className }: Props) {
     const rates2 = rates[key2] as currencyRatesType;
 
     if (isTypingInAmount1) {
-      if (from === "GHS" && amount && rates1?.sellingRate) {
+      if (fromSlug === "GHS" && amount && rates1?.sellingRate) {
         setCurrentRate({
-          from: from,
-          to: to,
+          from: fromSlug,
+          to: toSlug,
           rate: rates1?.sellingRate,
         });
         // ✅ GHS → Foreign Currency
 
         convertedAmount = (amount / rates1.sellingRate).toFixed(2);
-      } else if (to === "GHS" && amount && rates2?.buyingRate) {
+      } else if (toSlug === "GHS" && amount && rates2?.buyingRate) {
         setCurrentRate({
-          from: from,
-          to: to,
+          from: fromSlug,
+          to: toSlug,
           rate: rates2?.buyingRate,
         });
 
@@ -183,35 +183,35 @@ export default function CurrencyConverter({ companyData, className }: Props) {
         convertedAmount = (amount * rates2.buyingRate).toFixed(2);
       } else if (amount1 !== "" && amount2 !== "") {
         // ❌ Block unsupported conversions (e.g., USD → EUR)
-        toast({
-          variant: "destructive",
-          title: `Direct conversion from ${to} to ${from} is not supported.`,
-        });
+        // toast({
+        //   variant: "destructive",
+        //   title: `Direct conversion from ${fromSlug} to ${toSlug} is not supported.`,
+        // });
         // return "-";
       }
     } else {
-      if (from === "GHS" && amount && rates1?.buyingRate) {
+      if (fromSlug === "GHS" && amount && rates1?.buyingRate) {
         setCurrentRate({
-          from: from,
-          to: to,
+          from: fromSlug,
+          to: toSlug,
           rate: rates1?.buyingRate,
         });
         // ✅ GHS → Foreign Currency
         convertedAmount = (amount / rates1.buyingRate).toFixed(2);
-      } else if (to === "GHS" && amount && rates2?.sellingRate) {
+      } else if (toSlug === "GHS" && amount && rates2?.sellingRate) {
         setCurrentRate({
-          from: from,
-          to: to,
+          from: fromSlug,
+          to: toSlug,
           rate: rates2?.sellingRate,
         });
         // ✅ Foreign Currency → GHS
         convertedAmount = (amount * rates2.sellingRate).toFixed(2);
       } else if (amount1 !== "" && amount2 !== "") {
         // ❌ Block unsupported conversions (e.g., USD → EUR)
-        toast({
-          variant: "destructive",
-          title: `Direct conversion from ${to} to ${from} is not supported.`,
-        });
+        // toast({
+        //   variant: "destructive",
+        //   title: `Direct conversion from ${fromSlug} to ${toSlug} is not supported.`,
+        // });
         // return "-";
       }
     }
@@ -223,10 +223,6 @@ export default function CurrencyConverter({ companyData, className }: Props) {
     () => getAvailableCurrencies(companyData),
     [companyData]
   );
-
-  const sanitizeInput = (value: string) => {
-    return value.replace(/[^0-9.eE+-]/g, "");
-  };
 
   const handleAmount1Change = (e: React.ChangeEvent<HTMLInputElement>) => {
     let rawValue = sanitizeInput(e.target.value);
@@ -309,7 +305,8 @@ export default function CurrencyConverter({ companyData, className }: Props) {
   return (
     <div
       className={
-        "flex gap-3 w-full max-w-spacing-640 flex-col items-start justify-center " + className
+        "flex gap-3 w-full max-w-spacing-640 flex-col items-start justify-center " +
+        className
       }
     >
       {/* <p className="text-paragraph-md-semibold">Convert Any Amount</p> */}
@@ -411,8 +408,14 @@ export default function CurrencyConverter({ companyData, className }: Props) {
                 Our current rate
               </p>
               <p className="text-paragraph-sm-semibold sm:text-paragraph-md-semibold px-1">
-                {symbolMap[currentRate.from]}1 = {symbolMap[currentRate.to]}
-                {currentRate.rate.toFixed(2)}
+                {/* {symbolMap[currentRate.from]}1 = {symbolMap[currentRate.to]}
+                {currentRate.rate.toFixed(2)} */}
+
+                {formatRateDisplay(
+                  currentRate.from,
+                  currentRate.to,
+                  currentRate.rate
+                )}
               </p>
             </div>
           </div>

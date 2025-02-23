@@ -204,14 +204,10 @@ export default function FuelTankCalc({ className, companyData }: Props) {
                   className="rounded-xl rounded-r-none focus:!ring-0 focus:!outline-none"
                 />
               </div>
-              <Select disabled value={currency2} onValueChange={setCurrency2}>
-                <SelectTrigger className="w-fit gap-1 focus:!outline-none focus:!ring-0 h-full rounded-xl rounded-l-none border-l-0">
-                  <SelectValue>{currency2}</SelectValue>
-                </SelectTrigger>
-                <SelectContent>
-                  <SelectItem value="litres">Litres</SelectItem>
-                </SelectContent>
-              </Select>
+
+              <Button className="w-fit h-full rounded-xl rounded-l-none font-medium border-l-0 bg-white border-[1px] border-[#e5e5e5] !text-black">
+                Litres
+              </Button>
             </div>
           </div>
         </CardContent>
