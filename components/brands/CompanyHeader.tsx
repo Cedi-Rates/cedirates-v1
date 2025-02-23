@@ -101,7 +101,7 @@ const CompanyHeader = ({ companyDetails, user, chartData }: Props) => {
     setUserDetails(user);
   }, [user]);
 
-  const handleSubscribe = async () => {
+  const handleFollow = async () => {
     if (userDetails && userDetails?.watchList) {
       try {
         if (userDetails.watchList.includes(companyDetails?.company?.UniqueID)) {
@@ -357,9 +357,7 @@ const CompanyHeader = ({ companyDetails, user, chartData }: Props) => {
                 companyDetails?.company?.UniqueID
               ) ? (
                 <DropdownMenu>
-                  {" "}
                   <DropdownMenuTrigger asChild>
-                    {" "}
                     {isMobile ? (
                       <Button
                         onClick={() => setOpen(true)}
@@ -370,7 +368,6 @@ const CompanyHeader = ({ companyDetails, user, chartData }: Props) => {
                         size="sm"
                         className="!text-caption-md-semibold !text-black !px-3 !h-6"
                       >
-                        {" "}
                         {loading ? (
                           <SpinnerCircular
                             size={24}
@@ -380,7 +377,7 @@ const CompanyHeader = ({ companyDetails, user, chartData }: Props) => {
                           />
                         ) : (
                           <span className="">Following</span>
-                        )}{" "}
+                        )}
                       </Button>
                     ) : (
                       <Button
@@ -392,7 +389,6 @@ const CompanyHeader = ({ companyDetails, user, chartData }: Props) => {
                           <ChevronDown className="w-4 h-4" color="#0A0A0A" />
                         }
                       >
-                        {" "}
                         {loading ? (
                           <SpinnerCircular
                             size={24}
@@ -402,67 +398,59 @@ const CompanyHeader = ({ companyDetails, user, chartData }: Props) => {
                           />
                         ) : (
                           <span className="">Following</span>
-                        )}{" "}
+                        )}
                       </Button>
-                    )}{" "}
-                  </DropdownMenuTrigger>{" "}
+                    )}
+                  </DropdownMenuTrigger>
                   <DropdownMenuContent className="rounded-xl">
-                    {" "}
                     <DropdownMenuItem className="rounded-lg">
-                      {" "}
-                      Turn On Alerts{" "}
-                    </DropdownMenuItem>{" "}
+                      Turn On Alerts
+                    </DropdownMenuItem>
                     <DropdownMenuItem
                       className="hover:!text-text-text-error text-text-text-error rounded-lg"
-                      onClick={handleSubscribe}
+                      onClick={handleFollow}
                     >
-                      {" "}
-                      Unfollow{" "}
-                    </DropdownMenuItem>{" "}
-                  </DropdownMenuContent>{" "}
+                      Unfollow
+                    </DropdownMenuItem>
+                  </DropdownMenuContent>
                 </DropdownMenu>
               ) : (
-                <>
-                  {" "}
-                  {isMobile ? (
-                    <Button
-                      onClick={handleSubscribe}
-                      size="sm"
-                      style={{ color: "#fff" }}
-                      className="!text-caption-md-semibold !px-3 !h-6"
-                    >
-                      {" "}
-                      {loading ? (
-                        <SpinnerCircular
-                          size={24}
-                          thickness={200}
-                          color="white"
-                          className="mr-2"
-                        />
-                      ) : (
-                        "Follow"
-                      )}{" "}
-                    </Button>
-                  ) : (
-                    <Button
-                      className="text-white sm:rounded-lg !h-6 rounded-[7px] !text-paragraph-sm-medium !px-5"
-                      onClick={handleSubscribe}
-                      size="lg"
-                    >
-                      {" "}
-                      {loading ? (
-                        <SpinnerCircular
-                          size={24}
-                          thickness={200}
-                          color="white"
-                          className="mr-2"
-                        />
-                      ) : (
-                        "Follow"
-                      )}{" "}
-                    </Button>
-                  )}{" "}
-                </>
+                isMobile ? (
+                  <Button
+                    onClick={handleFollow}
+                    size="sm"
+                    style={{ color: "#fff" }}
+                    className="!text-caption-md-semibold !px-3 !h-6"
+                  >
+                    {loading ? (
+                      <SpinnerCircular
+                        size={24}
+                        thickness={200}
+                        color="white"
+                        className="mr-2"
+                      />
+                    ) : (
+                      "Follow"
+                    )}
+                  </Button>
+                ) : (
+                  <Button
+                    className="text-white sm:rounded-lg !h-6 rounded-[7px] !text-paragraph-sm-medium !px-5"
+                    onClick={handleFollow}
+                    size="lg"
+                  >
+                    {loading ? (
+                      <SpinnerCircular
+                        size={24}
+                        thickness={200}
+                        color="white"
+                        className="mr-2"
+                      />
+                    ) : (
+                      "Follow"
+                    )}
+                  </Button>
+                )
               )}
 
               {isMobile ? (
