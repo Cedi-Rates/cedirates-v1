@@ -225,7 +225,7 @@ export function CommandMenu() {
       </button>
 
       <CommandDialog open={open} onOpenChange={setOpen}>
-        <div className="max-w-[550px] w-full mx-auto">
+        <div className="w-full mx-auto">
           <div className="flex w-full items-center justify-between p-2">
             <CommandInput
               placeholder="Search..."
