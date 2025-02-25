@@ -177,10 +177,11 @@ const RatesSection = ({ companyDetails, user, companyData }: Props) => {
               companyData={companyData}
             />
           )}
-{companyDetails?.company?.category == "exchangeRates" ? (
-              <CurrencyConverter className="block min-[1400px]:hidden mb-0 mt-4" companyData={companyData} />
-            ) : <FuelTankCalc className="block min-[1400px]:hidden mb-0 mt-4" companyData={companyData}  />}
-            
+
+          {companyDetails?.company?.category == "exchangeRates" ? (
+            <CurrencyConverter className="block min-[1400px]:hidden mb-0 mt-4" companyData={companyData} />
+          ) : <FuelTankCalc className="block min-[1400px]:hidden mb-0 mt-4" companyData={companyData} />}
+
           <div className="flex flex-col mb-8">
             <div
               className="my-4 w-max flex flex-row gap-2 text-primary cursor-pointer"

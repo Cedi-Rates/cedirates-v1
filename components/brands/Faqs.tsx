@@ -7,7 +7,7 @@ import {
     AccordionContent,
     AccordionItem,
     AccordionTrigger,
-  } from "@/components/ui/accordion"  
+} from "@/components/ui/accordion"
 
 type Props = {
     companyDetails: CompleteCompanyDetailsType;
@@ -19,7 +19,7 @@ const Faqs = ({ companyDetails }: Props) => {
     return (
         <div>
             <div className="mb-10">
-                <p className="text-paragraph-md-bold text-start tracking-normal mb-2">
+                <h2 className="text-paragraph-md-bold text-start tracking-normal mb-2">
                     Frequently Asked Questions About {companyDetails.company?.companyName}.
                     {/* <span
                         onClick={handleFaqs}
@@ -27,19 +27,19 @@ const Faqs = ({ companyDetails }: Props) => {
                     >
                         {faqs ? 'Hide' : 'Show'}
                     </span> */}
-                </p>
-                    <Accordion type="single" collapsible>
-                        {faqData.map((item) => (
-                            <AccordionItem key={item.value} value={item.value}>
-                                <AccordionTrigger className="fill-[#0d1421] text-start text-paragraph-sm-medium hover:!no-underline">
-                                    {item.question}
-                                </AccordionTrigger>
-                                <AccordionContent className="fill-[#58667e] text-[#58667e] text-[14px] text-start tracking-normal">
-                                    {item.answer}
-                                </AccordionContent>
-                            </AccordionItem>
-                        ))}
-                    </Accordion>
+                </h2>
+                <Accordion type="single" collapsible>
+                    {faqData.map((item) => (
+                        <AccordionItem key={item.value} value={item.value}>
+                            <AccordionTrigger className="fill-[#0d1421] text-start text-paragraph-sm-medium hover:!no-underline">
+                                {item.question}
+                            </AccordionTrigger>
+                            <AccordionContent className="fill-[#58667e] text-[#58667e] text-[14px] text-start tracking-normal">
+                                {item.answer}
+                            </AccordionContent>
+                        </AccordionItem>
+                    ))}
+                </Accordion>
             </div>
         </div>
     )

@@ -56,7 +56,7 @@ export async function generateMetadata({
 
   const description =
     companyDetails.company?.category === "exchangeRates"
-      ? `Check ${companyDetails.company?.companyName} Exchange Rate in Ghana today for the US Dollar (USD), Pound Sterling (GBP) & Euro (EUR) to Ghanaian Cedi (GHS). See reviews and subscribe for updates on CediRates.`
+      ? `Check ${companyDetails.company?.companyName} Exchange Rate in Ghana today for the US Dollar (USD), Pound Sterling (GBP) & Euro (EUR) to Ghanaian Cedi (GHS). Subscribe for updates.`
       : `Find the latest fuel petrol and diesel prices in Ghana from ${companyDetails.company?.companyName}. Subscribe for updates.`;
 
   const canonical = `https://cedirates.com/company/${companyDetails.company?.url}/`;
@@ -100,7 +100,7 @@ const page = async ({ params }: { params: { slug: string } }) => {
 
   const description =
     companyDetails.company?.category === "exchangeRates"
-      ? `Check ${companyDetails.company?.companyName} Exchange Rate in Ghana today for the US Dollar (USD), Pound Sterling (GBP) & Euro (EUR) to Ghanaian Cedi (GHS). See reviews and subscribe for updates.`
+      ? `Check ${companyDetails.company?.companyName} Exchange Rate in Ghana today for the US Dollar (USD), Pound Sterling (GBP) & Euro (EUR) to Ghanaian Cedi (GHS). Subscribe for updates.`
       : `Find the latest fuel petrol and diesel prices in Ghana from ${companyDetails.company?.companyName}. Subscribe for updates.`;
 
   const reviewValue = companyDetails.company?.numOfRatings;
@@ -141,18 +141,18 @@ const page = async ({ params }: { params: { slug: string } }) => {
         />
         <div className="flex flex-col md:flex-row gap-3 sm:gap-6 lg:gap-10">
           <div className={style["main-section"] + " flex flex-col basis-full min-[1400px]:basis-[60%] min-[1400px]:max-w-[870px] max-w-full w-full"}>
-              <RatesSection
-                companyDetails={companyDetails}
-                companyData={companyData}
-                user={user}
-              />
-              <ReviewSection
-                companyDetails={companyDetails}
-                user={user}
-                reviews={reviews}
-                events={events}
-              />
-              {/* <div className="mb-3">
+            <RatesSection
+              companyDetails={companyDetails}
+              companyData={companyData}
+              user={user}
+            />
+            <ReviewSection
+              companyDetails={companyDetails}
+              user={user}
+              reviews={reviews}
+              events={events}
+            />
+            {/* <div className="mb-3">
                 <Faqs companyDetails={companyDetails} />
               </div> */}
             {/* <EventsSection companyDetails={companyDetails} events={events} /> */}

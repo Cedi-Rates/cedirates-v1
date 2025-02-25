@@ -71,40 +71,41 @@ const ExchangeStats = ({ companyDetails, companyData }: Props) => {
 
         {/* Exchange Rate Display */}
         <div className="w-full overflow-x-scroll">
-        <TabsContent value={selectedTab} className="sm:w-full w-max">
-          <div className="flex flex-row gap-3 sm:w-full w-max">
-            {[`${selectedRate.shortName} to GHS`, `GHS to ${selectedRate.shortName}`].map((type, index) => {
-              if ((index === 0 ? selectedRate?.buying : selectedRate?.selling) !== null && (index === 0 ? selectedRate?.buying : selectedRate?.selling) !== undefined && (index === 0 ? selectedRate?.buying : selectedRate?.selling) !== 0) return (
-              <div
-                key={type}
-                className="px-spacing-16 relative sm:w-full w-[60vw] flex sm:max-w-[50%] max-w-[320px] flex-col border-2 rounded-xl border-[#E5E5E5]"
-              >
-                <div className="absolute inset-0 overflow-hidden">
-        {/* Top left pattern */}
-        <div className="absolute -top-4 opacity-[8%] -left-2 text-green-100 transform rotate-[-15deg] scale-[2.5]">
-          <DecorativeIcon index={index} />
-        </div>
+          <TabsContent value={selectedTab} className="sm:w-full w-max">
+            <div className="flex flex-row gap-3 sm:w-full w-max">
+              {[`${selectedRate.shortName} to GHS`, `GHS to ${selectedRate.shortName}`].map((type, index) => {
+                if ((index === 0 ? selectedRate?.buying : selectedRate?.selling) !== null && (index === 0 ? selectedRate?.buying : selectedRate?.selling) !== undefined && (index === 0 ? selectedRate?.buying : selectedRate?.selling) !== 0) return (
+                  <div
+                    key={type}
+                    className="px-spacing-16 relative sm:w-full w-[60vw] flex sm:max-w-[50%] max-w-[320px] flex-col border-2 rounded-xl border-[#E5E5E5]"
+                  >
+                    <div className="absolute inset-0 overflow-hidden">
+                      {/* Top left pattern */}
+                      <div className="absolute -top-4 opacity-[8%] -left-2 text-green-100 transform rotate-[-15deg] scale-[2.5]">
+                        <DecorativeIcon index={index} />
+                      </div>
 
-        {/* Bottom right pattern */}
-        <div className="absolute -bottom-4 opacity-[8%] -right-4 text-green-100 transform rotate-[165deg] scale-[2.5]">
-          <DecorativeIcon index={index} />
-        </div>
-      </div>
-                <p className="text-text-text-primary text-paragraph-lg-semibold my-spacing-12">
-                  {type}
-                </p>
-                <p
-                  className={`text-header-h3-medium w-max leading-[30px] my-spacing-20`}
-                >
-                  ₵{""}
-                  {formatRate(
-                    index === 0 ? selectedRate?.buying : selectedRate?.selling
-                  )}
-                </p>
-              </div>
-            )})}
-          </div>
-        </TabsContent>
+                      {/* Bottom right pattern */}
+                      <div className="absolute -bottom-4 opacity-[8%] -right-4 text-green-100 transform rotate-[165deg] scale-[2.5]">
+                        <DecorativeIcon index={index} />
+                      </div>
+                    </div>
+                    <h3 className="text-text-text-primary text-paragraph-lg-semibold my-spacing-12">
+                      {type}
+                    </h3>
+                    <p
+                      className={`text-header-h3-medium w-max leading-[30px] my-spacing-20`}
+                    >
+                      ₵{""}
+                      {formatRate(
+                        index === 0 ? selectedRate?.buying : selectedRate?.selling
+                      )}
+                    </p>
+                  </div>
+                )
+              })}
+            </div>
+          </TabsContent>
         </div>
       </Tabs>
     </div>

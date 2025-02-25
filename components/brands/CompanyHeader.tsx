@@ -205,36 +205,32 @@ const CompanyHeader = ({ companyDetails, user, chartData }: Props) => {
       <div className="space-y-3">
         <div className="space-y-1 pl-3">
           <h3
-            className={`${
-              isMobile
+            className={`${isMobile
                 ? "text-paragraph-md-semibold"
                 : "text-paragraph-lg-semibold"
-            } font-medium`}
+              } font-medium`}
           >
             WhatsApp
           </h3>
           <p
-            className={`${
-              isMobile ? "text-paragraph-md-medium" : "text-paragraph-lg-medium"
-            } text-text-text-quarternary`}
+            className={`${isMobile ? "text-paragraph-md-medium" : "text-paragraph-lg-medium"
+              } text-text-text-quarternary`}
           >
             {companyDetails.company.phone}
           </p>
         </div>
         <div className="space-y-1 border-t pt-3 pl-3">
           <h3
-            className={`${
-              isMobile
+            className={`${isMobile
                 ? "text-paragraph-md-semibold"
                 : "text-paragraph-lg-semibold"
-            } font-medium`}
+              } font-medium`}
           >
             Call
           </h3>
           <p
-            className={`${
-              isMobile ? "text-paragraph-md-medium" : "text-paragraph-lg-medium"
-            } text-text-text-quarternary`}
+            className={`${isMobile ? "text-paragraph-md-medium" : "text-paragraph-lg-medium"
+              } text-text-text-quarternary`}
           >
             {companyDetails.company.phone}
           </p>
@@ -298,7 +294,7 @@ const CompanyHeader = ({ companyDetails, user, chartData }: Props) => {
             width={120}
             height={120}
             priority
-            // loading="lazy"
+          // loading="lazy"
           />
         </div>
         <div
@@ -311,9 +307,9 @@ const CompanyHeader = ({ companyDetails, user, chartData }: Props) => {
                 style["company-name-container"]
               }
             >
-              <h3 className="text-paragraph-lg-semibold !leading-[17px]">
+              <h2 className="text-paragraph-lg-semibold !leading-[17px]">
                 {companyDetails.company?.companyName}
-              </h3>
+              </h2>
               {companyDetails.company?.verified && (
                 <span>
                   <BadgeIcon fixed size="m" />
@@ -513,7 +509,7 @@ const CompanyHeader = ({ companyDetails, user, chartData }: Props) => {
             " text-start !justify-start items-center mb-1"
           }
         >
-          {companyDetails.company?.companyName}
+          <h2>{companyDetails.company?.companyName}</h2>
           <div className="flex items-center gap-1">
             <TooltipIcon />
           </div>
