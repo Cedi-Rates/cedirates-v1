@@ -155,12 +155,14 @@ const page = async ({ params }: { params: { slug: string } }) => {
             {/* <div className="mb-3">
                 <Faqs companyDetails={companyDetails} />
               </div> */}
+
             {/* <EventsSection companyDetails={companyDetails} events={events} /> */}
           </div>
           <div className="min-[1400px]:flex basis-[40%] w-full  hidden flex-col gap-6 items-center">
             {companyDetails?.company?.category == "exchangeRates" ? (
               <CurrencyConverter className="min-[1400px]:block hidden" companyData={companyData} />
             ) : <FuelTankCalc companyData={companyData} />}
+
             {/* <div className="sm:w-auto sm:px-0 px-5 w-screen overflow-x-scroll">
               <LocationsList />
             </div> */}

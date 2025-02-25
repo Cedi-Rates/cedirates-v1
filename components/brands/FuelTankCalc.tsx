@@ -153,7 +153,7 @@ export default function FuelTankCalc({ className, companyData }: Props) {
       {/* <p className="text-paragraph-md-semibold">Convert Any Amount</p> */}
       <Card className="w-full border rounded-lg p-4 shadow-sm border-border-border-tertiary">
         <CardContent>
-          <h1 className="text-paragraph-md-semibold mb-2">Cost of full tank</h1>
+          <h3 className="text-paragraph-md-semibold mb-2">Cost of full tank</h3>
           <Separator />
           <div className="mt-6">
             {/* Input 1 */}
