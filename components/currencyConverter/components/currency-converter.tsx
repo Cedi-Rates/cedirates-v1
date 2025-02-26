@@ -12,21 +12,12 @@ import {
 } from "@/components/ui/select";
 import { Input } from "@/components/ui/input";
 import { Card, CardContent } from "@/components/ui/card";
-import { Separator } from "../ui/separator";
-import {
-  CompanyRate,
-  CompleteRateType,
-  currencyRatesType,
-} from "@/utils/types";
-import { useToast } from "../ui/use-toast";
-import {
-  getAvailableCurrencies,
-  addCommasToNumber,
-  getValidCurrencyPairs,
-} from "@/utils/currencyConverterFunc";
+
+import { addCommasToNumber } from "@/utils/currencyConverterFunc";
+import { useToast } from "@/components/ui/use-toast";
 
 type Props = {
-  companyData: CompanyRate;
+  ERD: any;
   className?: string;
 };
 
@@ -36,7 +27,7 @@ const sanitizeInput = (value: string) => {
   return value.replace(/[^0-9.eE+-]/g, "");
 };
 
-export default function CurrencyConverter({ companyData, className }: Props) {
+export default function ConverterBox({ ERD, className }: Props) {
   const [amount1, setAmount1] = React.useState<string | number>("500.00");
   const [amount2, setAmount2] = React.useState<string | number>("0.00");
   const [currency1, setCurrency1] = React.useState("USD");
@@ -54,6 +45,16 @@ export default function CurrencyConverter({ companyData, className }: Props) {
     to: "",
     rate: 0,
   });
+  const [rateType, setRateType] = React.useState<string>("Bank");
+
+  const rateTypes = [
+    { value: "Bank", label: "Bank" },
+    { value: "CryptoExchange", label: "Crypto" },
+    { value: "ForexBureau", label: "Forex Bureau" },
+    { value: "Fintech", label: "Fintech" },
+    { value: "MoneyTransfer", label: "Money Transfer" },
+    { value: "PaymentProcessor", label: "Card Payment" },
+  ];
 
   const formatAmount = (amount: string | number, currency: string) => {
     if (!amount) return ""; // If empty, return nothing
@@ -85,6 +86,147 @@ export default function CurrencyConverter({ companyData, className }: Props) {
     return ""; // Handle other cases if needed
   };
 
+  const getValidCurrencyPairs = (ERD: any, rateType: any) => {
+    if (ERD) {
+      const rates = ERD;
+      const validPairs = new Set<string>();
+
+      // Check dollar rates
+      if (rates[`average${rateType}Dollar`]?.buyingRate)
+        validPairs.add("USD/GHS");
+      if (rates[`average${rateType}Dollar`]?.sellingRate)
+        validPairs.add("GHS/USD");
+
+      // Check euro rates
+      if (rates[`average${rateType}Euro`]?.buyingRate)
+        validPairs.add("EUR/GHS");
+      if (rates[`average${rateType}Euro`]?.sellingRate)
+        validPairs.add("GHS/EUR");
+
+      // Check pound rates
+      if (rates[`average${rateType}Pound`]?.buyingRate)
+        validPairs.add("GBP/GHS");
+      if (rates[`average${rateType}Pound`]?.sellingRate)
+        validPairs.add("GHS/GBP");
+
+      return validPairs;
+    }
+    return new Set<string>();
+  };
+
+  const isConversionSupported = (from: string, to: string) => {
+    const validPairs = getValidCurrencyPairs(ERD, rateType);
+    return validPairs.has(`${from}/${to}`);
+  };
+
+  const generateCurrencyName = (currency: string) => {
+    switch (currency) {
+      case "USD":
+        return "Dollar";
+      case "EUR":
+        return "Euro";
+      case "GBP":
+        return "Pound";
+    }
+  };
+
+  const convertCurrency = (amount: number, from: string, to: string) => {
+    let fromCurrency = generateCurrencyName(from);
+    let toCurrency = generateCurrencyName(to);
+    let convertedAmount: number | string = "";
+    if (ERD) {
+      if (!isConversionSupported(from, to)) {
+        if (isConversionSupported(to, from)) {
+          setCurrency1(to);
+          setCurrency2(from);
+        } else {
+          setCurrency1("GHS");
+        }
+      }
+
+      const ratePrefix = rateType ? `average${rateType}` : "average";
+
+      const toAverage = `${ratePrefix}${toCurrency}`;
+      const fromAverage = `${ratePrefix}${fromCurrency}`;
+      const fromRateData = ERD[fromAverage];
+      const toRateData = ERD[toAverage];
+
+      if (isTypingInAmount1) {
+        if (from === "GHS" && amount && toRateData?.sellingRate) {
+          setCurrentRate({
+            from: from,
+            to: to,
+            rate: toRateData?.sellingRate,
+          });
+          // ✅ GHS → Foreign Currency
+
+          convertedAmount = (amount / toRateData.sellingRate).toFixed(2);
+        } else if (to === "GHS" && amount && fromRateData?.buyingRate) {
+          setCurrentRate({
+            from: from,
+            to: to,
+            rate: fromRateData?.buyingRate,
+          });
+
+          // ✅ Foreign Currency → GHS
+          convertedAmount = (amount * fromRateData.buyingRate).toFixed(2);
+        } else if (amount1 !== "" && amount2 !== "") {
+        }
+      } else {
+        if (from === "GHS" && amount && toRateData?.buyingRate) {
+          setCurrentRate({
+            from: from,
+            to: to,
+            rate: toRateData?.buyingRate,
+          });
+          // ✅ GHS → Foreign Currency
+          convertedAmount = (amount / toRateData.buyingRate).toFixed(2);
+        } else if (to === "GHS" && amount && fromRateData?.sellingRate) {
+          setCurrentRate({
+            from: from,
+            to: to,
+            rate: fromRateData?.sellingRate,
+          });
+          // ✅ Foreign Currency → GHS
+          convertedAmount = (amount * fromRateData.sellingRate).toFixed(2);
+        } else if (amount1 !== "" && amount2 !== "") {
+        }
+      }
+    }
+    return convertedAmount;
+  };
+
+  const getAvailableCurrencies = (ERD: any) => {
+    const availableCurrencies = ["GHS"]; // GHS is always available
+
+    const currencyMappings: Record<string, string> = {
+      USD: "Dollar",
+      GBP: "Pound",
+      EUR: "Euro",
+    };
+
+    Object.entries(currencyMappings).forEach(([currency, key]) => {
+      const ratePrefix = rateType
+        ? `average${rateType}${key}`
+        : `average${key}`;
+      if (ERD) {
+        const rates = ERD[ratePrefix];
+
+        if (rates?.buyingRate || rates?.sellingRate) {
+          availableCurrencies.push(currency);
+        }
+      }
+    });
+
+    return availableCurrencies;
+  };
+
+  const availableCurrencies = React.useMemo(
+    () => getAvailableCurrencies(ERD),
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+    [ERD, rateType]
+  );
+
   const handleSwap = () => {
     setAmount1(amount2);
     setAmount2(amount1);
@@ -94,135 +236,6 @@ export default function CurrencyConverter({ companyData, className }: Props) {
 
     convertCurrency(parseFloat(amount1 as string), currency2, currency1);
   };
-
-  const isConversionSupported = (from: string, to: string) => {
-    const validPairs = getValidCurrencyPairs(companyData);
-    return validPairs.has(`${from}/${to}`);
-  };
-
-  const convertCurrency = (amount: number, from: string, to: string) => {
-    const rates = companyData.data;
-    let fromSlug = from;
-    let toSlug = to;
-    let toCurrency = "";
-    let fromCurrency = "";
-
-    let convertedAmount: number | string = "";
-
-    if (!isConversionSupported(from, to)) {
-      if (isConversionSupported(to, from)) {
-        setCurrency1(to);
-        setCurrency2(from);
-        // convertCurrency(amount, to, from);
-        fromSlug = from;
-        toSlug = to;
-        // return "";
-      } else {
-        // toast({
-        //   variant: "destructive",
-        //   title: `Exchange rate data not available for ${fromSlug}/${toSlug}`,
-        //   description: "This currency pair is not supported by this company.",
-        // });
-
-        setCurrency1("GHS");
-      }
-    }
-
-    switch (fromSlug) {
-      case "USD":
-        fromCurrency = "dollar";
-        break;
-      case "EUR":
-        fromCurrency = "euro";
-        break;
-      case "GBP":
-        fromCurrency = "pound";
-        break;
-      default:
-        break;
-    }
-
-    switch (toSlug) {
-      case "USD":
-        toCurrency = "dollar";
-        break;
-      case "EUR":
-        toCurrency = "euro";
-        break;
-      case "GBP":
-        toCurrency = "pound";
-        break;
-      default:
-        break;
-    }
-
-    const key1 = `${toCurrency}Rates` as keyof CompleteRateType;
-    const rates1 = rates[key1] as currencyRatesType;
-
-    const key2 = `${fromCurrency}Rates` as keyof CompleteRateType;
-    const rates2 = rates[key2] as currencyRatesType;
-
-    if (isTypingInAmount1) {
-      if (fromSlug === "GHS" && amount && rates1?.sellingRate) {
-        setCurrentRate({
-          from: fromSlug,
-          to: toSlug,
-          rate: rates1?.sellingRate,
-        });
-        // ✅ GHS → Foreign Currency
-
-        convertedAmount = (amount / rates1.sellingRate).toFixed(2);
-      } else if (toSlug === "GHS" && amount && rates2?.buyingRate) {
-        setCurrentRate({
-          from: fromSlug,
-          to: toSlug,
-          rate: rates2?.buyingRate,
-        });
-
-        // ✅ Foreign Currency → GHS
-        convertedAmount = (amount * rates2.buyingRate).toFixed(2);
-      } else if (amount1 !== "" && amount2 !== "") {
-        // ❌ Block unsupported conversions (e.g., USD → EUR)
-        // toast({
-        //   variant: "destructive",
-        //   title: `Direct conversion from ${fromSlug} to ${toSlug} is not supported.`,
-        // });
-        // return "-";
-      }
-    } else {
-      if (fromSlug === "GHS" && amount && rates1?.buyingRate) {
-        setCurrentRate({
-          from: fromSlug,
-          to: toSlug,
-          rate: rates1?.buyingRate,
-        });
-        // ✅ GHS → Foreign Currency
-        convertedAmount = (amount / rates1.buyingRate).toFixed(2);
-      } else if (toSlug === "GHS" && amount && rates2?.sellingRate) {
-        setCurrentRate({
-          from: fromSlug,
-          to: toSlug,
-          rate: rates2?.sellingRate,
-        });
-        // ✅ Foreign Currency → GHS
-        convertedAmount = (amount * rates2.sellingRate).toFixed(2);
-      } else if (amount1 !== "" && amount2 !== "") {
-        // ❌ Block unsupported conversions (e.g., USD → EUR)
-        // toast({
-        //   variant: "destructive",
-        //   title: `Direct conversion from ${fromSlug} to ${toSlug} is not supported.`,
-        // });
-        // return "-";
-      }
-    }
-
-    return convertedAmount;
-  };
-
-  const availableCurrencies = React.useMemo(
-    () => getAvailableCurrencies(companyData),
-    [companyData]
-  );
 
   const handleAmount1Change = (e: React.ChangeEvent<HTMLInputElement>) => {
     let rawValue = sanitizeInput(e.target.value);
@@ -243,17 +256,6 @@ export default function CurrencyConverter({ companyData, className }: Props) {
     setAmount1(formattedValue);
   };
 
-  // React.useEffect(() => {
-  //   if (isTypingInAmount1) {
-  //     setAmount2(
-  //       addCommasToNumber(
-  //         convertCurrency(parseFloat(amount1 as string), currency1, currency2)
-  //       )
-  //     );
-  //   }
-  //   // eslint-disable-next-line react-hooks/exhaustive-deps
-  // }, [amount1, currency1, currency2]);
-
   React.useEffect(() => {
     if (isTypingInAmount1) {
       setAmount2(
@@ -270,7 +272,15 @@ export default function CurrencyConverter({ companyData, className }: Props) {
     }
     // Add rateType to the dependency array
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [amount1, amount2, currency1, currency2]);
+  }, [
+    amount1,
+    amount2,
+    currency1,
+    currency2,
+    rateType,
+    isTypingInAmount1,
+    ERD,
+  ]);
 
   const handleAmount2Change = (e: React.ChangeEvent<HTMLInputElement>) => {
     let rawValue = sanitizeInput(e.target.value);
@@ -290,17 +300,6 @@ export default function CurrencyConverter({ companyData, className }: Props) {
     const formattedValue = num >= MAX_VALUE ? num.toExponential(4) : rawValue;
     setAmount2(formattedValue);
   };
-
-  // React.useEffect(() => {
-  //   if (!isTypingInAmount1) {
-  //     setAmount1(
-  //       addCommasToNumber(
-  //         convertCurrency(parseFloat(amount2 as string), currency2, currency1)
-  //       )
-  //     );
-  //   }
-  //   // eslint-disable-next-line react-hooks/exhaustive-deps
-  // }, [amount2, currency1, currency2]);
 
   const onChangeCurrencyOneFunc = (value: string) => {
     setCurrency1((prev) => {
@@ -323,8 +322,7 @@ export default function CurrencyConverter({ companyData, className }: Props) {
   return (
     <div
       className={
-        "flex gap-3 w-full max-w-spacing-640 flex-col items-start justify-center " +
-        className
+        "flex gap-3 w-full max-w-spacing-640 flex-col items-start justify-center "
       }
     >
       {/* <p className="text-paragraph-md-semibold">Convert Any Amount</p> */}
@@ -421,14 +419,24 @@ export default function CurrencyConverter({ companyData, className }: Props) {
             </div>
 
             {/* Current rate */}
-            <div className="flex mt-2 gap-0 bg-white p-2 rounded-xl flex-row justify-between items-center">
+            <div className="flex items-end gap-2 justify-between">
+              <Select value={rateType} onValueChange={setRateType}>
+                <SelectTrigger className="w-fit gap-1 border-transparent [&>span]:flex [&>span]:items-center [&>span]:gap-1 [&>span]:!flex-row focus:border-transparent focus:!ring-offset-0 focus:!outline-none focus:!ring-0 h-full rounded-xl !border-none mt-4">
+                  <SelectValue placeholder="Select rate type" />
+                </SelectTrigger>
+                <SelectContent>
+                  {rateTypes.map((type) => (
+                    <SelectItem
+                      key={type.value}
+                      value={type.value}
+                      className=""
+                    >
+                      {type.label}
+                    </SelectItem>
+                  ))}
+                </SelectContent>
+              </Select>
               <p className="text-paragraph-sm-semibold sm:text-paragraph-md-semibold px-1">
-                Our current rate
-              </p>
-              <p className="text-paragraph-sm-semibold sm:text-paragraph-md-semibold px-1">
-                {/* {symbolMap[currentRate.from]}1 = {symbolMap[currentRate.to]}
-                {currentRate.rate.toFixed(2)} */}
-
                 {formatRateDisplay(
                   currentRate.from,
                   currentRate.to,
