@@ -20,6 +20,8 @@ import Footer from "@/components/footer";
 import { exchangeFaqs } from "@/utils/data";
 import { useToast } from "../ui/use-toast";
 import ConverterBox from "./components/currency-converter";
+import { useRouter } from "next/navigation";
+import { useSearchParams } from "next/navigation";
 
 moment.suppressDeprecationWarnings = true;
 
@@ -49,6 +51,40 @@ const CurrencyConverter = () => {
   const [currencyName, setCurrencyName] = useState<any>(
     to.shortName === "ghs" ? from.shortName : to.shortName
   );
+
+  const [amount1, setAmount1] = React.useState<string | number>("");
+  const [amount2, setAmount2] = React.useState<string | number>("");
+  const [currency1, setCurrency1] = React.useState("USD");
+  const [currency2, setCurrency2] = React.useState("GHS");
+
+  //New Currency Converter
+  const router = useRouter();
+  const searchParams = useSearchParams();
+
+  // Update URL and title when conversion values change
+  useEffect(() => {
+    if (amount1 && currency1 && currency2) {
+      // Update URL with search params
+      const params = new URLSearchParams();
+      params.set("Amount", amount1.toString());
+      params.set("From", currency1);
+      params.set("To", currency2);
+
+      // Update URL without page reload
+      router.push(`/currency-converter/?${params.toString()}`);
+    }
+  }, [amount1, currency1, currency2, router]);
+
+  // Handle URL parameters on page load
+  useEffect(() => {
+    const amount = searchParams.get("Amount");
+    const fromCurrency = searchParams.get("From");
+    const toCurrency = searchParams.get("To");
+
+    if (amount) setAmount1(amount);
+    if (fromCurrency) setCurrency1(fromCurrency);
+    if (toCurrency) setCurrency2(toCurrency);
+  }, [searchParams]);
 
   const fetchData = async () => {
     const todaysAverage = await getAverageForToday(moment().format("D-M-YYYY"));
@@ -93,54 +129,54 @@ const CurrencyConverter = () => {
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [isClosed, amount, from, to]);
 
-  useEffect(() => {
-    if (!isConversionSupported(from, to)) {
-      toast({
-        title: "Oops! We don't convert this currency pair yet 😅",
-      });
-    }
-  }, [from, to, toast]);
+  // useEffect(() => {
+  //   if (!isConversionSupported(from, to)) {
+  //     toast({
+  //       title: "Oops! We don't convert this currency pair yet 😅",
+  //     });
+  //   }
+  // }, [from, to, toast]);
 
-  const priceRef = useRef<HTMLDivElement | null>(null);
-  useEffect(() => {
-    if (ERD) {
-      if (priceRef.current) {
-        priceRef.current.style.height = isClosed
-          ? "0"
-          : priceRef.current.scrollHeight + "px";
-      }
-      !isMobile
-        ? setPriceHeight(160 + (priceRef.current?.scrollHeight ?? 0) / 2)
-        : setPriceHeight(300 + (priceRef.current?.scrollHeight ?? 0) / 2);
-    }
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [isClosed, ERD]);
+  // const priceRef = useRef<HTMLDivElement | null>(null);
+  // useEffect(() => {
+  //   if (ERD) {
+  //     if (priceRef.current) {
+  //       priceRef.current.style.height = isClosed
+  //         ? "0"
+  //         : priceRef.current.scrollHeight + "px";
+  //     }
+  //     !isMobile
+  //       ? setPriceHeight(160 + (priceRef.current?.scrollHeight ?? 0) / 2)
+  //       : setPriceHeight(300 + (priceRef.current?.scrollHeight ?? 0) / 2);
+  //   }
+  //   // eslint-disable-next-line react-hooks/exhaustive-deps
+  // }, [isClosed, ERD]);
 
-  const addCommasAndSave = (value: any) => {
-    const inputVal = value.target.value.replace(/[^0-9.]/g, "");
-    setAmount(inputVal);
-    const formattedVal = inputVal.replace(/\B(?=(\d{3})+(?!\d))/g, ",");
-    setAmountWithCommas(formattedVal);
-  };
+  // const addCommasAndSave = (value: any) => {
+  //   const inputVal = value.target.value.replace(/[^0-9.]/g, "");
+  //   setAmount(inputVal);
+  //   const formattedVal = inputVal.replace(/\B(?=(\d{3})+(?!\d))/g, ",");
+  //   setAmountWithCommas(formattedVal);
+  // };
 
-  const onSubmit = (e: any) => {
-    e.preventDefault();
-    if (isConversionSupported(from, to)) {
-      setClosed(false);
-      setFinalPrice(convertCurrency(amount, from, to, ERD));
-    } else {
-      toast({
-        title: "Oops! We don't convert this currency pair yet 😅",
-      });
-    }
-  };
+  // const onSubmit = (e: any) => {
+  //   e.preventDefault();
+  //   if (isConversionSupported(from, to)) {
+  //     setClosed(false);
+  //     setFinalPrice(convertCurrency(amount, from, to, ERD));
+  //   } else {
+  //     toast({
+  //       title: "Oops! We don't convert this currency pair yet 😅",
+  //     });
+  //   }
+  // };
 
-  const handleDateChange = (range: DateRange | undefined) => {
-    setDateRange({
-      from: range?.from ?? null,
-      to: range?.to ?? null,
-    });
-  };
+  // const handleDateChange = (range: DateRange | undefined) => {
+  //   setDateRange({
+  //     from: range?.from ?? null,
+  //     to: range?.to ?? null,
+  //   });
+  // };
 
   const handleFaqs = () => {
     setFaqs(!faqs);
@@ -152,9 +188,13 @@ const CurrencyConverter = () => {
       <div className={styles.container}>
         <div className={styles.div1}>
           <p className={styles.h1}>
-            Convert from {from.fullName} to {to.fullName}
+            {/* Convert from {from.fullName} to {to.fullName} */}
+            {amount1 === "" && currency1 === "" && currency2 === ""
+              ? `Convert from ${from.fullName} to ${to.fullName}`
+              : `${amount1} ${currency1} to ${currency2} - Convert ${getCurrencyFullName(
+                  currency1
+                )} to ${getCurrencyFullName(currency2)}`}
           </p>
-          <p>CediRates Currency Converter</p>
         </div>
         {/* <Form
           ERD={ERD}
@@ -174,18 +214,28 @@ const CurrencyConverter = () => {
           isTablet={isTablet}
           setCurrencyName={setCurrencyName}
         /> */}
-        <ConverterBox ERD={ERD} />
+        <ConverterBox
+          ERD={ERD}
+          amount1={amount1}
+          amount2={amount2}
+          currency1={currency1}
+          currency2={currency2}
+          setAmount1={setAmount1}
+          setAmount2={setAmount2}
+          setCurrency1={setCurrency1}
+          setCurrency2={setCurrency2}
+        />
         <div
           className={styles.div2}
-          style={{
-            paddingTop: !isMobile
-              ? isClosed
-                ? "160px"
-                : `${priceHeight}px`
-              : isClosed
-              ? "240px"
-              : `${priceHeight}px`,
-          }}
+          // style={{
+          //   paddingTop: !isMobile
+          //     ? isClosed
+          //       ? "60px"
+          //       : `${priceHeight}px`
+          //     : isClosed
+          //     ? "50px"
+          //     : `${priceHeight}px`,
+          // }}
         >
           <Tables from={from} to={to} ERD={ERD} />
           {state ? (
@@ -242,3 +292,14 @@ const CurrencyConverter = () => {
 };
 
 export default CurrencyConverter;
+
+const getCurrencyFullName = (code: string) => {
+  // Map currency codes to full names
+  const currencyNames: Record<string, string> = {
+    USD: "US Dollar",
+    GBP: "British Pound",
+    EUR: "Euro",
+    // Add other currencies as needed
+  };
+  return currencyNames[code] || code;
+};
