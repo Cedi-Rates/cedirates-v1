@@ -68,7 +68,6 @@ export default function FuelTankCalc({ className, companyData }: Props) {
 
     const fuelRates = companyData.data;
     let convertedAmount: number | string = "-";
-
     // Converting from currency to litres
     if (to === "Litres") {
       const rate = fuelRates[from.toLowerCase() as keyof FuelRates];
@@ -98,7 +97,7 @@ export default function FuelTankCalc({ className, companyData }: Props) {
   };
 
   const formatAmount = (amount: string | number) => {
-    if (!amount) return ""; // If empty, return nothing
+    if (!amount) return ""; 
     return isTyping ? amount : `₵${amount}`;
   };
 
@@ -121,11 +120,34 @@ export default function FuelTankCalc({ className, companyData }: Props) {
     setAmount1(formattedValue);
   };
 
+  const handleAmount2Change = (e: React.ChangeEvent<HTMLInputElement>) => {
+    let rawValue = sanitizeInput(e.target.value);
+    setIsTypingInAmount1(false);
+
+    // Prevent multiple decimal points or 'e' in the input
+    if ((rawValue.match(/\./g) || []).length > 1) return;
+    if ((rawValue.match(/e/gi) || []).length > 1) return;
+
+    let num = parseFloat(rawValue);
+    if (isNaN(num)) {
+      setAmount2(""); // Reset if input is invalid
+      return;
+    }
+
+    // Convert to exponential notation if large
+    const formattedValue = num >= MAX_VALUE ? num.toExponential(4) : rawValue;
+    setAmount2(formattedValue);
+  };
+
   React.useEffect(() => {
     if (isTypingInAmount1) {
       setAmount2(
         addCommasToNumber(
-          convertCurrency(parseFloat(amount1 as string), currency1, currency2)
+          convertCurrency(
+            parseFloat(amount1 as string) || 0,
+            currency1,
+            currency2
+          )
         )
       );
     }
@@ -136,7 +158,11 @@ export default function FuelTankCalc({ className, companyData }: Props) {
     if (!isTypingInAmount1) {
       setAmount1(
         addCommasToNumber(
-          convertCurrency(parseFloat(amount2 as string), currency2, currency1)
+          convertCurrency(
+            parseFloat(amount2 as string) || 0,
+            currency2,
+            currency1
+          )
         )
       );
     }
@@ -153,7 +179,7 @@ export default function FuelTankCalc({ className, companyData }: Props) {
       {/* <p className="text-paragraph-md-semibold">Convert Any Amount</p> */}
       <Card className="w-full border rounded-lg p-4 shadow-sm border-border-border-tertiary">
         <CardContent>
-          <h1 className="text-paragraph-md-semibold mb-2">Cost of full tank</h1>
+          <h3 className="text-paragraph-md-semibold mb-2">Cost of full tank</h3>
           <Separator />
           <div className="mt-6">
             {/* Input 1 */}
@@ -196,16 +222,13 @@ export default function FuelTankCalc({ className, companyData }: Props) {
                   type="tel"
                   inputMode="decimal"
                   value={amount2}
-                  onChange={(e) => {
-                    setIsTypingInAmount1(false);
-                    setAmount2(e.target.value);
-                  }}
+                  onChange={handleAmount2Change}
                   // style={{ paddingLeft: `${paddingMap[currency2]}px` }}
                   className="rounded-xl rounded-r-none focus:!ring-0 focus:!outline-none"
                 />
               </div>
 
-              <Button className="w-fit h-full rounded-xl rounded-l-none font-medium border-l-0 bg-white border-[1px] border-[#e5e5e5] !text-black">
+              <Button className="w-fit h-full rounded-xl rounded-l-none font-medium border-l-0 bg-white border-[1px] border-[#e5e5e5] !text-black hover:bg-white hover:border-[#e5e5e5] hover:text-black disabled:bg-white disabled:border-[#e5e5e5] disabled:text-black pointer-events-none">
                 Litres
               </Button>
             </div>
