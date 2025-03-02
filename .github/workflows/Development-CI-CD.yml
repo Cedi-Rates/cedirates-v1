@@ -1,4 +1,4 @@
-name: Test Admin Dashboard CI/CD
+name: Test CediRates Frontend CI/CD
 
 on:
   push:
@@ -10,12 +10,14 @@ jobs:
     runs-on: ubuntu-latest
 
     steps:
-      - name: Checkout code
-        uses: actions/checkout@v2
+      # - name: Checkout code
+      - uses: actions/checkout@v2
+        with:
+          ref: staging
 
       - uses: actions/setup-node@v2
         with:
-          node-version: '18'
+          node-version: "18"
 
       - name: Install dependencies
         run: yarn install
