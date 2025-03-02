@@ -15,7 +15,7 @@ const SkeletonComponent = ({ user }: LoadingProps) => {
       <Header />
 
       <main className="max-w-[1450px] mx-auto mt-5 px-spacing-16 lg:px-spacing-96">
-        <CompanyHeader />
+        {/* <CompanyHeader /> */}
         <div className={style["main-section"]}>
           <div className={style["review-section"]}>
             <RatesSection />
