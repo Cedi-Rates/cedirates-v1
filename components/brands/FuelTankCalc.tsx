@@ -13,170 +13,141 @@ import {
 import { Input } from "@/components/ui/input";
 import { Card, CardContent } from "@/components/ui/card";
 import { Separator } from "../ui/separator";
-import {
-  CompanyRate,
-  CompleteRateType,
-  currencyRatesType,
-} from "@/utils/types";
+import { CompanyRate } from "@/utils/types";
 import { useToast } from "../ui/use-toast";
 import {
   getAvailableCurrencies,
   addCommasToNumber,
 } from "@/utils/currencyConverterFunc";
 
+type FuelRates = {
+  petrol?: number;
+  diesel?: number;
+  premium?: number;
+};
+
 type Props = {
-    className?: string;
+  className?: string;
   companyData: CompanyRate;
 };
 
+const MAX_VALUE = 1e15;
+
+const sanitizeInput = (value: string) => {
+  return value.replace(/[^0-9.eE+-]/g, "");
+};
+
 export default function FuelTankCalc({ className, companyData }: Props) {
-  const [amount1, setAmount1] = React.useState<string | number>("50.00");
+  const [amount1, setAmount1] = React.useState<string | number>("500.00");
   const [amount2, setAmount2] = React.useState<string | number>("0.00");
   const [currency1, setCurrency1] = React.useState("Petrol");
-  const [currency2, setCurrency2] = React.useState("Diesel");
+  const [currency2, setCurrency2] = React.useState("Litres");
   const [isTypingInAmount1, setIsTypingInAmount1] = React.useState(true);
-
-  const savedAmount1 = sessionStorage.getItem("cedirates-amount1") || "";
-  const savedAmount2 = sessionStorage.getItem("cedirates-amount2") || "";
+  const [isTyping, setIsTyping] = React.useState(false);
 
   const { toast } = useToast();
 
-  const symbolMap: Record<string, string> = {
-    USD: "$",
-    GHS: "₵",
-    GBP: "£",
-    EUR: "€",
-  };
+  const getAvailableFuelTypes = (companyData: CompanyRate) => {
+    const fuelTypes = [];
+    const rates = companyData?.data;
+    if (rates?.petrol) fuelTypes.push("Petrol");
+    if (rates?.diesel) fuelTypes.push("Diesel");
+    if (rates?.premium) fuelTypes.push("Premium");
 
-  const paddingMap: Record<string, number> = {
-    USD: 28,
-    GHS: 28,
-    GBP: 28,
-    EUR: 28,
-  };
-
-  const handleSwap = () => {
-    setAmount1(savedAmount2);
-    // setAmount2(savedAmount2);
-    setCurrency1(currency2);
-    setCurrency2(currency1);
-  };
-
-  const isConversionSupported = (from: string, to: string) => {
-    const supportedConversions = [
-      "GHS/USD",
-      "GHS/GBP",
-      "GHS/EUR",
-      "USD/GHS",
-      "GBP/GHS",
-      "EUR/GHS",
-    ];
-    return supportedConversions.includes(`${from}/${to}`);
+    return fuelTypes;
   };
 
   const convertCurrency = (amount: number, from: string, to: string) => {
-    if (!isConversionSupported(from, to) || !companyData) {
-    //   toast({
-    //     variant: "destructive",
-    //     title: `Exchange rate data not available for the selected currency pair`,
-    //   });
-      // return "-";
+    if (!companyData) {
+      toast({
+        variant: "destructive",
+        title: "Fuel rates not available",
+      });
+      return "-";
     }
 
-    console.log(amount, from, to);
-
-    const rates = companyData.data;
-    const fromSlug = from.toLowerCase();
-    const toSlug = to.toLowerCase();
-    let toCurrency = "";
-    let fromCurrency = "";
-
+    const fuelRates = companyData.data;
     let convertedAmount: number | string = "-";
-
-    switch (fromSlug) {
-      case "usd":
-        fromCurrency = "dollar";
-        break;
-      case "eur":
-        fromCurrency = "euro";
-        break;
-      case "gbp":
-        fromCurrency = "pound";
-        break;
-      default:
-        break;
-    }
-
-    switch (toSlug) {
-      case "usd":
-        toCurrency = "dollar";
-        break;
-      case "eur":
-        toCurrency = "euro";
-        break;
-      case "gbp":
-        toCurrency = "pound";
-        break;
-      default:
-        break;
-    }
-
-    const key1 = `${toCurrency}Rates` as keyof CompleteRateType;
-    const rates1 = rates[key1] as currencyRatesType;
-
-    const key2 = `${fromCurrency}Rates` as keyof CompleteRateType;
-    const rates2 = rates[key2] as currencyRatesType;
-
-    // if (from === "GHS" && amount && rates1?.buyingRate) {
-    //   convertedAmount = (amount * rates1?.buyingRate).toFixed(2);
-    // } else if (to === "GHS" && amount && rates2?.sellingRate) {
-    //   convertedAmount = (amount / rates2?.sellingRate).toFixed(2);
-    // }
-    if (isTypingInAmount1) {
-      if (from === "GHS" && amount && rates1?.sellingRate) {
-        // ✅ GHS → Foreign Currency
-        convertedAmount = (amount / rates1.sellingRate).toFixed(2);
-      } else if (to === "GHS" && amount && rates2?.buyingRate) {
-        // ✅ Foreign Currency → GHS
-        convertedAmount = (amount * rates2.buyingRate).toFixed(2);
-      } else if (amount1 !== "" && amount2 !== "") {
-        // ❌ Block unsupported conversions (e.g., USD → EUR)
-        // toast({
-        //   variant: "destructive",
-        //   title: `Direct conversion between ${from} and ${to} is not supported.`,
-        // });
-        return "-";
-      }
-    } else {
-      if (from === "GHS" && amount && rates1?.buyingRate) {
-        // ✅ GHS → Foreign Currency
-        convertedAmount = (amount / rates1.buyingRate).toFixed(2);
-      } else if (to === "GHS" && amount && rates2?.sellingRate) {
-        // ✅ Foreign Currency → GHS
-        convertedAmount = (amount * rates2.sellingRate).toFixed(2);
-      } else if (amount1 !== "" && amount2 !== "") {
-        // ❌ Block unsupported conversions (e.g., USD → EUR)
+    // Converting from currency to litres
+    if (to === "Litres") {
+      const rate = fuelRates[from.toLowerCase() as keyof FuelRates];
+      if (!rate) {
         toast({
           variant: "destructive",
-          title: `Direct conversion between ${from} and ${to} is not supported.`,
+          title: `${from} rate not available`,
         });
         return "-";
       }
+      convertedAmount = (amount / rate).toFixed(2);
+    }
+    // Converting from litres to currency
+    else if (from === "Litres") {
+      const rate = fuelRates[to.toLowerCase() as keyof FuelRates];
+      if (!rate) {
+        toast({
+          variant: "destructive",
+          title: `${to} rate not available`,
+        });
+        return "-";
+      }
+      convertedAmount = (amount * rate).toFixed(2);
     }
 
     return convertedAmount;
   };
 
-  const availableCurrencies = React.useMemo(
-    () => getAvailableCurrencies(companyData),
-    [companyData]
-  );
+  const formatAmount = (amount: string | number) => {
+    if (!amount) return ""; 
+    return isTyping ? amount : `₵${amount}`;
+  };
+
+  const handleAmount1Change = (e: React.ChangeEvent<HTMLInputElement>) => {
+    let rawValue = sanitizeInput(e.target.value);
+    setIsTypingInAmount1(true);
+
+    // Prevent multiple decimal points or 'e' in the input
+    if ((rawValue.match(/\./g) || []).length > 1) return;
+    if ((rawValue.match(/e/gi) || []).length > 1) return;
+
+    let num = parseFloat(rawValue);
+    if (isNaN(num)) {
+      setAmount1(""); // Reset if input is invalid
+      return;
+    }
+
+    // Convert to exponential notation if large
+    const formattedValue = num >= MAX_VALUE ? num.toExponential(4) : rawValue;
+    setAmount1(formattedValue);
+  };
+
+  const handleAmount2Change = (e: React.ChangeEvent<HTMLInputElement>) => {
+    let rawValue = sanitizeInput(e.target.value);
+    setIsTypingInAmount1(false);
+
+    // Prevent multiple decimal points or 'e' in the input
+    if ((rawValue.match(/\./g) || []).length > 1) return;
+    if ((rawValue.match(/e/gi) || []).length > 1) return;
+
+    let num = parseFloat(rawValue);
+    if (isNaN(num)) {
+      setAmount2(""); // Reset if input is invalid
+      return;
+    }
+
+    // Convert to exponential notation if large
+    const formattedValue = num >= MAX_VALUE ? num.toExponential(4) : rawValue;
+    setAmount2(formattedValue);
+  };
 
   React.useEffect(() => {
     if (isTypingInAmount1) {
       setAmount2(
         addCommasToNumber(
-          convertCurrency(parseFloat(amount1 as string), currency1, currency2)
+          convertCurrency(
+            parseFloat(amount1 as string) || 0,
+            currency1,
+            currency2
+          )
         )
       );
     }
@@ -187,7 +158,11 @@ export default function FuelTankCalc({ className, companyData }: Props) {
     if (!isTypingInAmount1) {
       setAmount1(
         addCommasToNumber(
-          convertCurrency(parseFloat(amount2 as string), currency2, currency1)
+          convertCurrency(
+            parseFloat(amount2 as string) || 0,
+            currency2,
+            currency1
+          )
         )
       );
     }
@@ -195,13 +170,16 @@ export default function FuelTankCalc({ className, companyData }: Props) {
   }, [amount2, currency1, currency2]);
 
   return (
-    <div className={"max-w-spacing-640 flex gap-3 w-full flex-col items-start justify-center "+className}>
+    <div
+      className={
+        "max-w-spacing-640 flex gap-3 w-full flex-col items-start justify-center " +
+        className
+      }
+    >
       {/* <p className="text-paragraph-md-semibold">Convert Any Amount</p> */}
       <Card className="w-full border rounded-lg p-4 shadow-sm border-border-border-tertiary">
         <CardContent>
-          <h1 className="text-paragraph-md-semibold mb-2">
-            Cost of full tank
-          </h1>
+          <h3 className="text-paragraph-md-semibold mb-2">Cost of full tank</h3>
           <Separator />
           <div className="mt-6">
             {/* Input 1 */}
@@ -210,28 +188,22 @@ export default function FuelTankCalc({ className, companyData }: Props) {
                 <Input
                   type="tel"
                   inputMode="decimal"
-                  disabled
-                  value={amount1}
-                  onChange={(e) => {
-                    setIsTypingInAmount1(true);
-                    setAmount1(e.target.value);
-                    sessionStorage.setItem("cedirates-amount1", e.target.value);
-                  }}
-                  style={{ paddingLeft: `${paddingMap[currency1]}px` }}
+                  placeholder="₵"
+                  value={formatAmount(amount1)}
+                  onChange={handleAmount1Change}
+                  // style={{ paddingLeft: `${paddingMap[currency1]}px` }}
+                  onBlur={() => setIsTyping(false)}
                   className="rounded-xl rounded-r-none focus:!ring-0 focus:!outline-none"
                 />
-                <span className="absolute left-3 top-1/2 -translate-y-1/2 text-muted-foreground">
-                  {symbolMap[currency1]}
-                </span>
               </div>
-              <Select value={currency1} disabled onValueChange={setCurrency1}>
+              <Select value={currency1} onValueChange={setCurrency1}>
                 <SelectTrigger className="w-fit gap-1 focus:!outline-none focus:!ring-0 h-full rounded-xl rounded-l-none border-l-0">
                   <SelectValue>{currency1}</SelectValue>
                 </SelectTrigger>
                 <SelectContent>
-                  {availableCurrencies.map((curr) => (
-                    <SelectItem key={curr} value={curr}>
-                      {curr}
+                  {getAvailableFuelTypes(companyData).map((fuelType) => (
+                    <SelectItem key={fuelType} value={fuelType}>
+                      {fuelType}
                     </SelectItem>
                   ))}
                 </SelectContent>
@@ -250,31 +222,15 @@ export default function FuelTankCalc({ className, companyData }: Props) {
                   type="tel"
                   inputMode="decimal"
                   value={amount2}
-                  disabled
-                  onChange={(e) => {
-                    setIsTypingInAmount1(false);
-                    setAmount2(e.target.value);
-                    sessionStorage.setItem("cedirates-amount2", e.target.value);
-                  }}
-                  style={{ paddingLeft: `${paddingMap[currency2]}px` }}
+                  onChange={handleAmount2Change}
+                  // style={{ paddingLeft: `${paddingMap[currency2]}px` }}
                   className="rounded-xl rounded-r-none focus:!ring-0 focus:!outline-none"
                 />
-                <span className="absolute left-3 top-1/2 -translate-y-1/2 text-muted-foreground">
-                  {symbolMap[currency2]}
-                </span>
               </div>
-              <Select disabled value={currency2} onValueChange={setCurrency2}>
-                <SelectTrigger className="w-fit gap-1 focus:!outline-none focus:!ring-0 h-full rounded-xl rounded-l-none border-l-0">
-                  <SelectValue>{currency2}</SelectValue>
-                </SelectTrigger>
-                <SelectContent>
-                  {availableCurrencies.map((curr) => (
-                    <SelectItem key={curr} value={curr}>
-                      {curr}
-                    </SelectItem>
-                  ))}
-                </SelectContent>
-              </Select>
+
+              <Button className="w-fit h-full rounded-xl rounded-l-none font-medium border-l-0 bg-white border-[1px] border-[#e5e5e5] !text-black hover:bg-white hover:border-[#e5e5e5] hover:text-black disabled:bg-white disabled:border-[#e5e5e5] disabled:text-black pointer-events-none">
+                Litres
+              </Button>
             </div>
           </div>
         </CardContent>

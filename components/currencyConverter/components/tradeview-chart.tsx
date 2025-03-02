@@ -66,8 +66,6 @@ const ChartComponent: React.FC<ChartComponentProps> = (props) => {
     setCurrentRange(range);
   };
 
-  console.log(state);
-
   const filteredData = useMemo(() => {
     if (!state || !state.datasets[0].data || !state.datasets[1].data) return [];
 

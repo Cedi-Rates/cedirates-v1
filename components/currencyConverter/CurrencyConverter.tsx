@@ -19,6 +19,7 @@ import { DateRange } from "react-day-picker";
 import Footer from "@/components/footer";
 import { exchangeFaqs } from "@/utils/data";
 import { useToast } from "../ui/use-toast";
+import ConverterBox from "./components/currency-converter";
 
 moment.suppressDeprecationWarnings = true;
 
@@ -145,12 +146,6 @@ const CurrencyConverter = () => {
     setFaqs(!faqs);
   };
 
-  // console.log("amount", amount);
-  // console.log("erd", ERD);
-  // console.log("from", from);
-  // console.log("to", to);
-  // console.log("isClosed", isClosed);
-  // console.log("finalPrice", finalPrice);
   return (
     <main className={styles.main}>
       {/* <NavbarLight /> */}
@@ -161,7 +156,7 @@ const CurrencyConverter = () => {
           </p>
           <p>CediRates Currency Converter</p>
         </div>
-        <Form
+        {/* <Form
           ERD={ERD}
           onSubmit={onSubmit}
           amountWithCommas={amountWithCommas}
@@ -178,7 +173,8 @@ const CurrencyConverter = () => {
           from={from}
           isTablet={isTablet}
           setCurrencyName={setCurrencyName}
-        />
+        /> */}
+        <ConverterBox ERD={ERD} />
         <div
           className={styles.div2}
           style={{
