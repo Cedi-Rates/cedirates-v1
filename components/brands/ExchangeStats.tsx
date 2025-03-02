@@ -70,14 +70,14 @@ const ExchangeStats = ({ companyDetails, companyData }: Props) => {
         </TabsList>
 
         {/* Exchange Rate Display */}
-        <div className="w-full overflow-x-scroll">
+        <div className="w-full overflow-x-scroll no-scrollbar">
         <TabsContent value={selectedTab} className="sm:w-full w-max">
-          <div className="flex flex-row gap-3 sm:w-full w-max">
+          <div className="grid grid-cols-2 gap-3 sm:w-full w-max">
             {[`${selectedRate.shortName} to GHS`, `GHS to ${selectedRate.shortName}`].map((type, index) => {
               if ((index === 0 ? selectedRate?.buying : selectedRate?.selling) !== null && (index === 0 ? selectedRate?.buying : selectedRate?.selling) !== undefined && (index === 0 ? selectedRate?.buying : selectedRate?.selling) !== 0) return (
               <div
                 key={type}
-                className="px-spacing-16 relative sm:w-full w-[60vw] flex sm:max-w-[50%] max-w-[320px] flex-col border-2 rounded-xl border-[#E5E5E5]"
+                className="px-spacing-16 relative sm:w-full w-[160px] max-w-[320px] flex flex-col border-2 rounded-xl border-[#E5E5E5]"
               >
                 <div className="absolute inset-0 overflow-hidden">
         {/* Top left pattern */}
@@ -94,7 +94,7 @@ const ExchangeStats = ({ companyDetails, companyData }: Props) => {
                   {type}
                 </p>
                 <p
-                  className={`text-header-h3-medium w-max leading-[30px] my-spacing-20`}
+                  className={`text-header-h4-medium sm:text-header-h3-medium pr-0 sm:pr-6 items-center flex-row flex leading-[30px] my-spacing-8 sm:mb-6 mb-4 sm:my-spacing-20`}
                 >
                   ₵{""}
                   {formatRate(

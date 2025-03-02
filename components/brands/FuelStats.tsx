@@ -15,10 +15,10 @@ const FuelStats = ({ companyDetails, user, companyData }: Props) => {
   const currentRate = companyData.data
 console.log(currentRate)
   return (
-    <div className="w-full overflow-x-scroll">
+    <div className="w-full overflow-x-scroll no-scrollbar">
     <div className="grid grid-cols-3 gap-3 sm:w-full w-max">
       <div
-        className="px-spacing-16 relative sm:w-full w-[210px] max-w-[320px] flex flex-col border-2 rounded-xl border-[#E5E5E5]"
+        className="px-spacing-16 relative sm:w-full w-[160px] max-w-[320px] flex flex-col border-2 rounded-xl border-[#E5E5E5]"
         style={{
           display: !currentRate?.petrol ? "none" : "flex",
         }}
@@ -39,7 +39,7 @@ console.log(currentRate)
       </div>
 
         <p className="text-text-text-primary text-paragraph-lg-semibold my-spacing-12">Petrol</p>
-          <p className="text-header-h3-medium pr-6 items-center flex-row flex leading-[30px] my-spacing-20">
+          <p className="text-header-h4-medium sm:text-header-h3-medium pr-0 sm:pr-6 items-center flex-row flex leading-[30px] my-spacing-8 sm:mb-6 mb-4 sm:my-spacing-20">
           ₵{currentRate?.petrol && currentRate?.petrol > 0
               ? // ? currentRate?.prices?.petrol
               (Math.floor(currentRate?.petrol * 100) / 100).toFixed(2) : "-"}
@@ -54,7 +54,7 @@ console.log(currentRate)
       </div>
 
       <div
-        className="px-spacing-16 relative sm:w-full w-[210px] flex max-w-[320px] flex-col border-2 rounded-xl border-[#E5E5E5]"
+        className="px-spacing-16 relative sm:w-full w-[160px] flex max-w-[320px] flex-col border-2 rounded-xl border-[#E5E5E5]"
         style={{
           display: !currentRate?.petrol ? "none" : "flex",
         }}
@@ -76,7 +76,7 @@ console.log(currentRate)
       </div>
 
         <p className="text-text-text-primary text-paragraph-lg-semibold my-spacing-12">Diesel</p>
-          <p className="text-header-h3-medium w-max pr-6 flex-row flex items-center leading-[30px] my-spacing-20">
+          <p className="text-header-h4-medium sm:text-header-h3-medium pr-0 sm:pr-6 items-center flex-row flex leading-[30px] my-spacing-8 sm:mb-6 mb-4 sm:my-spacing-20">
           ₵{currentRate?.diesel && currentRate?.diesel > 0
               ? // ? currentRate?.prices?.petrol
               (Math.floor(currentRate?.diesel * 100) / 100).toFixed(2) : "-"}
@@ -100,7 +100,7 @@ console.log(currentRate)
       </div>
 
       <div
-        className="px-spacing-16 relative sm:w-full w-[210px] max-w-[320px] flex flex-col border-2 rounded-xl border-[#E5E5E5]"
+        className="px-spacing-16 relative sm:w-full w-[160px] max-w-[320px] flex flex-col border-2 rounded-xl border-[#E5E5E5]"
         style={{
           display: !currentRate?.premium ? "none" : "flex",
         }}
@@ -122,7 +122,7 @@ console.log(currentRate)
       </div>
 
         <p className="text-text-text-primary text-paragraph-lg-semibold my-spacing-12">Premium</p>
-          <p className="text-header-h3-medium w-max pr-6 flex-row items-center flex leading-[30px] my-spacing-20">
+          <p className="text-header-h4-medium sm:text-header-h3-medium pr-0 sm:pr-6 items-center flex-row flex leading-[30px] my-spacing-8 sm:mb-6 mb-4 sm:my-spacing-20">
           ₵{currentRate?.premium && currentRate?.premium > 0
               ? // ? currentRate?.prices?.petrol
               (Math.floor(currentRate?.premium * 100) / 100).toFixed(2) : "-"}

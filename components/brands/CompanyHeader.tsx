@@ -43,8 +43,7 @@ import { BsGlobe, BsInstagram, BsTwitterX } from "react-icons/bs";
 import urlManager from "@/utils/urlManager";
 import { useRouter } from "next/navigation";
 import { useToast } from "../ui/use-toast";
-import BadgeIcon from "../ui/avatarIcons/badge";
-import { ChevronDown, Globe, LinkIcon, LucidePhone, X } from "lucide-react";
+import { BadgeCheck, ChevronDown, Globe, LinkIcon, LucidePhone, X } from "lucide-react";
 import { companyIcons, iconColors } from "../Icons/companyIcon";
 import TagTooltip from "../ui/tag-tooltip";
 import { AnimatedSubscribeButton } from "./components/animated-button";
@@ -316,7 +315,7 @@ const CompanyHeader = ({ companyDetails, user, chartData }: Props) => {
               </h3>
               {companyDetails.company?.verified && (
                 <span>
-                  <BadgeIcon fixed size="m" />
+                  <BadgeCheck className="text-[#1896FE] w-[14px] h-[14px] flex-shrink-0" />
                 </span>
               )}
               <div className="flex items-center gap-1">
@@ -514,13 +513,18 @@ const CompanyHeader = ({ companyDetails, user, chartData }: Props) => {
           }
         >
           {companyDetails.company?.companyName}
+          {companyDetails.company?.verified && (
+                <span>
+                  <BadgeCheck className="text-[#1896FE] w-[14px] h-[14px] flex-shrink-0" />
+                </span>
+              )}
           <div className="flex items-center gap-1">
             <TooltipIcon />
           </div>
-          <div className="mt-1 text-caption-sm-semibold tracking-normal bg-backgroundInfo text-primary-brand-primary-500 !py-0 !px-2.5 rounded-[5px] w-max">
+          <div className="text-caption-sm-semibold tracking-normal bg-backgroundInfo text-primary-brand-primary-500 !py-0 !px-2.5 rounded-[5px] w-max">
             {subscriberCount} Followers
           </div>
-          <div className="mt-1 text-caption-sm-semibold tracking-normal bg-background-bg-quarternary text-text-text-secondary !py-0 !px-2.5 rounded-[5px] w-max">
+          <div className="text-caption-sm-semibold tracking-normal bg-background-bg-quarternary text-text-text-secondary !py-0 !px-2.5 rounded-[5px] w-max">
             {companyDetails.company.subCategory ?? "OMC"}
           </div>
         </div>
