@@ -8,22 +8,32 @@ on:
 jobs:
   build-react-app:
     runs-on: ubuntu-latest
+    timeout-minutes: 15
 
     steps:
-      # - name: Checkout code
-      - uses: actions/checkout@v2
-        with:
-          ref: staging
+      - name: Checkout code
+        uses: actions/checkout@v3.5.3
 
-      - uses: actions/setup-node@v2
+      - uses: actions/setup-node@v2.5.2
         with:
           node-version: "18"
+
+      - name: Cache dependencies
+        uses: actions/cache@v3
+        with:
+          path: |
+            **/node_modules
+            .yarn/cache
+          key: ${{ runner.os }}-yarn-${{ hashFiles('**/yarn.lock') }}
+          restore-keys: |
+            ${{ runner.os }}-yarn-
 
       - name: Install dependencies
         run: yarn install
 
       - name: Build application
         run: yarn build
+        continue-on-error: false
 
       - name: List build directory contents
         run: ls -la .next
