@@ -11,14 +11,22 @@ type Props = {
   user: UserDetailsType;
 };
 
+const filterObject = <T extends Record<string, any>>(obj: T, keys: (keyof T)[]): Partial<T> => 
+  keys.reduce<Partial<T>>((acc, key) => 
+    obj[key] !== undefined && obj[key] !== null && obj[key] !== "" && obj[key] !== 0  
+      ? { ...acc, [key]: obj[key] } 
+      : acc, 
+  {});
+
+
 const FuelStats = ({ companyDetails, user, companyData }: Props) => {
   const currentRate = companyData.data
   console.log(currentRate)
   return (
     <div className="w-full overflow-x-scroll no-scrollbar">
-    <div className="grid grid-cols-3 gap-3 sm:w-full w-max">
+    <div className={`grid sm:grid-cols-3 grid-cols-${Object.keys(filterObject(currentRate, ['petrol', 'diesel', 'premium'])).length} gap-3 sm:w-full ${(currentRate?.petrol && currentRate?.diesel && currentRate?.premium) ? 'w-max' : 'w-full'}`}>
       <div
-        className="px-spacing-16 relative sm:w-full w-[160px] max-w-[320px] flex flex-col border-2 rounded-xl border-[#E5E5E5]"
+        className={`px-spacing-16 relative sm:w-full w-[${(currentRate?.petrol && currentRate?.diesel && currentRate?.premium) ? '160px' : '210px'}] max-w-[320px] flex flex-col border-2 rounded-xl border-[#E5E5E5]`}
         style={{
           display: !currentRate?.petrol ? "none" : "flex",
         }}
@@ -54,9 +62,9 @@ const FuelStats = ({ companyDetails, user, companyData }: Props) => {
         </div>
 
       <div
-        className="px-spacing-16 relative sm:w-full w-[160px] flex max-w-[320px] flex-col border-2 rounded-xl border-[#E5E5E5]"
+        className={`px-spacing-16 relative sm:w-full w-[${(currentRate?.petrol && currentRate?.diesel && currentRate?.premium) ? '160px' : '210px'}] max-w-[320px] flex flex-col border-2 rounded-xl border-[#E5E5E5]`}
         style={{
-          display: !currentRate?.petrol ? "none" : "flex",
+          display: !currentRate?.diesel ? "none" : "flex",
         }}
       >
         {/* <span className="absolute top-2 right-2 cursor-pointer">
@@ -100,7 +108,7 @@ const FuelStats = ({ companyDetails, user, companyData }: Props) => {
         </div>
 
       <div
-        className="px-spacing-16 relative sm:w-full w-[160px] max-w-[320px] flex flex-col border-2 rounded-xl border-[#E5E5E5]"
+        className={`px-spacing-16 relative sm:w-full w-[${(currentRate?.petrol && currentRate?.diesel && currentRate?.premium) ? '160px' : '210px'}] max-w-[320px] flex flex-col border-2 rounded-xl border-[#E5E5E5]`}
         style={{
           display: !currentRate?.premium ? "none" : "flex",
         }}
