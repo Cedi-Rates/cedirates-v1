@@ -35,7 +35,7 @@
 
 .div2 {
   height: auto;
- max-width: 1200px;
+  max-width: 1200px;
   width: 100%;
   justify-content: center;
   display: flex;
@@ -70,7 +70,7 @@
   height: auto; /* Allow height to adapt based on content */
   z-index: 1;
 
-  @media (max-width:1200px) {
+  @media (max-width: 1200px) {
     width: 95%;
     margin: auto;
   }
@@ -110,9 +110,9 @@
     margin-bottom: 10px;
   }
 
-  .div2 {
+  /* .div2 {
     padding-top: 400px;
-  }
+  } */
 
   .h1 {
     padding: 0 30px !important;

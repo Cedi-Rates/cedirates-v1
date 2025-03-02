@@ -19,6 +19,14 @@ import { useToast } from "@/components/ui/use-toast";
 type Props = {
   ERD: any;
   className?: string;
+  amount1: string | number;
+  amount2: string | number;
+  currency1: string;
+  currency2: string;
+  setAmount1: (value: string | number) => void;
+  setAmount2: (value: string | number) => void;
+  setCurrency1: (value: any) => void;
+  setCurrency2: (value: any) => void;
 };
 
 const MAX_VALUE = 1e15;
@@ -27,11 +35,21 @@ const sanitizeInput = (value: string) => {
   return value.replace(/[^0-9.eE+-]/g, "");
 };
 
-export default function ConverterBox({ ERD, className }: Props) {
-  const [amount1, setAmount1] = React.useState<string | number>("500.00");
-  const [amount2, setAmount2] = React.useState<string | number>("0.00");
-  const [currency1, setCurrency1] = React.useState("USD");
-  const [currency2, setCurrency2] = React.useState("GHS");
+export default function ConverterBox({
+  ERD,
+  amount1,
+  amount2,
+  currency1,
+  currency2,
+  setAmount1,
+  setAmount2,
+  setCurrency1,
+  setCurrency2,
+}: Props) {
+  // const [amount1, setAmount1] = React.useState<string | number>("500.00");
+  // const [amount2, setAmount2] = React.useState<string | number>("0.00");
+  // const [currency1, setCurrency1] = React.useState("USD");
+  // const [currency2, setCurrency2] = React.useState("GHS");
   const [isTypingInAmount1, setIsTypingInAmount1] = React.useState(true);
   // General typing
   const [isTyping, setIsTyping] = React.useState(false);
@@ -45,16 +63,19 @@ export default function ConverterBox({ ERD, className }: Props) {
     to: "",
     rate: 0,
   });
-  const [rateType, setRateType] = React.useState<string>("Bank");
+  const [rateType, setRateType] = React.useState<string>("Average");
 
   const rateTypes = [
+    { value: "Average", label: "Cedirates Average" },
     { value: "Bank", label: "Bank" },
-    { value: "CryptoExchange", label: "Crypto" },
     { value: "ForexBureau", label: "Forex Bureau" },
-    { value: "Fintech", label: "Fintech" },
-    { value: "MoneyTransfer", label: "Money Transfer" },
     { value: "PaymentProcessor", label: "Card Payment" },
+    { value: "MoneyTransfer", label: "Money Transfer" },
+    { value: "CryptoExchange", label: "Crypto" },
+    { value: "Fintech", label: "Fintech" },
   ];
+
+  console.log(ERD);
 
   const formatAmount = (amount: string | number, currency: string) => {
     if (!amount) return ""; // If empty, return nothing
@@ -92,21 +113,36 @@ export default function ConverterBox({ ERD, className }: Props) {
       const validPairs = new Set<string>();
 
       // Check dollar rates
-      if (rates[`average${rateType}Dollar`]?.buyingRate)
+      if (
+        rateType !== "Average" &&
+        rates[`average${rateType}Dollar`]?.buyingRate
+      )
         validPairs.add("USD/GHS");
-      if (rates[`average${rateType}Dollar`]?.sellingRate)
+      if (
+        rateType !== "Average" &&
+        rates[`average${rateType}Dollar`]?.sellingRate
+      )
         validPairs.add("GHS/USD");
 
       // Check euro rates
-      if (rates[`average${rateType}Euro`]?.buyingRate)
+      if (rateType !== "Average" && rates[`average${rateType}Euro`]?.buyingRate)
         validPairs.add("EUR/GHS");
-      if (rates[`average${rateType}Euro`]?.sellingRate)
+      if (
+        rateType !== "Average" &&
+        rates[`average${rateType}Euro`]?.sellingRate
+      )
         validPairs.add("GHS/EUR");
 
       // Check pound rates
-      if (rates[`average${rateType}Pound`]?.buyingRate)
+      if (
+        rateType !== "Average" &&
+        rates[`average${rateType}Pound`]?.buyingRate
+      )
         validPairs.add("GBP/GHS");
-      if (rates[`average${rateType}Pound`]?.sellingRate)
+      if (
+        rateType !== "Average" &&
+        rates[`average${rateType}Pound`]?.sellingRate
+      )
         validPairs.add("GHS/GBP");
 
       return validPairs;
@@ -144,7 +180,8 @@ export default function ConverterBox({ ERD, className }: Props) {
         }
       }
 
-      const ratePrefix = rateType ? `average${rateType}` : "average";
+      const ratePrefix =
+        rateType === "Average" ? "average" : `average${rateType}`;
 
       const toAverage = `${ratePrefix}${toCurrency}`;
       const fromAverage = `${ratePrefix}${fromCurrency}`;
@@ -206,9 +243,8 @@ export default function ConverterBox({ ERD, className }: Props) {
     };
 
     Object.entries(currencyMappings).forEach(([currency, key]) => {
-      const ratePrefix = rateType
-        ? `average${rateType}${key}`
-        : `average${key}`;
+      const ratePrefix =
+        rateType === "Average" ? `average${key}` : `average${rateType}${key}`;
       if (ERD) {
         const rates = ERD[ratePrefix];
 
@@ -302,7 +338,7 @@ export default function ConverterBox({ ERD, className }: Props) {
   };
 
   const onChangeCurrencyOneFunc = (value: string) => {
-    setCurrency1((prev) => {
+    setCurrency1((prev: any) => {
       if (value === currency2) {
         setCurrency2(prev);
       }
@@ -311,7 +347,7 @@ export default function ConverterBox({ ERD, className }: Props) {
   };
 
   const onChangeCurrencyTwoFunc = (value: string) => {
-    setCurrency2((prev) => {
+    setCurrency2((prev: any) => {
       if (value === currency1) {
         setCurrency1(prev);
       }
@@ -322,7 +358,7 @@ export default function ConverterBox({ ERD, className }: Props) {
   return (
     <div
       className={
-        "flex gap-3 w-full max-w-spacing-640 flex-col items-start justify-center "
+        "flex gap-3 w-full max-w-spacing-640 flex-col items-start justify-center relative -top-[100px]"
       }
     >
       {/* <p className="text-paragraph-md-semibold">Convert Any Amount</p> */}
@@ -420,22 +456,31 @@ export default function ConverterBox({ ERD, className }: Props) {
 
             {/* Current rate */}
             <div className="flex items-end gap-2 justify-between">
-              <Select value={rateType} onValueChange={setRateType}>
-                <SelectTrigger className="w-fit gap-1 border-transparent [&>span]:flex [&>span]:items-center [&>span]:gap-1 [&>span]:!flex-row focus:border-transparent focus:!ring-offset-0 focus:!outline-none focus:!ring-0 h-full rounded-xl !border-none mt-4">
-                  <SelectValue placeholder="Select rate type" />
-                </SelectTrigger>
-                <SelectContent>
-                  {rateTypes.map((type) => (
-                    <SelectItem
-                      key={type.value}
-                      value={type.value}
-                      className=""
-                    >
-                      {type.label}
-                    </SelectItem>
-                  ))}
-                </SelectContent>
-              </Select>
+              <div className="flex flex-row items-end  gap-2">
+                <p className="text-paragraph-sm-regular sm:text-paragraph-md-regular px-1">
+                  Using
+                </p>
+                <Select value={rateType} onValueChange={setRateType}>
+                  <SelectTrigger className="w-fit gap-1 border-transparent [&>span]:flex [&>span]:items-center [&>span]:gap-1 [&>span]:!flex-row focus:border-transparent focus:!ring-offset-0 focus:!outline-none focus:!ring-0 h-full rounded-xl !border-none mt-4 relative top-[7px]">
+                    <SelectValue placeholder="Select rate type" />
+                  </SelectTrigger>
+                  <SelectContent>
+                    {rateTypes.map((type) => (
+                      <SelectItem
+                        key={type.value}
+                        value={type.value}
+                        className=""
+                      >
+                        {type.label}
+                      </SelectItem>
+                    ))}
+                  </SelectContent>
+                </Select>
+
+                <p className="text-paragraph-sm-regular sm:text-paragraph-md-regular px-1">
+                  Rate
+                </p>
+              </div>
               <p className="text-paragraph-sm-semibold sm:text-paragraph-md-semibold px-1">
                 {formatRateDisplay(
                   currentRate.from,
