@@ -134,11 +134,11 @@ const page = async ({ params }: { params: { slug: string } }) => {
       <GoogleOneTapLogin user={user} />
       <Header user={user} />
       <main className="max-w-[1450px] mx-auto mt-5 px-spacing-16 lg:px-[95px]">
-        {/* <CompanyHeader
+        <CompanyHeader
           companyDetails={companyDetails}
           user={user}
           chartData={chartData}
-        /> */}
+        />
         <div className="flex flex-col md:flex-row gap-3 sm:gap-6 lg:gap-10">
           <div
             className={
