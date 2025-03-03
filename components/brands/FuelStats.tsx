@@ -52,9 +52,9 @@ const FuelStats = ({ companyDetails, user, companyData }: Props) => {
               ? // ? currentRate?.prices?.petrol
               (Math.floor(currentRate?.petrol * 100) / 100).toFixed(2) : "-"}
             {currentRate.petrolInflation === "increase" ? (
-              <FaSortUp className="text-green-600 mb-[-1.1rem]" size={38} />
+              <FaSortUp className="text-green-600 mt-[-1.1rem]" size={38} />
             ) : currentRate.petrolInflation === "decrease" ? (
-              <FaSortDown className="text-red-600 mb-[-1.1rem]" size={38} />
+              <FaSortDown className="text-red-600 mt-[-1.1rem]" size={38} />
             ) : (
               ""
             )}
@@ -89,9 +89,9 @@ const FuelStats = ({ companyDetails, user, companyData }: Props) => {
               ? // ? currentRate?.prices?.petrol
               (Math.floor(currentRate?.diesel * 100) / 100).toFixed(2) : "-"}
             {currentRate.dieselInflation === "increase" ? (
-              <FaSortUp className="text-green-600 mb-[-1.1rem]" size={38} />
+              <FaSortUp className="text-green-600 mt-[-1.1rem]" size={38} />
             ) : currentRate.dieselInflation === "decrease" ? (
-              <FaSortDown className="text-red-600 mb-[-1.1rem]" size={38} />
+              <FaSortDown className="text-red-600 mt-[-1.1rem]" size={38} />
             ) : (
               ""
             )}
@@ -135,9 +135,9 @@ const FuelStats = ({ companyDetails, user, companyData }: Props) => {
               ? // ? currentRate?.prices?.petrol
               (Math.floor(currentRate?.premium * 100) / 100).toFixed(2) : "-"}
             {currentRate.premiumInflation === "increase" ? (
-              <FaSortUp className="text-green-600 mb-[-1.1rem]" size={38} />
+              <FaSortUp className="text-green-600 mt-[-1.1rem]" size={38} />
             ) : currentRate.premiumInflation === "decrease" ? (
-              <FaSortDown className="text-red-600 mb-[-1.1rem]" size={38} />
+              <FaSortDown className="text-red-600 mt-[-1.1rem]" size={38} />
             ) : (
               ""
             )}
