@@ -7,7 +7,7 @@ import {
   getFuelChartData,
   getReviews,
   getUser,
-  getCompanyRate,
+  getCompanyRate
 } from "@/utils/helpers/api";
 import React from "react";
 import style from "../../../assets/styles/company.module.css";
@@ -43,7 +43,7 @@ const EventsSection = dynamic(
 );
 
 export async function generateMetadata({
-  params,
+  params
 }: {
   params: { slug: string };
 }) {
@@ -66,18 +66,18 @@ export async function generateMetadata({
     title: title,
     description: description,
     openGraph: {
-      images: image,
+      images: image
     },
     twitter: {
       card: "summary_large_image",
       title: title,
       description: description,
       site: "@CediRates",
-      images: image,
+      images: image
     },
     alternates: {
-      canonical: canonical,
-    },
+      canonical: canonical
+    }
   };
 }
 
@@ -117,8 +117,8 @@ const page = async ({ params }: { params: { slug: string } }) => {
     aggregateRating: {
       "@type": "AggregateRating",
       ratingValue: averageRating,
-      reviewCount: reviewValue,
-    },
+      reviewCount: reviewValue
+    }
   };
 
   if (!companyDetails || !companyDetails.company) {
@@ -134,13 +134,18 @@ const page = async ({ params }: { params: { slug: string } }) => {
       <GoogleOneTapLogin user={user} />
       <Header user={user} />
       <main className="max-w-[1450px] mx-auto mt-5 px-spacing-16 lg:px-[95px]">
-        <CompanyHeader
+        {/* <CompanyHeader
           companyDetails={companyDetails}
           user={user}
           chartData={chartData}
-        />
+        /> */}
         <div className="flex flex-col md:flex-row gap-3 sm:gap-6 lg:gap-10">
-          <div className={style["main-section"] + " flex flex-col basis-full min-[1400px]:basis-[60%] min-[1400px]:max-w-[870px] max-w-full w-full"}>
+          <div
+            className={
+              style["main-section"] +
+              " flex flex-col basis-full min-[1400px]:basis-[60%] min-[1400px]:max-w-[870px] max-w-full w-full"
+            }
+          >
             <RatesSection
               companyDetails={companyDetails}
               companyData={companyData}
@@ -160,8 +165,13 @@ const page = async ({ params }: { params: { slug: string } }) => {
           </div>
           <div className="min-[1400px]:flex basis-[40%] w-full  hidden flex-col gap-6 items-center">
             {companyDetails?.company?.category == "exchangeRates" ? (
-              <CurrencyConverter className="min-[1400px]:block hidden" companyData={companyData} />
-            ) : <FuelTankCalc companyData={companyData} />}
+              <CurrencyConverter
+                className="min-[1400px]:block hidden"
+                companyData={companyData}
+              />
+            ) : (
+              <FuelTankCalc companyData={companyData} />
+            )}
 
             {/* <div className="sm:w-auto sm:px-0 px-5 w-screen overflow-x-scroll">
               <LocationsList />
