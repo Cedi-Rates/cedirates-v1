@@ -266,14 +266,14 @@ const FuelChartComponent: React.FC<ChartComponentProps> = (props) => {
       tooltipRef.current.innerHTML = `
     <div style="color: #292929; margin-bottom:5px;white-space:nowrap;">${formattedTime}</div>
     <div style="color: #2962FF">Petrol: ₵${(
-      Math.round(petrolPrice * 100) / 100
-    ).toFixed(2)}</div>
+          Math.round(petrolPrice * 100) / 100
+        ).toFixed(2)}</div>
     <div style="color: #33ac64;white-space:nowrap;">Diesel: ₵${(
-      Math.round(dieselPrice * 100) / 100
-    ).toFixed(2)}</div>
+          Math.round(dieselPrice * 100) / 100
+        ).toFixed(2)}</div>
     <div style="color: #aca033;white-space:nowrap;">Premium: ₵${(
-      Math.round(premiumPrice * 100) / 100
-    ).toFixed(2)}</div>
+          Math.round(premiumPrice * 100) / 100
+        ).toFixed(2)}</div>
   `;
 
       requestAnimationFrame(() => {
@@ -339,15 +339,15 @@ const FuelChartComponent: React.FC<ChartComponentProps> = (props) => {
         }}
       />
 
-<div
-       className="absolute top-[-110px] w-full flex flex-col sm:flex-row justify-between items-start sm:items-center z-2"
+      <div
+        className="absolute top-[-110px] w-full flex flex-col sm:flex-row justify-between items-start sm:items-center z-2"
       >
-        <p className="text-paragraph-lg-semibold mt-6">Fuel Price Tracker</p>
+        <h2 className="text-paragraph-lg-semibold mt-6">Fuel Price Tracker</h2>
         <div className="flex flex-row">
-        <DatePickerWithRange onChange={handleDateChange} />
-        {/* <CurrencyPicker /> */}
+          <DatePickerWithRange onChange={handleDateChange} />
+          {/* <CurrencyPicker /> */}
         </div>
-        </div>
+      </div>
 
       {!filteredData.length &&
         !dieselFilteredData.length &&
