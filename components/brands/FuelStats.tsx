@@ -24,7 +24,7 @@ const FuelStats = ({ companyDetails, user, companyData }: Props) => {
   console.log(currentRate)
   return (
     <div className="w-full overflow-x-scroll no-scrollbar">
-    <div className={`grid sm:grid-cols-3 grid-cols-${Object.keys(filterObject(currentRate, ['petrol', 'diesel', 'premium'])).length} gap-3 sm:w-full ${(currentRate?.petrol && currentRate?.diesel && currentRate?.premium) ? 'w-max' : 'w-full'}`}>
+    <div className="flex flex-row gap-3 sm:w-full w-max">
       <div
         className={`px-spacing-16 relative sm:w-full w-[${(currentRate?.petrol && currentRate?.diesel && currentRate?.premium) ? '160px' : '210px'}] max-w-[320px] flex flex-col border-2 rounded-xl border-[#E5E5E5]`}
         style={{
@@ -47,7 +47,7 @@ const FuelStats = ({ companyDetails, user, companyData }: Props) => {
           </div>
 
         <p className="text-text-text-primary text-paragraph-lg-semibold my-spacing-12">Petrol</p>
-          <p className="text-header-h4-medium sm:text-header-h3-medium pr-0 sm:pr-6 items-center flex-row flex leading-[30px] my-spacing-8 sm:mb-6 mb-4 sm:my-spacing-20">
+          <p className="text-header-h4-medium [&>svg>path]:!translate-y-56 sm:text-header-h3-medium pr-0 sm:pr-6 items-center flex-row flex leading-[19px] my-spacing-8 sm:mb-6 mb-4 sm:my-spacing-20">
           ₵{currentRate?.petrol && currentRate?.petrol > 0
               ? // ? currentRate?.prices?.petrol
               (Math.floor(currentRate?.petrol * 100) / 100).toFixed(2) : "-"}
@@ -84,7 +84,7 @@ const FuelStats = ({ companyDetails, user, companyData }: Props) => {
           </div>
 
         <p className="text-text-text-primary text-paragraph-lg-semibold my-spacing-12">Diesel</p>
-          <p className="text-header-h4-medium sm:text-header-h3-medium pr-0 sm:pr-6 items-center flex-row flex leading-[30px] my-spacing-8 sm:mb-6 mb-4 sm:my-spacing-20">
+          <p className="text-header-h4-medium [&>svg>path]:!translate-y-56 sm:text-header-h3-medium pr-0 sm:pr-6 items-center flex-row flex leading-[19px] my-spacing-8 sm:mb-6 mb-4 sm:my-spacing-20">
           ₵{currentRate?.diesel && currentRate?.diesel > 0
               ? // ? currentRate?.prices?.petrol
               (Math.floor(currentRate?.diesel * 100) / 100).toFixed(2) : "-"}
@@ -130,7 +130,7 @@ const FuelStats = ({ companyDetails, user, companyData }: Props) => {
           </div>
 
         <p className="text-text-text-primary text-paragraph-lg-semibold my-spacing-12">Premium</p>
-          <p className="text-header-h4-medium sm:text-header-h3-medium pr-0 sm:pr-6 items-center flex-row flex leading-[30px] my-spacing-8 sm:mb-6 mb-4 sm:my-spacing-20">
+          <p className="[&>svg>path]:!translate-y-56 text-header-h4-medium sm:text-header-h3-medium pr-0 sm:pr-6 items-center flex-row flex leading-[19px] my-spacing-8 sm:mb-6 mb-4 sm:my-spacing-20">
           ₵{currentRate?.premium && currentRate?.premium > 0
               ? // ? currentRate?.prices?.petrol
               (Math.floor(currentRate?.premium * 100) / 100).toFixed(2) : "-"}

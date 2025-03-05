@@ -71,13 +71,13 @@ const ExchangeStats = ({ companyDetails, companyData }: Props) => {
 
         {/* Exchange Rate Display */}
         <div className="w-full overflow-x-scroll no-scrollbar">
-        <TabsContent value={selectedTab} className="sm:w-full w-max">
-          <div className="grid grid-cols-2 gap-3 sm:w-full w-max">
+        <TabsContent value={selectedTab} className="w-full">
+          <div className="flex flex-row gap-3 w-full">
             {[`${selectedRate.shortName} to GHS`, `GHS to ${selectedRate.shortName}`].map((type, index) => {
               if ((index === 0 ? selectedRate?.buying : selectedRate?.selling) !== null && (index === 0 ? selectedRate?.buying : selectedRate?.selling) !== undefined && (index === 0 ? selectedRate?.buying : selectedRate?.selling) !== 0) return (
               <div
                 key={type}
-                className="px-spacing-16 relative sm:w-full w-[160px] max-w-[320px] flex flex-col border-2 rounded-xl border-[#E5E5E5]"
+                className="px-spacing-16 relative basis-1/2 w-full max-w-[320px] flex flex-col border-2 rounded-xl border-[#E5E5E5]"
               >
                 <div className="absolute inset-0 overflow-hidden">
         {/* Top left pattern */}
