@@ -40,9 +40,9 @@ function calculateDistance(lat1: number, lon1: number, lat2: number, lon2: numbe
   const a =
     Math.sin(dLat / 2) * Math.sin(dLat / 2) +
     Math.cos(toRadians(lat1)) *
-      Math.cos(toRadians(lat2)) *
-      Math.sin(dLon / 2) *
-      Math.sin(dLon / 2);
+    Math.cos(toRadians(lat2)) *
+    Math.sin(dLon / 2) *
+    Math.sin(dLon / 2);
   const c = 2 * Math.atan2(Math.sqrt(a), Math.sqrt(1 - a));
   return R * c; // Distance in kilometers
 }
@@ -93,7 +93,7 @@ export default function LocationsList() {
 
   return (
     <div className="gap-3 w-full flex flex-col">
-      <h1 className="text-paragraph-md-semibold">Locations</h1>
+      <h2 className="text-paragraph-md-semibold">Locations</h2>
 
       {locationPermission === "pending" && (
         <div className="p-4 border rounded-lg bg-gray-50 flex flex-col items-center text-center">
@@ -127,9 +127,9 @@ export default function LocationsList() {
                 <MapPin className="h-5 w-5 text-gray-500" />
               </div>
               <div>
-                <h2 className="text-paragraph-sm-semibold mb-1 leading-tight">
+                <h3 className="text-paragraph-sm-semibold mb-1 leading-tight">
                   {location.name}
-                </h2>
+                </h3>
                 <div className="flex items-center gap-1">
                   <span className="text-paragraph-md-medium">
                     {location.rating.toFixed(1)}
@@ -138,11 +138,10 @@ export default function LocationsList() {
                     {[...Array(5)].map((_, i) => (
                       <svg
                         key={i}
-                        className={`w-5 h-5 ${
-                          i < Math.floor(location.rating)
+                        className={`w-5 h-5 ${i < Math.floor(location.rating)
                             ? "text-yellow-400 fill-current"
                             : "text-gray-300 fill-current"
-                        }`}
+                          }`}
                         xmlns="http://www.w3.org/2000/svg"
                         viewBox="0 0 24 24"
                       >

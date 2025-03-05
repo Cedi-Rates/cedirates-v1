@@ -28,7 +28,7 @@ interface CommandDialogProps extends DialogProps {}
 const CommandDialog = ({ children, ...props }: CommandDialogProps) => {
   return (
     <Dialog {...props}>
-      <DialogContent className="fixed inset-0 flex items-center sm:!max-w-[600px] justify-center w-full h-full md:w-[600px] sm:h-[530px] sm:top-[40vh] sm:left-1/2 transform sm:-translate-x-1/2 translate-x-0 translate-y-0 sm:translate-y-[-35dvh] sm:rounded-xl bg-white shadow-lg overflow-y-auto p-0">
+      <DialogContent className="fixed inset-0 flex items-center sm:!max-w-[600px] justify-center w-full h-full sm:w-[600px] sm:h-[530px] sm:top-[40vh] sm:left-1/2 transform sm:-translate-x-1/2 translate-x-0 translate-y-0 sm:translate-y-[-35dvh] sm:rounded-xl bg-white shadow-lg overflow-y-auto p-0">
         <Command
           shouldFilter={false}
           className="w-full h-full sm:max-h-[530px] sm:max-w-[600px] overflow-y-auto [&_[cmdk-group-heading]]:px-2 [&_[cmdk-group-heading]]:font-medium [&_[cmdk-group-heading]]:text-muted-foreground [&_[cmdk-group]:not([hidden])_~[cmdk-group]]:pt-0 [&_[cmdk-group]]:px-2 [&_[cmdk-input-wrapper]_svg]:h-5 [&_[cmdk-input-wrapper]_svg]:w-5 [&_[cmdk-input]]:h-12 [&_[cmdk-item]]:px-2 [&_[cmdk-item]]:py-3 [&_[cmdk-item]_svg]:h-5 [&_[cmdk-item]_svg]:w-5"

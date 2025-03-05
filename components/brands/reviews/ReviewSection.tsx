@@ -61,7 +61,7 @@ const ReviewSection = ({ companyDetails, user, reviews, events }: Props) => {
     <div className="sm:mt-0 mt-24">
       <div>
         <div className={style["headline-rating-review"]}>
-          <p className="text-paragraph-md-bold">Ratings & Reviews</p>
+          <h3 className="text-paragraph-md-bold">Ratings & Reviews</h3>
           <AllReviews
             companyDetails={companyDetails}
             user={user}
@@ -96,8 +96,8 @@ const ReviewSection = ({ companyDetails, user, reviews, events }: Props) => {
               review && review.review === null
                 ? "Write a Review"
                 : review
-                ? "Edit Review"
-                : "Write a Review"
+                  ? "Edit Review"
+                  : "Write a Review"
             }
             companyDetails={companyDetails}
             user={user}
