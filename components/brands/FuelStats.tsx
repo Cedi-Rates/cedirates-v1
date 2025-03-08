@@ -19,14 +19,16 @@ const filterObject = <T extends Record<string, any>>(obj: T, keys: (keyof T)[]):
   {});
 
 
+
 const FuelStats = ({ companyDetails, user, companyData }: Props) => {
   const currentRate = companyData.data
-  console.log(currentRate)
+  const numberOfCards = Object.keys(filterObject(currentRate, ['petrol', 'diesel', 'premium'])).length
   return (
     <div className="w-full overflow-x-scroll no-scrollbar">
-    <div className="flex flex-row gap-3 sm:w-full w-max">
+    {/* <div className={`flex flex-row gap-3 ${(currentRate?.petrol && currentRate?.diesel && currentRate?.premium) ? 'sm:w-full w-max' : 'w-full'}`}> */}
+    <div className={`flex flex-row gap-3 w-full`}>
       <div
-        className={`px-spacing-16 relative sm:w-full w-[${(currentRate?.petrol && currentRate?.diesel && currentRate?.premium) ? '160px' : '210px'}] max-w-[320px] flex flex-col border-2 rounded-xl border-[#E5E5E5]`}
+        className={`px-spacing-16 relative w-full basis-1/${numberOfCards >= 2 ? numberOfCards : 2} flex flex-col border-2 rounded-xl border-[#E5E5E5]`}
         style={{
           display: !currentRate?.petrol ? "none" : "flex",
         }}
@@ -61,8 +63,8 @@ const FuelStats = ({ companyDetails, user, companyData }: Props) => {
           </p>
         </div>
 
-      <div
-        className={`px-spacing-16 relative sm:w-full w-[${(currentRate?.petrol && currentRate?.diesel && currentRate?.premium) ? '160px' : '210px'}] max-w-[320px] flex flex-col border-2 rounded-xl border-[#E5E5E5]`}
+        <div
+        className={`px-spacing-16 relative w-full basis-1/${numberOfCards >= 2 ? numberOfCards : 2} flex flex-col border-2 rounded-xl border-[#E5E5E5]`}
         style={{
           display: !currentRate?.diesel ? "none" : "flex",
         }}
@@ -108,7 +110,7 @@ const FuelStats = ({ companyDetails, user, companyData }: Props) => {
         </div>
 
       <div
-        className={`px-spacing-16 relative sm:w-full w-[${(currentRate?.petrol && currentRate?.diesel && currentRate?.premium) ? '160px' : '210px'}] max-w-[320px] flex flex-col border-2 rounded-xl border-[#E5E5E5]`}
+        className={`px-spacing-16 relative w-full flex flex-col basis-1/${numberOfCards >= 2 ? numberOfCards : 2} border-2 rounded-xl border-[#E5E5E5]`}
         style={{
           display: !currentRate?.premium ? "none" : "flex",
         }}
