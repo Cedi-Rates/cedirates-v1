@@ -1,4 +1,4 @@
-name: Test Admin Dashboard CI/CD
+name: Test CediRates Frontend CI/CD
 
 on:
   push:
@@ -8,20 +8,32 @@ on:
 jobs:
   build-react-app:
     runs-on: ubuntu-latest
+    timeout-minutes: 15
 
     steps:
       - name: Checkout code
-        uses: actions/checkout@v2
+        uses: actions/checkout@v3.5.3
 
-      - uses: actions/setup-node@v2
+      - uses: actions/setup-node@v2.5.2
         with:
-          node-version: '18'
+          node-version: "18"
+
+      - name: Cache dependencies
+        uses: actions/cache@v3
+        with:
+          path: |
+            **/node_modules
+            .yarn/cache
+          key: ${{ runner.os }}-yarn-${{ hashFiles('**/yarn.lock') }}
+          restore-keys: |
+            ${{ runner.os }}-yarn-
 
       - name: Install dependencies
         run: yarn install
 
       - name: Build application
         run: yarn build
+        continue-on-error: false
 
       - name: List build directory contents
         run: ls -la .next
@@ -36,7 +48,7 @@ jobs:
           username: azureuser
           key: ${{ secrets.TEST_SSH_PRIVATE_KEY }}
           source: build-artifacts.tar.gz
-          target: /home/azureuser/cedi-rates-frontend-test/
+          target: /home/azureuser/cedirates-v1
 
       - name: Deploy to Azure VM
         uses: appleboy/ssh-action@master
@@ -45,6 +57,6 @@ jobs:
           username: azureuser
           key: ${{ secrets.TEST_SSH_PRIVATE_KEY }}
           script: |
-            cd /home/azureuser/cedi-rates-frontend-test
+            cd /home/azureuser/cedirates-v1
             tar -xzf build-artifacts.tar.gz
             /home/azureuser/.nvm/versions/node/v18.20.4/bin/pm2 restart cedi-rates-frontend-test
