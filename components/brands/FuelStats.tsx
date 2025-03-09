@@ -28,7 +28,7 @@ const FuelStats = ({ companyDetails, user, companyData }: Props) => {
     {/* <div className={`flex flex-row gap-3 ${(currentRate?.petrol && currentRate?.diesel && currentRate?.premium) ? 'sm:w-full w-max' : 'w-full'}`}> */}
     <div className={`flex flex-row gap-3 w-full`}>
       <div
-        className={`px-spacing-16 relative w-full basis-1/${numberOfCards >= 2 ? numberOfCards : 2} min-w-[210px] flex flex-col border-2 rounded-xl border-[#E5E5E5]`}
+        className={`px-spacing-16 relative w-full basis-1/${numberOfCards >= 2 ? numberOfCards : 2} min-w-[160px] flex flex-col border-2 rounded-xl border-[#E5E5E5]`}
         style={{
           display: !currentRate?.petrol ? "none" : "flex",
         }}
@@ -64,7 +64,7 @@ const FuelStats = ({ companyDetails, user, companyData }: Props) => {
         </div>
 
         <div
-        className={`px-spacing-16 min-w-[210px] relative w-full basis-1/${numberOfCards >= 2 ? numberOfCards : 2} flex flex-col border-2 rounded-xl border-[#E5E5E5]`}
+        className={`px-spacing-16 min-w-[160px] relative w-full basis-1/${numberOfCards >= 2 ? numberOfCards : 2} flex flex-col border-2 rounded-xl border-[#E5E5E5]`}
         style={{
           display: !currentRate?.diesel ? "none" : "flex",
         }}
@@ -110,7 +110,7 @@ const FuelStats = ({ companyDetails, user, companyData }: Props) => {
         </div>
 
       <div
-        className={`px-spacing-16 min-w-[210px] relative w-full flex flex-col basis-1/${numberOfCards >= 2 ? numberOfCards : 2} border-2 rounded-xl border-[#E5E5E5]`}
+        className={`px-spacing-16 min-w-[160px] relative w-full flex flex-col basis-1/${numberOfCards >= 2 ? numberOfCards : 2} border-2 rounded-xl border-[#E5E5E5]`}
         style={{
           display: !currentRate?.premium ? "none" : "flex",
         }}
