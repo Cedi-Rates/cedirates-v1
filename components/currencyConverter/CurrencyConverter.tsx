@@ -52,10 +52,11 @@ const CurrencyConverter = () => {
     to.shortName === "ghs" ? from.shortName : to.shortName
   );
 
-  const [amount1, setAmount1] = React.useState<string | number>("");
+  const [amount1, setAmount1] = React.useState<string | number>(500);
   const [amount2, setAmount2] = React.useState<string | number>("");
   const [currency1, setCurrency1] = React.useState("USD");
   const [currency2, setCurrency2] = React.useState("GHS");
+  const [rateType, setRateType] = React.useState<string>("Cedirates Average");
 
   //New Currency Converter
   const router = useRouter();
@@ -63,27 +64,30 @@ const CurrencyConverter = () => {
 
   // Update URL and title when conversion values change
   useEffect(() => {
-    if (amount1 && currency1 && currency2) {
+    if (amount1 && currency1 && currency2 && rateType) {
       // Update URL with search params
       const params = new URLSearchParams();
       params.set("Amount", amount1.toString());
       params.set("From", currency1);
       params.set("To", currency2);
+      params.set("RateType", rateType);
 
       // Update URL without page reload
       router.push(`/currency-converter/?${params.toString()}`);
     }
-  }, [amount1, currency1, currency2, router]);
+  }, [amount1, currency1, currency2, rateType, router]);
 
   // Handle URL parameters on page load
   useEffect(() => {
     const amount = searchParams.get("Amount");
     const fromCurrency = searchParams.get("From");
     const toCurrency = searchParams.get("To");
+    const rateType = searchParams.get("RateType");
 
     if (amount) setAmount1(amount);
     if (fromCurrency) setCurrency1(fromCurrency);
     if (toCurrency) setCurrency2(toCurrency);
+    if (rateType) setRateType(rateType);
   }, [searchParams]);
 
   const fetchData = async () => {
@@ -224,6 +228,8 @@ const CurrencyConverter = () => {
           setAmount2={setAmount2}
           setCurrency1={setCurrency1}
           setCurrency2={setCurrency2}
+          rateType={rateType}
+          setRateType={setRateType}
         />
         <div
           className={styles.div2}

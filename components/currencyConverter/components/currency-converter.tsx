@@ -12,6 +12,7 @@ import {
 } from "@/components/ui/select";
 import { Input } from "@/components/ui/input";
 import { Card, CardContent } from "@/components/ui/card";
+import "/node_modules/flag-icons/css/flag-icons.min.css";
 
 import { addCommasToNumber } from "@/utils/currencyConverterFunc";
 import { useToast } from "@/components/ui/use-toast";
@@ -27,12 +28,24 @@ type Props = {
   setAmount2: (value: string | number) => void;
   setCurrency1: (value: any) => void;
   setCurrency2: (value: any) => void;
+  rateType: string;
+  setRateType: (value: string) => void;
 };
 
 const MAX_VALUE = 1e15;
 
 const sanitizeInput = (value: string) => {
   return value.replace(/[^0-9.eE+-]/g, "");
+};
+
+const getCurrencyFlag = (currency: string): string => {
+  const flagMap: Record<string, string> = {
+    USD: "us",
+    GHS: "gh",
+    GBP: "gb",
+    EUR: "eu",
+  };
+  return flagMap[currency] || "";
 };
 
 export default function ConverterBox({
@@ -45,6 +58,8 @@ export default function ConverterBox({
   setAmount2,
   setCurrency1,
   setCurrency2,
+  rateType,
+  setRateType,
 }: Props) {
   // const [amount1, setAmount1] = React.useState<string | number>("500.00");
   // const [amount2, setAmount2] = React.useState<string | number>("0.00");
@@ -63,10 +78,9 @@ export default function ConverterBox({
     to: "",
     rate: 0,
   });
-  const [rateType, setRateType] = React.useState<string>("Average");
 
   const rateTypes = [
-    { value: "Average", label: "Cedirates Average" },
+    { value: "Cedirates Average", label: "Cedirates Average" },
     { value: "Bank", label: "Bank" },
     { value: "ForexBureau", label: "Forex Bureau" },
     { value: "PaymentProcessor", label: "Card Payment" },
@@ -74,8 +88,6 @@ export default function ConverterBox({
     { value: "CryptoExchange", label: "Crypto" },
     { value: "Fintech", label: "Fintech" },
   ];
-
-  console.log(ERD);
 
   const formatAmount = (amount: string | number, currency: string) => {
     if (!amount) return ""; // If empty, return nothing
@@ -112,35 +124,46 @@ export default function ConverterBox({
       const rates = ERD;
       const validPairs = new Set<string>();
 
-      // Check dollar rates
+      if (rateType === "Cedirates Average") {
+        validPairs.add("USD/GHS");
+        validPairs.add("GHS/USD");
+        validPairs.add("EUR/GHS");
+        validPairs.add("GHS/EUR");
+        validPairs.add("GBP/GHS");
+        validPairs.add("GHS/GBP");
+      }
       if (
-        rateType !== "Average" &&
+        rateType !== "Cedirates Average" &&
         rates[`average${rateType}Dollar`]?.buyingRate
       )
+        // Check dollar rates
         validPairs.add("USD/GHS");
       if (
-        rateType !== "Average" &&
+        rateType !== "Cedirates Average" &&
         rates[`average${rateType}Dollar`]?.sellingRate
       )
         validPairs.add("GHS/USD");
 
       // Check euro rates
-      if (rateType !== "Average" && rates[`average${rateType}Euro`]?.buyingRate)
+      if (
+        rateType !== "Cedirates Average" &&
+        rates[`average${rateType}Euro`]?.buyingRate
+      )
         validPairs.add("EUR/GHS");
       if (
-        rateType !== "Average" &&
+        rateType !== "Cedirates Average" &&
         rates[`average${rateType}Euro`]?.sellingRate
       )
         validPairs.add("GHS/EUR");
 
       // Check pound rates
       if (
-        rateType !== "Average" &&
+        rateType !== "Cedirates Average" &&
         rates[`average${rateType}Pound`]?.buyingRate
       )
         validPairs.add("GBP/GHS");
       if (
-        rateType !== "Average" &&
+        rateType !== "Cedirates Average" &&
         rates[`average${rateType}Pound`]?.sellingRate
       )
         validPairs.add("GHS/GBP");
@@ -149,6 +172,8 @@ export default function ConverterBox({
     }
     return new Set<string>();
   };
+
+  console.log(getValidCurrencyPairs(ERD, rateType));
 
   const isConversionSupported = (from: string, to: string) => {
     const validPairs = getValidCurrencyPairs(ERD, rateType);
@@ -181,7 +206,7 @@ export default function ConverterBox({
       }
 
       const ratePrefix =
-        rateType === "Average" ? "average" : `average${rateType}`;
+        rateType === "Cedirates Average" ? "average" : `average${rateType}`;
 
       const toAverage = `${ratePrefix}${toCurrency}`;
       const fromAverage = `${ratePrefix}${fromCurrency}`;
@@ -244,7 +269,9 @@ export default function ConverterBox({
 
     Object.entries(currencyMappings).forEach(([currency, key]) => {
       const ratePrefix =
-        rateType === "Average" ? `average${key}` : `average${rateType}${key}`;
+        rateType === "Cedirates Average"
+          ? `average${key}`
+          : `average${rateType}${key}`;
       if (ERD) {
         const rates = ERD[ratePrefix];
 
@@ -375,7 +402,11 @@ export default function ConverterBox({
                 >
                   <SelectTrigger className="w-fit gap-1 border-transparent [&>span]:flex [&>span]:items-center [&>span]:gap-1 [&>span]:!flex-row focus:border-transparent focus:!ring-offset-0 focus:!outline-none focus:!ring-0 h-full rounded-xl !border-none  ">
                     <SelectValue>
-                      <div className="h-6 w-6 bg-black rounded-full" />{" "}
+                      <span
+                        className={`fi fi-${getCurrencyFlag(
+                          currency1
+                        )} rounded-full h-6 w-6`}
+                      />
                       {currency1}
                     </SelectValue>
                   </SelectTrigger>
@@ -428,7 +459,11 @@ export default function ConverterBox({
                 >
                   <SelectTrigger className="w-fit gap-1 border-transparent [&>span]:flex [&>span]:items-center [&>span]:gap-1 [&>span]:!flex-row focus:border-transparent focus:!ring-offset-0 focus:!outline-none focus:!ring-0 h-full rounded-xl !border-none  ">
                     <SelectValue>
-                      <div className="h-6 w-6 bg-black rounded-full" />{" "}
+                      <span
+                        className={`fi fi-${getCurrencyFlag(
+                          currency2
+                        )} rounded-full h-6 w-6`}
+                      />
                       {currency2}
                     </SelectValue>
                   </SelectTrigger>
@@ -457,9 +492,6 @@ export default function ConverterBox({
             {/* Current rate */}
             <div className="flex items-end gap-2 justify-between">
               <div className="flex flex-row items-end  gap-2">
-                <p className="text-paragraph-sm-regular sm:text-paragraph-md-regular px-1">
-                  Using
-                </p>
                 <Select value={rateType} onValueChange={setRateType}>
                   <SelectTrigger className="w-fit gap-1 border-transparent [&>span]:flex [&>span]:items-center [&>span]:gap-1 [&>span]:!flex-row focus:border-transparent focus:!ring-offset-0 focus:!outline-none focus:!ring-0 h-full rounded-xl !border-none mt-4 relative top-[7px]">
                     <SelectValue placeholder="Select rate type" />
@@ -478,7 +510,7 @@ export default function ConverterBox({
                 </Select>
 
                 <p className="text-paragraph-sm-regular sm:text-paragraph-md-regular px-1">
-                  Rate
+                  rate
                 </p>
               </div>
               <p className="text-paragraph-sm-semibold sm:text-paragraph-md-semibold px-1">

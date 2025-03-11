@@ -19,6 +19,8 @@ import {
   currencyRatesType,
 } from "@/utils/types";
 import { useToast } from "../ui/use-toast";
+import "/node_modules/flag-icons/css/flag-icons.min.css";
+
 import {
   getAvailableCurrencies,
   addCommasToNumber,
@@ -34,6 +36,16 @@ const MAX_VALUE = 1e15;
 
 const sanitizeInput = (value: string) => {
   return value.replace(/[^0-9.eE+-]/g, "");
+};
+
+const getCurrencyFlag = (currency: string): string => {
+  const flagMap: Record<string, string> = {
+    USD: "us",
+    GHS: "gh",
+    GBP: "gb",
+    EUR: "eu",
+  };
+  return flagMap[currency] || "";
 };
 
 export default function CurrencyConverter({ companyData, className }: Props) {
@@ -341,7 +353,11 @@ export default function CurrencyConverter({ companyData, className }: Props) {
                 >
                   <SelectTrigger className="w-fit gap-1 border-transparent [&>span]:flex [&>span]:items-center [&>span]:gap-1 [&>span]:!flex-row focus:border-transparent focus:!ring-offset-0 focus:!outline-none focus:!ring-0 h-full rounded-xl !border-none  ">
                     <SelectValue>
-                      <div className="h-6 w-6 bg-black rounded-full" />{" "}
+                      <span
+                        className={`fi fi-${getCurrencyFlag(
+                          currency1
+                        )} rounded-full h-6 w-6`}
+                      />
                       {currency1}
                     </SelectValue>
                   </SelectTrigger>
@@ -394,7 +410,11 @@ export default function CurrencyConverter({ companyData, className }: Props) {
                 >
                   <SelectTrigger className="w-fit gap-1 border-transparent [&>span]:flex [&>span]:items-center [&>span]:gap-1 [&>span]:!flex-row focus:border-transparent focus:!ring-offset-0 focus:!outline-none focus:!ring-0 h-full rounded-xl !border-none  ">
                     <SelectValue>
-                      <div className="h-6 w-6 bg-black rounded-full" />{" "}
+                      <span
+                        className={`fi fi-${getCurrencyFlag(
+                          currency2
+                        )} rounded-full h-6 w-6`}
+                      />
                       {currency2}
                     </SelectValue>
                   </SelectTrigger>
