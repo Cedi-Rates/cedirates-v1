@@ -52,43 +52,54 @@ const CurrencyConverter = () => {
     to.shortName === "ghs" ? from.shortName : to.shortName
   );
 
-  const [amount1, setAmount1] = React.useState<string | number>(500);
-  const [amount2, setAmount2] = React.useState<string | number>("");
-  const [currency1, setCurrency1] = React.useState("USD");
-  const [currency2, setCurrency2] = React.useState("GHS");
-  const [rateType, setRateType] = React.useState<string>("Cedirates Average");
-
   //New Currency Converter
   const router = useRouter();
   const searchParams = useSearchParams();
 
+  const [amount1, setAmount1] = useState(() => {
+    const paramAmount = searchParams.get("Amount");
+    if (paramAmount) {
+      return paramAmount;
+    }
+    const savedAmount =
+      typeof window !== "undefined"
+        ? localStorage.getItem("converter_amount")
+        : null;
+    return savedAmount || 500;
+  });
+
+  const [amount2, setAmount2] = React.useState<string | number>("");
+  const [currency1, setCurrency1] = useState(
+    () => searchParams.get("From") || "USD"
+  );
+  const [currency2, setCurrency2] = useState(
+    () => searchParams.get("To") || "GHS"
+  );
+  const [rateType, setRateType] = useState(
+    () => searchParams.get("Rate") || "CediRates Average"
+  );
+
+  // Save amount1 to localStorage whenever it changes
+  useEffect(() => {
+    if (typeof window !== "undefined") {
+      localStorage.setItem("converter_amount", amount1.toString());
+    }
+  }, [amount1]);
+
   // Update URL and title when conversion values change
   useEffect(() => {
     if (amount1 && currency1 && currency2 && rateType) {
-      // Update URL with search params
+      // Update URL with search params, removing commas from amount
       const params = new URLSearchParams();
-      params.set("Amount", amount1.toString());
+      params.set("Amount", amount1.toString().replace(/,/g, ""));
       params.set("From", currency1);
       params.set("To", currency2);
-      params.set("RateType", rateType);
+      params.set("Rate", rateType);
 
       // Update URL without page reload
       router.push(`/currency-converter/?${params.toString()}`);
     }
   }, [amount1, currency1, currency2, rateType, router]);
-
-  // Handle URL parameters on page load
-  useEffect(() => {
-    const amount = searchParams.get("Amount");
-    const fromCurrency = searchParams.get("From");
-    const toCurrency = searchParams.get("To");
-    const rateType = searchParams.get("RateType");
-
-    if (amount) setAmount1(amount);
-    if (fromCurrency) setCurrency1(fromCurrency);
-    if (toCurrency) setCurrency2(toCurrency);
-    if (rateType) setRateType(rateType);
-  }, [searchParams]);
 
   const fetchData = async () => {
     const todaysAverage = await getAverageForToday(moment().format("D-M-YYYY"));
