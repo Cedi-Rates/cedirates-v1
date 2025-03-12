@@ -80,7 +80,7 @@ export default function ConverterBox({
   });
 
   const rateTypes = [
-    { value: "CediRates Average", label: "CediRates Average" },
+    { value: "Cedirates Average", label: "Cedirates Average" },
     { value: "Bank", label: "Bank" },
     { value: "ForexBureau", label: "Forex Bureau" },
     { value: "PaymentProcessor", label: "Card Payment" },
@@ -124,7 +124,7 @@ export default function ConverterBox({
       const rates = ERD;
       const validPairs = new Set<string>();
 
-      if (rateType === "CediRates Average") {
+      if (rateType === "Cedirates Average") {
         validPairs.add("USD/GHS");
         validPairs.add("GHS/USD");
         validPairs.add("EUR/GHS");
@@ -133,37 +133,37 @@ export default function ConverterBox({
         validPairs.add("GHS/GBP");
       }
       if (
-        rateType !== "CediRates Average" &&
+        rateType !== "Cedirates Average" &&
         rates[`average${rateType}Dollar`]?.buyingRate
       )
         // Check dollar rates
         validPairs.add("USD/GHS");
       if (
-        rateType !== "CediRates Average" &&
+        rateType !== "Cedirates Average" &&
         rates[`average${rateType}Dollar`]?.sellingRate
       )
         validPairs.add("GHS/USD");
 
       // Check euro rates
       if (
-        rateType !== "CediRates Average" &&
+        rateType !== "Cedirates Average" &&
         rates[`average${rateType}Euro`]?.buyingRate
       )
         validPairs.add("EUR/GHS");
       if (
-        rateType !== "CediRates Average" &&
+        rateType !== "Cedirates Average" &&
         rates[`average${rateType}Euro`]?.sellingRate
       )
         validPairs.add("GHS/EUR");
 
       // Check pound rates
       if (
-        rateType !== "CediRates Average" &&
+        rateType !== "Cedirates Average" &&
         rates[`average${rateType}Pound`]?.buyingRate
       )
         validPairs.add("GBP/GHS");
       if (
-        rateType !== "CediRates Average" &&
+        rateType !== "Cedirates Average" &&
         rates[`average${rateType}Pound`]?.sellingRate
       )
         validPairs.add("GHS/GBP");
@@ -206,7 +206,7 @@ export default function ConverterBox({
       }
 
       const ratePrefix =
-        rateType === "CediRates Average" ? "average" : `average${rateType}`;
+        rateType === "Cedirates Average" ? "average" : `average${rateType}`;
 
       const toAverage = `${ratePrefix}${toCurrency}`;
       const fromAverage = `${ratePrefix}${fromCurrency}`;
@@ -269,7 +269,7 @@ export default function ConverterBox({
 
     Object.entries(currencyMappings).forEach(([currency, key]) => {
       const ratePrefix =
-        rateType === "CediRates Average"
+        rateType === "Cedirates Average"
           ? `average${key}`
           : `average${rateType}${key}`;
       if (ERD) {
@@ -403,9 +403,9 @@ export default function ConverterBox({
                   <SelectTrigger className="w-fit gap-1 border-transparent [&>span]:flex [&>span]:items-center [&>span]:gap-1 [&>span]:!flex-row focus:border-transparent focus:!ring-offset-0 focus:!outline-none focus:!ring-0 h-full rounded-xl !border-none  ">
                     <SelectValue>
                       <span
-                        className={`fi-${getCurrencyFlag(
+                        className={`fi fi-${getCurrencyFlag(
                           currency1
-                        )} rounded-full h-6 w-6 object-cover flex items-center justify-center fis`}
+                        )} rounded-full h-6 w-6`}
                       />
                       {currency1}
                     </SelectValue>
@@ -460,9 +460,9 @@ export default function ConverterBox({
                   <SelectTrigger className="w-fit gap-1 border-transparent [&>span]:flex [&>span]:items-center [&>span]:gap-1 [&>span]:!flex-row focus:border-transparent focus:!ring-offset-0 focus:!outline-none focus:!ring-0 h-full rounded-xl !border-none  ">
                     <SelectValue>
                       <span
-                        className={`fi-${getCurrencyFlag(
+                        className={`fi fi-${getCurrencyFlag(
                           currency2
-                        )} rounded-full h-6 w-6 object-cover flex items-center justify-center fis`}
+                        )} rounded-full h-6 w-6`}
                       />
                       {currency2}
                     </SelectValue>
