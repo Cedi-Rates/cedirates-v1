@@ -318,7 +318,7 @@ const FuelChartComponent: React.FC<ChartComponentProps> = (props) => {
     >
       <div
         ref={chartContainerRef}
-        className="relative w-full h-[300px] z-[1] sm:top-0 top-20"
+        className="relative w-full h-[300px] z-[1] top-0"
       />
 
       <div
