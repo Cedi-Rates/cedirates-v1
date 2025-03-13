@@ -171,7 +171,7 @@ const FuelRatesCard: React.FC<Props> = (className) => {
                       </div>
                     </TableCell>
                     <TableCell className={`sm:pl-auto !pl-0 !py-2`}>
-                      <div className={`inline-flex justify-center text-center`}>
+                      <div className={`inline-flex justify-center items-center text-center`}>
                         {item.petrol && item.petrol > 0
                           ? item.petrol?.toFixed(2)
                           : "-"}
@@ -187,7 +187,7 @@ const FuelRatesCard: React.FC<Props> = (className) => {
                       </div>
                     </TableCell>
                     <TableCell className={`!py-2`}>
-                      <div className={`inline-flex justify-center text-center`}>
+                      <div className={`inline-flex justify-center items-center text-center`}>
                         {item.diesel && item.diesel > 0
                           ? item.diesel?.toFixed(2)
                           : "-"}

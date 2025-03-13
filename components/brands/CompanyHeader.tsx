@@ -43,8 +43,7 @@ import { BsGlobe, BsInstagram, BsTwitterX } from "react-icons/bs";
 import urlManager from "@/utils/urlManager";
 import { useRouter } from "next/navigation";
 import { useToast } from "../ui/use-toast";
-import BadgeIcon from "../ui/avatarIcons/badge";
-import { ChevronDown, Globe, LinkIcon, LucidePhone, X } from "lucide-react";
+import { BadgeCheck, ChevronDown, Globe, LinkIcon, LucidePhone, X } from "lucide-react";
 import { companyIcons, iconColors } from "../Icons/companyIcon";
 import TagTooltip from "../ui/tag-tooltip";
 import { AnimatedSubscribeButton } from "./components/animated-button";
@@ -205,36 +204,32 @@ const CompanyHeader = ({ companyDetails, user, chartData }: Props) => {
       <div className="space-y-3">
         <div className="space-y-1 pl-3">
           <h3
-            className={`${
-              isMobile
+            className={`${isMobile
                 ? "text-paragraph-md-semibold"
                 : "text-paragraph-lg-semibold"
-            } font-medium`}
+              } font-medium`}
           >
             WhatsApp
           </h3>
           <p
-            className={`${
-              isMobile ? "text-paragraph-md-medium" : "text-paragraph-lg-medium"
-            } text-text-text-quarternary`}
+            className={`${isMobile ? "text-paragraph-md-medium" : "text-paragraph-lg-medium"
+              } text-text-text-quarternary`}
           >
             {companyDetails.company.phone}
           </p>
         </div>
         <div className="space-y-1 border-t pt-3 pl-3">
           <h3
-            className={`${
-              isMobile
+            className={`${isMobile
                 ? "text-paragraph-md-semibold"
                 : "text-paragraph-lg-semibold"
-            } font-medium`}
+              } font-medium`}
           >
             Call
           </h3>
           <p
-            className={`${
-              isMobile ? "text-paragraph-md-medium" : "text-paragraph-lg-medium"
-            } text-text-text-quarternary`}
+            className={`${isMobile ? "text-paragraph-md-medium" : "text-paragraph-lg-medium"
+              } text-text-text-quarternary`}
           >
             {companyDetails.company.phone}
           </p>
@@ -298,7 +293,7 @@ const CompanyHeader = ({ companyDetails, user, chartData }: Props) => {
             width={120}
             height={120}
             priority
-            // loading="lazy"
+          // loading="lazy"
           />
         </div>
         <div
@@ -311,12 +306,12 @@ const CompanyHeader = ({ companyDetails, user, chartData }: Props) => {
                 style["company-name-container"]
               }
             >
-              <h3 className="text-paragraph-lg-semibold !leading-[17px]">
+              <h2 className="text-paragraph-lg-semibold !leading-[17px]">
                 {companyDetails.company?.companyName}
-              </h3>
+              </h2>
               {companyDetails.company?.verified && (
                 <span>
-                  <BadgeIcon fixed size="m" />
+                  <BadgeCheck className="text-[#1896FE] w-[14px] h-[14px] flex-shrink-0" />
                 </span>
               )}
               <div className="flex items-center gap-1">
@@ -514,13 +509,18 @@ const CompanyHeader = ({ companyDetails, user, chartData }: Props) => {
           }
         >
           {companyDetails.company?.companyName}
+          {companyDetails.company?.verified && (
+                <span>
+                  <BadgeCheck className="text-[#1896FE] w-[14px] h-[14px] flex-shrink-0" />
+                </span>
+              )}
           <div className="flex items-center gap-1">
             <TooltipIcon />
           </div>
-          <div className="mt-1 text-caption-sm-semibold tracking-normal bg-backgroundInfo text-primary-brand-primary-500 !py-0 !px-2.5 rounded-[5px] w-max">
+          <div className="text-caption-sm-semibold tracking-normal bg-backgroundInfo text-primary-brand-primary-500 !py-0 !px-2.5 rounded-[5px] w-max">
             {subscriberCount} Followers
           </div>
-          <div className="mt-1 text-caption-sm-semibold tracking-normal bg-background-bg-quarternary text-text-text-secondary !py-0 !px-2.5 rounded-[5px] w-max">
+          <div className="text-caption-sm-semibold tracking-normal bg-background-bg-quarternary text-text-text-secondary !py-0 !px-2.5 rounded-[5px] w-max">
             {companyDetails.company.subCategory ?? "OMC"}
           </div>
         </div>

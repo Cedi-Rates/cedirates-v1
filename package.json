@@ -51,6 +51,7 @@
     "colorthief": "^2.4.0",
     "date-fns": "^3.3.1",
     "dompurify": "^3.1.7",
+    "flag-icons": "^7.3.2",
     "framer-motion": "^11.15.0",
     "fs": "^0.0.1-security",
     "http-proxy-middleware": "^2.0.6",
