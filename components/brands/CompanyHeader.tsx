@@ -205,8 +205,8 @@ const CompanyHeader = ({ companyDetails, user, chartData }: Props) => {
         <div className="space-y-1 pl-3">
           <h3
             className={`${isMobile
-                ? "text-paragraph-md-semibold"
-                : "text-paragraph-lg-semibold"
+              ? "text-paragraph-md-semibold"
+              : "text-paragraph-lg-semibold"
               } font-medium`}
           >
             WhatsApp
@@ -221,8 +221,8 @@ const CompanyHeader = ({ companyDetails, user, chartData }: Props) => {
         <div className="space-y-1 border-t pt-3 pl-3">
           <h3
             className={`${isMobile
-                ? "text-paragraph-md-semibold"
-                : "text-paragraph-lg-semibold"
+              ? "text-paragraph-md-semibold"
+              : "text-paragraph-lg-semibold"
               } font-medium`}
           >
             Call
@@ -508,12 +508,12 @@ const CompanyHeader = ({ companyDetails, user, chartData }: Props) => {
             " text-start !justify-start items-center mb-1"
           }
         >
-          {companyDetails.company?.companyName}
+          <h2>{companyDetails.company?.companyName}</h2>
           {companyDetails.company?.verified && (
-                <span>
-                  <BadgeCheck className="text-[#1896FE] w-[14px] h-[14px] flex-shrink-0" />
-                </span>
-              )}
+            <span>
+              <BadgeCheck className="text-[#1896FE] w-[14px] h-[14px] flex-shrink-0" />
+            </span>
+          )}
           <div className="flex items-center gap-1">
             <TooltipIcon />
           </div>
