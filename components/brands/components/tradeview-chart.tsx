@@ -228,11 +228,11 @@ const ChartComponent: React.FC<ChartComponentProps> = (props) => {
       tooltipRef.current.innerHTML = `
       <div style="color: #292929; margin-bottom:5px; white-space:nowrap;">${formattedTime}</div>
       <div style="color: #2962FF; white-space:nowrap;">Buying: ₵${(
-          Math.round(buyingPrice * 100) / 100
-        ).toFixed(2)}</div>
+        Math.round(buyingPrice * 100) / 100
+      ).toFixed(2)}</div>
       <div style="color: #069a41;white-space:nowrap;">Selling: ₵${(
-          Math.round(sellingPrice * 100) / 100
-        ).toFixed(2)}</div>
+        Math.round(sellingPrice * 100) / 100
+      ).toFixed(2)}</div>
     `;
 
       requestAnimationFrame(() => {
@@ -306,8 +306,10 @@ const ChartComponent: React.FC<ChartComponentProps> = (props) => {
         }}
       />
       <div className="absolute top-[-110px] w-full flex flex-col sm:flex-row justify-between items-start sm:items-center z-2">
-        <h2 className="text-paragraph-lg-semibold mt-6">Exchange Rate Tracker</h2>
-        <div className="flex flex-col sm:flex-row">
+        <h2 className="text-paragraph-lg-semibold mt-6 flex-1">
+          Exchange Rate Tracker
+        </h2>
+        <div className="w-full flex flex-row justify-between items-center  sm:justify-end flex-1">
           <DatePickerWithRange onChange={handleDateChange} />
           <CurrencyPicker />
         </div>
