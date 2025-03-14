@@ -468,7 +468,7 @@ const FuelTable = ({ rates, user }: Props) => {
                                     .filter(([key]) => {
                                       const iconData = item?.company?.tagsType?.[key as keyof TagType];
                                       if (!iconData) return false;
-                                      if (!iconData?.note) return false;
+                                      if (!iconData?.status) return false;
 
                                       if (key === "newListing" && iconData.date) {
                                         const listingDate = new Date(iconData.date);

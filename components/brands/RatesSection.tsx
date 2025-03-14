@@ -165,6 +165,7 @@ const RatesSection = ({ companyDetails, user, companyData }: Props) => {
               )}
             </div>
           </div>
+
           {isFuelCompany ? (
             <FuelStats
               user={user}

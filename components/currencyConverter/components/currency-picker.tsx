@@ -97,23 +97,23 @@ export const CurrencyPicker: React.FC<CurrencyPickerProps> = ({
         // className=" bg-black/5"
       >
         <SelectTrigger
-          className="w-[160px] rounded-lg sm:ml-auto"
+          className="max-w-max rounded-lg sm:ml-auto"
           aria-label="Select a value"
         >
           <SelectValue placeholder="Select a range" />
         </SelectTrigger>
         <SelectContent className="rounded-xl">
-          <SelectItem value="default" className="rounded-lg">
-            Select a currency
-          </SelectItem>
           <SelectItem value="usd" className="rounded-lg">
-            Dollar
+            <span className="hidden sm:inline">Dollar</span>
+            <span className="sm:hidden">USD</span>
           </SelectItem>
           <SelectItem value="gbp" className="rounded-lg">
-            Pound
+            <span className="hidden sm:inline">Pound</span>
+            <span className="sm:hidden">GBP</span>
           </SelectItem>
           <SelectItem value="eur" className="rounded-lg">
-            Euro
+            <span className="hidden sm:inline">Euro</span>
+            <span className="sm:hidden">EUR</span>
           </SelectItem>
         </SelectContent>
       </Select>
