@@ -354,9 +354,9 @@ export default function CurrencyConverter({ companyData, className }: Props) {
                   <SelectTrigger className="w-fit gap-1 border-transparent [&>span]:flex [&>span]:items-center [&>span]:gap-1 [&>span]:!flex-row focus:border-transparent focus:!ring-offset-0 focus:!outline-none focus:!ring-0 h-full rounded-xl !border-none  ">
                     <SelectValue>
                       <span
-                        className={`fi fi-${getCurrencyFlag(
+                        className={`fi-${getCurrencyFlag(
                           currency1
-                        )} rounded-full h-6 w-6`}
+                        )} rounded-full h-6 w-6 object-cover flex items-center justify-center fis`}
                       />
                       {currency1}
                     </SelectValue>
@@ -411,9 +411,9 @@ export default function CurrencyConverter({ companyData, className }: Props) {
                   <SelectTrigger className="w-fit gap-1 border-transparent [&>span]:flex [&>span]:items-center [&>span]:gap-1 [&>span]:!flex-row focus:border-transparent focus:!ring-offset-0 focus:!outline-none focus:!ring-0 h-full rounded-xl !border-none  ">
                     <SelectValue>
                       <span
-                        className={`fi fi-${getCurrencyFlag(
+                        className={`fi-${getCurrencyFlag(
                           currency2
-                        )} rounded-full h-6 w-6`}
+                        )} rounded-full h-6 w-6 object-cover flex items-center justify-center fis`}
                       />
                       {currency2}
                     </SelectValue>
