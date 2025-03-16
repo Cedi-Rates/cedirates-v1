@@ -157,7 +157,7 @@ const page = async ({ params }: { params: { slug: string } }) => {
               reviews={reviews}
               events={events}
             />
-            {/* <div className="mb-3">
+            {/* <div className="">
                 <Faqs companyDetails={companyDetails} />
               </div> */}
 
