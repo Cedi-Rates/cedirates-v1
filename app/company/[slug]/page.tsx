@@ -56,7 +56,7 @@ export async function generateMetadata({
 
   const description =
     companyDetails.company?.category === "exchangeRates"
-      ? `Check ${companyDetails.company?.companyName} Exchange Rate in Ghana today for the US Dollar (USD), Pound Sterling (GBP) & Euro (EUR) to Ghanaian Cedi (GHS). Subscribe for updates.`
+      ? `Check ${companyDetails.company?.companyName} exchange rate in Ghana today for the US Dollar (USD), Pound Sterling (GBP) & Euro (EUR) to Ghanaian Cedi (GHS). Subscribe for updates.`
       : `Find the latest fuel petrol and diesel prices in Ghana from ${companyDetails.company?.companyName}. Subscribe for updates.`;
 
   const canonical = `https://cedirates.com/company/${companyDetails.company?.url}/`;

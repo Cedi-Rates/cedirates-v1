@@ -54,7 +54,7 @@ const AllReviews = ({
           <DialogHeader>
             <DialogTitle>
               <div className={style["modal-headline-rating-review"]}>
-                <p className={style["rating-head"]}>Ratings & Reviews</p>
+                <h3 className={style["rating-head"]}>Ratings & Reviews</h3>
               </div>
               <AverageInfo
                 companyDetails={companyDetails}

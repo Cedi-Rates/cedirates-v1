@@ -11,29 +11,30 @@ type Props = {
   user: UserDetailsType;
 };
 
-const filterObject = <T extends Record<string, any>>(obj: T, keys: (keyof T)[]): Partial<T> => 
-  keys.reduce<Partial<T>>((acc, key) => 
-    obj[key] !== undefined && obj[key] !== null && obj[key] !== "" && obj[key] !== 0  
-      ? { ...acc, [key]: obj[key] } 
-      : acc, 
-  {});
+const filterObject = <T extends Record<string, any>>(obj: T, keys: (keyof T)[]): Partial<T> =>
+  keys.reduce<Partial<T>>((acc, key) =>
+    obj[key] !== undefined && obj[key] !== null && obj[key] !== "" && obj[key] !== 0
+      ? { ...acc, [key]: obj[key] }
+      : acc,
+    {});
 
 
 
 const FuelStats = ({ companyDetails, user, companyData }: Props) => {
   const currentRate = companyData.data
-  const numberOfCards = Object.keys(filterObject(currentRate, ['petrol', 'diesel', 'premium'])).length
+  const numberOfCards = Object.keys(filterObject(currentRate, ['petrol', 'diesel', 'premium'])).length;
+
   return (
     <div className="w-full overflow-x-scroll no-scrollbar">
-    {/* <div className={`flex flex-row gap-3 ${(currentRate?.petrol && currentRate?.diesel && currentRate?.premium) ? 'sm:w-full w-max' : 'w-full'}`}> */}
-    <div className={`flex flex-row gap-3 w-full`}>
-      <div
-        className={`px-spacing-16 relative w-full basis-1/${numberOfCards >= 2 ? numberOfCards : 2} min-w-[160px] flex flex-col border-2 rounded-xl border-[#E5E5E5]`}
-        style={{
-          display: !currentRate?.petrol ? "none" : "flex",
-        }}
-      >
-        {/* <span className="absolute top-2 right-2 cursor-pointer">
+      {/* <div className={`flex flex-row gap-3 ${(currentRate?.petrol && currentRate?.diesel && currentRate?.premium) ? 'sm:w-full w-max' : 'w-full'}`}> */}
+      <div className={`flex flex-row gap-3 w-full`}>
+        <div
+          className={`px-spacing-16 relative w-full basis-1/${numberOfCards >= 2 ? numberOfCards : 2} min-w-[160px] flex flex-col border-2 rounded-xl border-[#E5E5E5]`}
+          style={{
+            display: !currentRate?.petrol ? "none" : "flex",
+          }}
+        >
+          {/* <span className="absolute top-2 right-2 cursor-pointer">
           <CiCircleInfo />
         </span> */}
           <div className="absolute inset-0 overflow-hidden">
@@ -48,9 +49,9 @@ const FuelStats = ({ companyDetails, user, companyData }: Props) => {
             </div>
           </div>
 
-        <p className="text-text-text-primary text-paragraph-lg-semibold my-spacing-12">Petrol</p>
+          <h3 className="text-text-text-primary text-paragraph-lg-semibold my-spacing-12">Petrol</h3>
           <p className="text-header-h4-medium [&>svg>path]:!translate-y-56 sm:text-header-h3-medium pr-0 sm:pr-6 items-center flex-row flex leading-[19px] my-spacing-8 sm:mb-6 mb-4 sm:my-spacing-20">
-          ₵{currentRate?.petrol && currentRate?.petrol > 0
+            ₵{currentRate?.petrol && currentRate?.petrol > 0
               ? // ? currentRate?.prices?.petrol
               (Math.floor(currentRate?.petrol * 100) / 100).toFixed(2) : "-"}
             {currentRate.petrolInflation === "increase" ? (
@@ -64,12 +65,12 @@ const FuelStats = ({ companyDetails, user, companyData }: Props) => {
         </div>
 
         <div
-        className={`px-spacing-16 min-w-[160px] relative w-full basis-1/${numberOfCards >= 2 ? numberOfCards : 2} flex flex-col border-2 rounded-xl border-[#E5E5E5]`}
-        style={{
-          display: !currentRate?.diesel ? "none" : "flex",
-        }}
-      >
-        {/* <span className="absolute top-2 right-2 cursor-pointer">
+          className={`px-spacing-16 min-w-[160px] relative w-full basis-1/${numberOfCards >= 2 ? numberOfCards : 2} flex flex-col border-2 rounded-xl border-[#E5E5E5]`}
+          style={{
+            display: !currentRate?.diesel ? "none" : "flex",
+          }}
+        >
+          {/* <span className="absolute top-2 right-2 cursor-pointer">
           <CiCircleInfo />
         </span> */}
 
@@ -85,9 +86,9 @@ const FuelStats = ({ companyDetails, user, companyData }: Props) => {
             </div>
           </div>
 
-        <p className="text-text-text-primary text-paragraph-lg-semibold my-spacing-12">Diesel</p>
+          <h3 className="text-text-text-primary text-paragraph-lg-semibold my-spacing-12">Diesel</h3>
           <p className="text-header-h4-medium [&>svg>path]:!translate-y-56 sm:text-header-h3-medium pr-0 sm:pr-6 items-center flex-row flex leading-[19px] my-spacing-8 sm:mb-6 mb-4 sm:my-spacing-20">
-          ₵{currentRate?.diesel && currentRate?.diesel > 0
+            ₵{currentRate?.diesel && currentRate?.diesel > 0
               ? // ? currentRate?.prices?.petrol
               (Math.floor(currentRate?.diesel * 100) / 100).toFixed(2) : "-"}
             {currentRate.dieselInflation === "increase" ? (
@@ -109,13 +110,13 @@ const FuelStats = ({ companyDetails, user, companyData }: Props) => {
           </p> */}
         </div>
 
-      <div
-        className={`px-spacing-16 min-w-[160px] relative w-full flex flex-col basis-1/${numberOfCards >= 2 ? numberOfCards : 2} border-2 rounded-xl border-[#E5E5E5]`}
-        style={{
-          display: !currentRate?.premium ? "none" : "flex",
-        }}
-      >
-        {/* <span className="absolute top-2 right-2 cursor-pointer">
+        <div
+          className={`px-spacing-16 min-w-[160px] relative w-full flex flex-col basis-1/${numberOfCards >= 2 ? numberOfCards : 2} border-2 rounded-xl border-[#E5E5E5]`}
+          style={{
+            display: !currentRate?.premium ? "none" : "flex",
+          }}
+        >
+          {/* <span className="absolute top-2 right-2 cursor-pointer">
           <CiCircleInfo />
         </span> */}
 
@@ -131,9 +132,9 @@ const FuelStats = ({ companyDetails, user, companyData }: Props) => {
             </div>
           </div>
 
-        <p className="text-text-text-primary text-paragraph-lg-semibold my-spacing-12">Premium</p>
+          <h3 className="text-text-text-primary text-paragraph-lg-semibold my-spacing-12">Premium</h3>
           <p className="[&>svg>path]:!translate-y-56 text-header-h4-medium sm:text-header-h3-medium pr-0 sm:pr-6 items-center flex-row flex leading-[19px] my-spacing-8 sm:mb-6 mb-4 sm:my-spacing-20">
-          ₵{currentRate?.premium && currentRate?.premium > 0
+            ₵{currentRate?.premium && currentRate?.premium > 0
               ? // ? currentRate?.prices?.petrol
               (Math.floor(currentRate?.premium * 100) / 100).toFixed(2) : "-"}
             {currentRate.premiumInflation === "increase" ? (
