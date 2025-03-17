@@ -130,8 +130,7 @@ const ExchangeStats = ({ companyDetails, companyData }: Props) => {
                       </div>
                       <h3 className="text-text-text-primary text-paragraph-lg-semibold my-spacing-12">
                         {type}
-
-                      </p>
+                      </h3>
                       <h3 className=" text-header-h4-medium sm:text-header-h3-medium pr-0 sm:pr-6 items-center flex-row flex leading-[19px] my-spacing-8 sm:mb-6 mb-4 sm:my-spacing-20">
 
                         ₵{""}
