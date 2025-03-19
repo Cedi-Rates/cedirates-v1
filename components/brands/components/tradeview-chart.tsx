@@ -230,6 +230,8 @@ const ChartComponent: React.FC<ChartComponentProps> = (props) => {
       <div style="color: #2962FF; white-space:nowrap;">Buying: ₵${(
         Math.round(buyingPrice * 100) / 100
       ).toFixed(2)}</div>
+        Math.round(buyingPrice * 100) / 100
+      ).toFixed(2)}</div>
       <div style="color: #069a41;white-space:nowrap;">Selling: ₵${(
         Math.round(sellingPrice * 100) / 100
       ).toFixed(2)}</div>
@@ -309,7 +311,7 @@ const ChartComponent: React.FC<ChartComponentProps> = (props) => {
         <h2 className="text-paragraph-lg-semibold mt-6 flex-1">
           Exchange Rate Tracker
         </h2>
-        <div className="w-full flex flex-row justify-between items-center sm:justify-end flex-1">
+        <div className="w-full flex flex-row justify-between items-center  sm:justify-end flex-1">
           <DatePickerWithRange onChange={handleDateChange} />
           <CurrencyPicker />
         </div>
