@@ -230,6 +230,8 @@ const ChartComponent: React.FC<ChartComponentProps> = (props) => {
       <div style="color: #2962FF; white-space:nowrap;">Buying: ₵${(
         Math.round(buyingPrice * 100) / 100
       ).toFixed(2)}</div>
+        Math.round(buyingPrice * 100) / 100
+      ).toFixed(2)}</div>
       <div style="color: #069a41;white-space:nowrap;">Selling: ₵${(
         Math.round(sellingPrice * 100) / 100
       ).toFixed(2)}</div>

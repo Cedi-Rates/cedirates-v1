@@ -325,13 +325,16 @@ export interface TagType {
   warning: {
     note: string | null;
     date: string | null;
+    status: boolean;
   };
   promotion: {
     note: string | null;
     date: string | null;
+    status: boolean;
   };
   newListing: {
     note: string | null;
     date: string | null;
+    status: boolean;
   };
 }
