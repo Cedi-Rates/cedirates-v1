@@ -37,7 +37,8 @@ export const footerNavs = [
         name: "Listing",
       },
       {
-        href: "/developer",
+        // href: "/developer",
+        href: "https://public-api.cedirates.com/api-docs/",
         name: "Api",
       },
     ],

@@ -243,16 +243,16 @@ const CompanyHeader = ({ companyDetails, user, chartData }: Props) => {
       {companyDetails?.company?.tagsType &&
         Object.entries(companyIcons).map(([key, Icon]) => {
           const tagData = companyDetails.company.tagsType[key as keyof TagType];
-          if (!tagData || !tagData.note) return null;
-          if (key === "newListing" && tagData.date) {
-            const listingDate = new Date(tagData.date);
-            const currentDate = new Date();
-            const diffDays =
-              (currentDate.getTime() - listingDate.getTime()) /
-              (1000 * 60 * 60 * 24);
+          if (!tagData || !tagData.note || !tagData.status) return null;
+          // if (key === "newListing" && tagData.date) {
+          //   const listingDate = new Date(tagData.date);
+          //   const currentDate = new Date();
+          //   const diffDays =
+          //     (currentDate.getTime() - listingDate.getTime()) /
+          //     (1000 * 60 * 60 * 24);
 
-            if (diffDays > 7) return null;
-          }
+          //   if (diffDays > 7) return null;
+          // }
           return (
             <TagTooltip
               key={key}

@@ -129,7 +129,7 @@ const ExchangeStats = ({ companyDetails, companyData }: Props) => {
                       <h3 className="text-text-text-primary text-paragraph-lg-semibold my-spacing-12">
                         {type}
                       </h3>
-                      <p className="[&>svg>path]:!translate-y-56 text-header-h4-medium sm:text-header-h3-medium pr-0 sm:pr-6 items-center flex-row flex leading-[19px] my-spacing-8 sm:mb-6 mb-4 sm:my-spacing-20">
+                      <h3 className="[&>svg>path]:!translate-y-56 text-header-h4-medium sm:text-header-h3-medium pr-0 sm:pr-6 items-center flex-row flex leading-[19px] my-spacing-8 sm:mb-6 mb-4 sm:my-spacing-20">
                         ₵{""}
                         {formatRate(
                           index === 0
@@ -151,7 +151,7 @@ const ExchangeStats = ({ companyDetails, companyData }: Props) => {
                           ) : (
                             ""
                           )}
-                      </p>
+                      </h3>
                     </div>
                   );
               })}
