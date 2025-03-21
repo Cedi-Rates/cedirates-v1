@@ -67,6 +67,15 @@ export default function CurrencyConverter({ companyData, className }: Props) {
     rate: 0,
   });
 
+  const formatRate = (number: number | null | undefined): string => {
+    return number && number > 0
+      ? new Intl.NumberFormat("en-US", {
+          minimumFractionDigits: 2,
+          maximumFractionDigits: 2,
+        }).format(number)
+      : "-";
+  };
+
   const formatAmount = (amount: string | number, currency: string) => {
     if (!amount) return ""; // If empty, return nothing
     return isTyping ? amount : `${symbolMap[currency]}${amount}`;
@@ -76,8 +85,6 @@ export default function CurrencyConverter({ companyData, className }: Props) {
     if (!amount) return ""; // If empty, return nothing
     return isTyping2 ? amount : `${symbolMap[currency]}${amount}`;
   };
-
-  const { toast } = useToast();
 
   const symbolMap: Record<string, string> = {
     USD: "$",
@@ -89,10 +96,10 @@ export default function CurrencyConverter({ companyData, className }: Props) {
   const formatRateDisplay = (from: string, to: string, rate: number) => {
     if (from === "GHS") {
       // GHS to other currency: ₵1 = $0.xx
-      return `₵1 = ${symbolMap[to]}${rate.toFixed(2)}`;
+      return `₵1 = ${symbolMap[to]}${formatRate(rate)}`;
     } else if (to === "GHS") {
       // Other currency to GHS: $1 = ₵xx.xx
-      return `₵1 = ${symbolMap[from]}${rate.toFixed(2)}`;
+      return `₵1 = ${symbolMap[from]}${formatRate(rate)}`;
     }
     return ""; // Handle other cases if needed
   };
