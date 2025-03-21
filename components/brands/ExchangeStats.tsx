@@ -25,7 +25,7 @@ const ExchangeStats = ({ companyDetails, companyData }: Props) => {
       buying: currentRate?.dollarRates?.buyingRate ?? null,
       selling: currentRate?.dollarRates?.sellingRate ?? null,
       buyingInflation: currentRate?.dollarRates?.buyingInflation ?? "",
-      sellingInflation: currentRate?.dollarRates?.sellingInflation ?? ""
+      sellingInflation: currentRate?.dollarRates?.sellingInflation ?? "",
     },
     poundRates: {
       title: "Pound",
@@ -34,7 +34,7 @@ const ExchangeStats = ({ companyDetails, companyData }: Props) => {
       buying: currentRate?.poundRates?.buyingRate ?? null,
       selling: currentRate?.poundRates?.sellingRate ?? null,
       buyingInflation: currentRate?.poundRates?.buyingInflation ?? "",
-      sellingInflation: currentRate?.poundRates?.sellingInflation ?? ""
+      sellingInflation: currentRate?.poundRates?.sellingInflation ?? "",
     },
     euroRates: {
       title: "Euro",
@@ -43,13 +43,22 @@ const ExchangeStats = ({ companyDetails, companyData }: Props) => {
       buying: currentRate?.euroRates?.buyingRate ?? null,
       selling: currentRate?.euroRates?.sellingRate ?? null,
       buyingInflation: currentRate?.euroRates?.buyingInflation ?? "",
-      sellingInflation: currentRate?.euroRates?.sellingInflation ?? ""
+      sellingInflation: currentRate?.euroRates?.sellingInflation ?? "",
     },
   };
 
   // Format rate safely
-  const formatRate = (rate: number | null) =>
-    rate && rate > 0 ? (Math.floor(rate * 100) / 100).toFixed(2) : "-";
+  // const formatRate = (rate: number | null) =>
+  //   rate && rate > 0 ? (Math.floor(rate * 100) / 100).toFixed(2) : "-";
+
+  const formatRate = (number: number | null | undefined): string => {
+    return number && number > 0
+      ? new Intl.NumberFormat("en-US", {
+          minimumFractionDigits: 2,
+          maximumFractionDigits: 2,
+        }).format(number)
+      : "-";
+  };
 
   // Tabs mapping
   const tabs = Object.entries(rates).map(([key, value]) => ({
@@ -79,10 +88,11 @@ const ExchangeStats = ({ companyDetails, companyData }: Props) => {
                   key={id}
                   value={id}
                   disabled={disabled}
-                  className={`flex items-center rounded-md gap-1 text-sm font-medium ${disabled
-                    ? "opacity-50 cursor-not-allowed"
-                    : "cursor-pointer"
-                    }`}
+                  className={`flex items-center rounded-md gap-1 text-sm font-medium ${
+                    disabled
+                      ? "opacity-50 cursor-not-allowed"
+                      : "cursor-pointer"
+                  }`}
                 >
                   {/* <Icon size={18} /> */}
                   {label}
