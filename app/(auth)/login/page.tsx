@@ -47,10 +47,13 @@ const Login = () => {
         withCredentials: true,
         headers: { "custom-origin": "cedirates-dev" },
       });
+      // console.log("Login response: ", response.data.user);
 
       if (response.status === 200) {
         const redirectUrl = urlManager.getRedirectUrl();
         const isNewUser = localStorage.getItem("isNewUser") === "true";
+
+        // sessionStorage.setItem("CEDIRATES_USER", JSON.stringify(response.data.user));
 
         if (isNewUser) {
           localStorage.setItem("isNewUser", "false");
