@@ -43,7 +43,14 @@ import { BsGlobe, BsInstagram, BsTwitterX } from "react-icons/bs";
 import urlManager from "@/utils/urlManager";
 import { useRouter } from "next/navigation";
 import { useToast } from "../ui/use-toast";
-import { BadgeCheck, ChevronDown, Globe, LinkIcon, LucidePhone, X } from "lucide-react";
+import {
+  BadgeCheck,
+  ChevronDown,
+  Globe,
+  LinkIcon,
+  LucidePhone,
+  X,
+} from "lucide-react";
 import { companyIcons, iconColors } from "../Icons/companyIcon";
 import TagTooltip from "../ui/tag-tooltip";
 import { AnimatedSubscribeButton } from "./components/animated-button";
@@ -99,6 +106,23 @@ const CompanyHeader = ({ companyDetails, user, chartData }: Props) => {
   useEffect(() => {
     setUserDetails(user);
   }, [user]);
+
+  const handleNavigation = () => {
+    const subCategory = companyDetails.company.subCategory ?? "OMC";
+
+    const routes: Record<string, string> = {
+      "Commercial Bank": "/exchange-rates/usd-to-ghs/banks/",
+      "Central Bank": "/exchange-rates/usd-to-ghs/banks/",
+      "Forex Bureau": "/exchange-rates/usd-to-ghs/forex-bureaus/",
+      "Payment Processor": "/exchange-rates/usd-to-ghs/card-payments/",
+      "Money Transfer": "/exchange-rates/usd-to-ghs/money-transfer/",
+      "Crypto Exchange": "/exchange-rates/usd-to-ghs/crypto/",
+      Fintech: "/exchange-rates/usd-to-ghs/fintech/",
+    };
+
+    const destination = routes[subCategory] || "/exchange-rates/usd-to-ghs/";
+    push(destination);
+  };
 
   const handleFollow = async () => {
     if (userDetails && userDetails?.watchList) {
@@ -204,32 +228,36 @@ const CompanyHeader = ({ companyDetails, user, chartData }: Props) => {
       <div className="space-y-3">
         <div className="space-y-1 pl-3">
           <h3
-            className={`${isMobile
-              ? "text-paragraph-md-semibold"
-              : "text-paragraph-lg-semibold"
-              } font-medium`}
+            className={`${
+              isMobile
+                ? "text-paragraph-md-semibold"
+                : "text-paragraph-lg-semibold"
+            } font-medium`}
           >
             WhatsApp
           </h3>
           <p
-            className={`${isMobile ? "text-paragraph-md-medium" : "text-paragraph-lg-medium"
-              } text-text-text-quarternary`}
+            className={`${
+              isMobile ? "text-paragraph-md-medium" : "text-paragraph-lg-medium"
+            } text-text-text-quarternary`}
           >
             {companyDetails.company.phone}
           </p>
         </div>
         <div className="space-y-1 border-t pt-3 pl-3">
           <h3
-            className={`${isMobile
-              ? "text-paragraph-md-semibold"
-              : "text-paragraph-lg-semibold"
-              } font-medium`}
+            className={`${
+              isMobile
+                ? "text-paragraph-md-semibold"
+                : "text-paragraph-lg-semibold"
+            } font-medium`}
           >
             Call
           </h3>
           <p
-            className={`${isMobile ? "text-paragraph-md-medium" : "text-paragraph-lg-medium"
-              } text-text-text-quarternary`}
+            className={`${
+              isMobile ? "text-paragraph-md-medium" : "text-paragraph-lg-medium"
+            } text-text-text-quarternary`}
           >
             {companyDetails.company.phone}
           </p>
@@ -293,7 +321,7 @@ const CompanyHeader = ({ companyDetails, user, chartData }: Props) => {
             width={120}
             height={120}
             priority
-          // loading="lazy"
+            // loading="lazy"
           />
         </div>
         <div
@@ -320,7 +348,10 @@ const CompanyHeader = ({ companyDetails, user, chartData }: Props) => {
               <div className="text-paragraph-sm-semibold bg-backgroundInfo text-primary-brand-primary-500 !py-1 !px-2.5 rounded-lg !leading-[16px] w-max">
                 {subscriberCount} Followers
               </div>
-              <div className="text-paragraph-sm-semibold bg-background-bg-quarternary text-text-text-secondary !py-1 !px-2.5 rounded-lg !leading-[16px] w-max">
+              <div
+                className="text-paragraph-sm-semibold bg-background-bg-quarternary text-text-text-secondary !py-1 !px-2.5 rounded-lg !leading-[16px] w-max cursor-pointer"
+                onClick={handleNavigation}
+              >
                 {companyDetails.company.subCategory ?? "OMC"}
               </div>
             </div>
@@ -339,9 +370,12 @@ const CompanyHeader = ({ companyDetails, user, chartData }: Props) => {
               >
                 <LinkIcon size={18} />
                 <span className="text-paragraph-sm-semibold">
-                  {companyDetails?.company?.link
-                    .replace(/^(https?:\/\/)?(www\.)?/, "")
-                    .replace(/\/$/, "")}
+                  {
+                    companyDetails?.company?.link
+                      .replace(/^(https?:\/\/)?(www\.)?/, "")
+                      .replace(/\/$/, "")
+                      .split("/")[0]
+                  }
                 </span>
               </Link>
             )}
@@ -409,43 +443,41 @@ const CompanyHeader = ({ companyDetails, user, chartData }: Props) => {
                     </DropdownMenuItem>
                   </DropdownMenuContent>
                 </DropdownMenu>
+              ) : isMobile ? (
+                <Button
+                  onClick={handleFollow}
+                  size="sm"
+                  style={{ color: "#fff" }}
+                  className="!text-caption-md-semibold !px-3 !h-6"
+                >
+                  {loading ? (
+                    <SpinnerCircular
+                      size={24}
+                      thickness={200}
+                      color="white"
+                      className="mr-2"
+                    />
+                  ) : (
+                    "Follow"
+                  )}
+                </Button>
               ) : (
-                isMobile ? (
-                  <Button
-                    onClick={handleFollow}
-                    size="sm"
-                    style={{ color: "#fff" }}
-                    className="!text-caption-md-semibold !px-3 !h-6"
-                  >
-                    {loading ? (
-                      <SpinnerCircular
-                        size={24}
-                        thickness={200}
-                        color="white"
-                        className="mr-2"
-                      />
-                    ) : (
-                      "Follow"
-                    )}
-                  </Button>
-                ) : (
-                  <Button
-                    className="text-white sm:rounded-lg !h-6 rounded-[7px] !text-paragraph-sm-medium !px-5"
-                    onClick={handleFollow}
-                    size="lg"
-                  >
-                    {loading ? (
-                      <SpinnerCircular
-                        size={24}
-                        thickness={200}
-                        color="white"
-                        className="mr-2"
-                      />
-                    ) : (
-                      "Follow"
-                    )}
-                  </Button>
-                )
+                <Button
+                  className="text-white sm:rounded-lg !h-6 rounded-[7px] !text-paragraph-sm-medium !px-5"
+                  onClick={handleFollow}
+                  size="lg"
+                >
+                  {loading ? (
+                    <SpinnerCircular
+                      size={24}
+                      thickness={200}
+                      color="white"
+                      className="mr-2"
+                    />
+                  ) : (
+                    "Follow"
+                  )}
+                </Button>
               )}
 
               {isMobile ? (

@@ -146,21 +146,21 @@ const ExchangeStats = ({ companyDetails, companyData }: Props) => {
                             ? selectedRate?.buying
                             : selectedRate?.selling
                         )}
-                        {index === 0
-                          ? (selectedRate?.buyingInflation === "increase")
-                          : (selectedRate?.sellingInflation === "increase") ? (
-                            <FaSortUp
-                              className="text-green-600 sm:mr-0 mr-[-11px] mt-[-1.1rem]"
-                              size={38}
-                            />
-                          ) : currentRate.premiumInflation === "decrease" ? (
-                            <FaSortDown
-                              className="text-red-600 sm:mr-0 mr-[-11px] mt-[-1.1rem]"
-                              size={38}
-                            />
-                          ) : (
-                            ""
-                          )}
+                        {index === 0 ? (
+                          selectedRate?.buyingInflation === "increase"
+                        ) : selectedRate?.sellingInflation === "increase" ? (
+                          <FaSortUp
+                            className="text-green-600 sm:mr-0 mr-[-11px] mt-[-1.1rem]"
+                            size={38}
+                          />
+                        ) : currentRate.premiumInflation === "decrease" ? (
+                          <FaSortDown
+                            className="text-red-600 sm:mr-0 mr-[-11px] mt-[-1.1rem]"
+                            size={38}
+                          />
+                        ) : (
+                          ""
+                        )}
                       </h3>
                     </div>
                   );

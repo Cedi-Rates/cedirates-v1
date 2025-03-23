@@ -70,12 +70,9 @@ const RatesSection = ({ companyDetails, user, companyData }: Props) => {
   const [state, setState] = useState<any>();
   const [currentRange, setCurrentRange] = useState<any>(undefined);
 
-  const currentRate =
-    companyDetails?.data && companyDetails.data.length > 0
-      ? companyDetails.data[companyDetails.data.length - 1]
-      : null;
+  const currentRate = companyData?.data ? companyData?.data : null;
 
-  const defaultValue = determineDefaultValue(currentRate?.rates);
+  const defaultValue = determineDefaultValue(currentRate);
 
   const [selectedTab, setSelectedTab] = useState(defaultValue);
 
@@ -180,8 +177,16 @@ const RatesSection = ({ companyDetails, user, companyData }: Props) => {
           )}
 
           {companyDetails?.company?.category == "exchangeRates" ? (
-            <CurrencyConverter className="block min-[1400px]:hidden mb-0 mt-4" companyData={companyData} />
-          ) : <FuelTankCalc className="block min-[1400px]:hidden mb-0 mt-4" companyData={companyData} />}
+            <CurrencyConverter
+              className="block min-[1400px]:hidden mb-0 mt-4"
+              companyData={companyData}
+            />
+          ) : (
+            <FuelTankCalc
+              className="block min-[1400px]:hidden mb-0 mt-4"
+              companyData={companyData}
+            />
+          )}
 
           <div className="flex flex-col mb-8">
             <div
