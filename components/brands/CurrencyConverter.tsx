@@ -26,6 +26,7 @@ import {
   addCommasToNumber,
   getValidCurrencyPairs,
 } from "@/utils/currencyConverterFunc";
+import { TabContext } from "./RatesSection";
 
 type Props = {
   companyData: CompanyRate;
@@ -49,9 +50,29 @@ const getCurrencyFlag = (currency: string): string => {
 };
 
 export default function CurrencyConverter({ companyData, className }: Props) {
+  const context = React.useContext(TabContext);
+  const selectedTab = context?.selectedTab || "dollarRates";
+
+  const defaultCurrencyFunc = (currentTab: string): string => {
+    switch (currentTab) {
+      case "dollarRates":
+        return "USD";
+      case "poundRates":
+        return "GBP";
+      case "euroRates":
+        return "EUR";
+      default:
+        return "USD";
+    }
+  };
+
+  console.log(defaultCurrencyFunc(selectedTab));
+
   const [amount1, setAmount1] = React.useState<string | number>("500.00");
   const [amount2, setAmount2] = React.useState<string | number>("0.00");
-  const [currency1, setCurrency1] = React.useState("USD");
+  const [currency1, setCurrency1] = React.useState(
+    getAvailableCurrencies(companyData)[1]
+  );
   const [currency2, setCurrency2] = React.useState("GHS");
   const [isTypingInAmount1, setIsTypingInAmount1] = React.useState(true);
   // General typing
@@ -118,6 +139,10 @@ export default function CurrencyConverter({ companyData, className }: Props) {
     const validPairs = getValidCurrencyPairs(companyData);
     return validPairs.has(`${from}/${to}`);
   };
+
+  // React.useEffect(() => {
+  //   setCurrency1(defaultCurrencyFunc(selectedTab));
+  // }, [selectedTab]);
 
   const convertCurrency = (amount: number, from: string, to: string) => {
     const rates = companyData.data;

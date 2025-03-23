@@ -145,6 +145,7 @@ const ExchangeStats = ({ companyDetails, companyData }: Props) => {
                             ? selectedRate?.buying
                             : selectedRate?.selling
                         )}
+
                         {Boolean(index === 0
                         ? (selectedRate?.buyingInflation === "increase")
                         : (selectedRate?.sellingInflation === "increase")) && (
@@ -155,11 +156,11 @@ const ExchangeStats = ({ companyDetails, companyData }: Props) => {
                         )} {Boolean(index === 0
                         ? (selectedRate?.buyingInflation === "decrease")
                         : (selectedRate?.sellingInflation === "decrease")) && (
+
                           <FaSortDown
                             className="text-red-600 sm:mr-0 mr-[-11px] mt-[-1.1rem]"
                             size={38}
                           />
-
 
                         )}
                       </h3>
