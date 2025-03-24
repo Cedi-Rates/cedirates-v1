@@ -552,7 +552,10 @@ const CompanyHeader = ({ companyDetails, user, chartData }: Props) => {
           <div className="text-caption-sm-semibold tracking-normal bg-backgroundInfo text-primary-brand-primary-500 !py-0 !px-2.5 rounded-[5px] w-max">
             {subscriberCount} Followers
           </div>
-          <div className="text-caption-sm-semibold tracking-normal bg-background-bg-quarternary text-text-text-secondary !py-0 !px-2.5 rounded-[5px] w-max">
+          <div
+            className="text-caption-sm-semibold tracking-normal bg-background-bg-quarternary text-text-text-secondary !py-0 !px-2.5 rounded-[5px] w-max cursor-pointer"
+            onClick={handleNavigation}
+          >
             {companyDetails.company.subCategory ?? "OMC"}
           </div>
         </div>
@@ -564,9 +567,12 @@ const CompanyHeader = ({ companyDetails, user, chartData }: Props) => {
           >
             <LinkIcon size={18} />
             <span className="text-paragraph-sm-semibold">
-              {companyDetails?.company?.link
-                .replace(/^(https?:\/\/)?(www\.)?/, "")
-                .replace(/\/$/, "")}
+              {
+                companyDetails?.company?.link
+                  .replace(/^(https?:\/\/)?(www\.)?/, "")
+                  .replace(/\/$/, "")
+                  .split("/")[0]
+              }
             </span>
           </Link>
         )}
