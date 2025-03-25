@@ -121,7 +121,9 @@ const CompanyHeader = ({ companyDetails, user, chartData }: Props) => {
     };
 
     const destination = routes[subCategory] || "/exchange-rates/usd-to-ghs/";
-    push(destination);
+
+    // Open in a new tab
+    window.open(destination, "_blank");
   };
 
   const handleFollow = async () => {
