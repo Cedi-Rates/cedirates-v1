@@ -19,7 +19,7 @@ import {
   currencyRatesType,
 } from "@/utils/types";
 import { useToast } from "../ui/use-toast";
-import "/node_modules/flag-icons/css/flag-icons.min.css";
+import { CircleFlag } from "react-circle-flags";
 
 import {
   getAvailableCurrencies,
@@ -385,11 +385,12 @@ export default function CurrencyConverter({ companyData, className }: Props) {
                 >
                   <SelectTrigger className="w-fit gap-1 border-transparent [&>span]:flex [&>span]:items-center [&>span]:gap-1 [&>span]:!flex-row focus:border-transparent focus:!ring-offset-0 focus:!outline-none focus:!ring-0 h-full rounded-xl !border-none  ">
                     <SelectValue>
-                      <span
-                        className={`fi-${getCurrencyFlag(
-                          currency1
-                        )} rounded-full h-6 w-6 object-cover flex items-center justify-center fis`}
-                      />
+                      <span className="flex items-center gap-2">
+                        <CircleFlag
+                          countryCode={getCurrencyFlag(currency1)}
+                          className="w-10 h-10"
+                        />
+                      </span>
                       {currency1}
                     </SelectValue>
                   </SelectTrigger>
@@ -442,11 +443,12 @@ export default function CurrencyConverter({ companyData, className }: Props) {
                 >
                   <SelectTrigger className="w-fit gap-1 border-transparent [&>span]:flex [&>span]:items-center [&>span]:gap-1 [&>span]:!flex-row focus:border-transparent focus:!ring-offset-0 focus:!outline-none focus:!ring-0 h-full rounded-xl !border-none  ">
                     <SelectValue>
-                      <span
-                        className={`fi-${getCurrencyFlag(
-                          currency2
-                        )} rounded-full h-6 w-6 object-cover flex items-center justify-center fis`}
-                      />
+                      <span className="flex items-center gap-2">
+                        <CircleFlag
+                          countryCode={getCurrencyFlag(currency2)}
+                          className="w-10 h-10"
+                        />
+                      </span>
                       {currency2}
                     </SelectValue>
                   </SelectTrigger>
