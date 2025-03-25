@@ -150,8 +150,7 @@ const PriceReportPopup: React.FC<AlertDialogDemoProps> = ({
           {companyDetails?.company?.category === "fuelPrices" ? (
             <FuelModal
               companyDetails={companyDetails}
-              user={user}
-              setOpen={setOpen}
+              companyData={companyData}
             />
           ) : (
             <RatesModal

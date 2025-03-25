@@ -18,6 +18,7 @@ import {
   ReviewType,
   UserDetailsType,
   CompanyDataType,
+  CompanyRate,
 } from "@/utils/types";
 import { Button } from "@/components/ui/button";
 import { cn } from "@/lib/utils";
@@ -37,25 +38,22 @@ import { useToast } from "@/components/ui/use-toast";
 
 interface AlertDialogDemoProps {
   companyDetails: CompleteCompanyDetailsType;
-  user: UserDetailsType;
-  setOpen?: (open: boolean) => void;
+  companyData: CompanyRate;
 }
 
 const FuelModal: React.FC<AlertDialogDemoProps> = ({
   companyDetails,
-  user,
-  setOpen,
+  companyData,
 }) => {
   const { toast } = useToast();
-  const currentPrices = companyDetails?.data?.slice(-1)[0];
+  const currentPrices = companyData?.data;
   const { register, handleSubmit, setValue } = useForm();
-  const [fuelPriceData, setFuelPriceData] =
-    useState<CompanyDataType>(currentPrices);
+  const [fuelPriceData, setFuelPriceData] = useState<any>(currentPrices);
   const [loading, setLoading] = useState(false);
 
   useEffect(() => {
     setFuelPriceData(currentPrices);
-  }, [companyDetails, currentPrices]);
+  }, [companyData, currentPrices]);
 
   const onSubmit = async (data: any) => {
     const { petrol, diesel, premium } = data;
@@ -101,13 +99,13 @@ const FuelModal: React.FC<AlertDialogDemoProps> = ({
         },
       });
       toast({
-        variant: 'success',
-        title: "Price successfully reported."
+        variant: "success",
+        title: "Price successfully reported.",
       });
     } catch (err) {
       toast({
-        variant: 'destructive',
-        title: "🤦‍♂️ Uh oh! Something went wrong."
+        variant: "destructive",
+        title: "🤦‍♂️ Uh oh! Something went wrong.",
       });
     } finally {
       setLoading(false);
@@ -118,19 +116,16 @@ const FuelModal: React.FC<AlertDialogDemoProps> = ({
   useEffect(() => {
     if (fuelPriceData) {
       // Set default values for inputs when fuelPriceData changes
-      setValue("petrol", fuelPriceData.prices?.petrol);
-      setValue("diesel", fuelPriceData.prices?.diesel);
-      setValue("premium", fuelPriceData.prices?.premium);
+      setValue("petrol", fuelPriceData?.petrol);
+      setValue("diesel", fuelPriceData?.diesel);
+      setValue("premium", fuelPriceData?.premium);
     }
   }, [fuelPriceData, setValue]);
 
   return (
     <form onSubmit={handleSubmit(onSubmit)}>
       <div className="flex flex-col w-full max-w-sm mx-auto mb-3 gap-1.5">
-        <Label
-          className="text-[#1896fe] font-thin text-[14px]"
-          htmlFor="petrol"
-        >
+        <Label className="text-[#1896fe] text-[14px]" htmlFor="petrol">
           Petrol
         </Label>
         <Input
@@ -142,10 +137,7 @@ const FuelModal: React.FC<AlertDialogDemoProps> = ({
         />
       </div>
       <div className="flex flex-col w-full max-w-sm mx-auto mb-3 gap-1.5">
-        <Label
-          className="text-[#1896fe] font-thin text-[14px]"
-          htmlFor="diesel"
-        >
+        <Label className="text-[#1896fe] text-[14px]" htmlFor="diesel">
           Diesel
         </Label>
         <Input
@@ -157,10 +149,7 @@ const FuelModal: React.FC<AlertDialogDemoProps> = ({
         />
       </div>{" "}
       <div className="flex flex-col w-full max-w-sm mx-auto mb-3 gap-1.5">
-        <Label
-          className="text-[#1896fe] font-thin text-[14px]"
-          htmlFor="premium"
-        >
+        <Label className="text-[#1896fe] text-[14px]" htmlFor="premium">
           Premium
         </Label>
         <Input
