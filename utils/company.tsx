@@ -75,12 +75,8 @@ export const getChartData = async (
       : [];
 
     temp.forEach((item: any) => {
-      arrays["buying"].push(
-        (Math.floor(item?.rates[tab].buyingRate * 100) / 100).toFixed(2) ?? ""
-      );
-      arrays["selling"].push(
-        (Math.floor(item?.rates[tab].sellingRate * 100) / 100).toFixed(2) ?? ""
-      );
+      arrays["buying"].push(item?.rates[tab].buyingRate ?? "");
+      arrays["selling"].push(item?.rates[tab].sellingRate ?? "");
       arrays["date"].push(item.date);
     });
 
