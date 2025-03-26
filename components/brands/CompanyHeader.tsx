@@ -567,6 +567,8 @@ const CompanyHeader = ({ companyDetails, user, chartData }: Props) => {
         {companyDetails?.company?.link && (
           <Link
             href={companyDetails?.company?.link}
+            target="_blank"
+            rel="noopener noreferrer"
             className="pt-2 flex flex-row items-center gap-1 text-text-text-brand w-fit"
           >
             <LinkIcon size={18} />
