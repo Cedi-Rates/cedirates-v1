@@ -118,6 +118,7 @@ const CompanyHeader = ({ companyDetails, user, chartData }: Props) => {
       "Money Transfer": "/exchange-rates/usd-to-ghs/money-transfer/",
       "Crypto Exchange": "/exchange-rates/usd-to-ghs/crypto/",
       Fintech: "/exchange-rates/usd-to-ghs/fintech/",
+      OMC: "/fuel-prices/gh/",
     };
 
     const destination = routes[subCategory] || "/exchange-rates/usd-to-ghs/";
@@ -567,6 +568,8 @@ const CompanyHeader = ({ companyDetails, user, chartData }: Props) => {
         {companyDetails?.company?.link && (
           <Link
             href={companyDetails?.company?.link}
+            target="_blank"
+            rel="noopener noreferrer"
             className="pt-2 flex flex-row items-center gap-1 text-text-text-brand w-fit"
           >
             <LinkIcon size={18} />
