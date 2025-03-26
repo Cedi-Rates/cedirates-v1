@@ -121,9 +121,9 @@ const CompanyHeader = ({ companyDetails, user, chartData }: Props) => {
     };
 
     const destination = routes[subCategory] || "/exchange-rates/usd-to-ghs/";
-
+    push(destination);
     // Open in a new tab
-    window.open(destination, "_blank");
+    // window.open(destination, "_blank");
   };
 
   const handleFollow = async () => {
@@ -368,6 +368,8 @@ const CompanyHeader = ({ companyDetails, user, chartData }: Props) => {
             {companyDetails?.company?.link && (
               <Link
                 href={companyDetails?.company?.link}
+                target="_blank"
+                rel="noopener noreferrer"
                 className="flex w-fit flex-row items-center gap-1 text-text-text-brand"
               >
                 <LinkIcon size={18} />
