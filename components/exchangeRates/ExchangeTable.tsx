@@ -156,7 +156,7 @@ const ExchangeTable = ({ rates, user }: Props) => {
             });
           }
           await addToWatchList(process.env.BASE_URL!, UniqueID);
-        } catch (error) {}
+        } catch (error) { }
       } else {
         localStorage.setItem("intendedWatchListItem", UniqueID);
         urlManager.setRedirectUrl();
@@ -282,9 +282,9 @@ const ExchangeTable = ({ rates, user }: Props) => {
   const formatNumber = (number: number | null | undefined): string => {
     return number && number > 0
       ? new Intl.NumberFormat("en-US", {
-          minimumFractionDigits: 2,
-          maximumFractionDigits: 2,
-        }).format(number)
+        minimumFractionDigits: 2,
+        maximumFractionDigits: 2,
+      }).format(number)
       : "-";
   };
 
@@ -411,48 +411,45 @@ const ExchangeTable = ({ rates, user }: Props) => {
       <div className="">
         <h1 className="text-xl md:text-[25px] md:leading-[32.5px] font-semibold mb-3 md:mb-4">
           Today&apos;s{" "}
-          {`${
-            currencyType === "dollarRates"
-              ? "Dollar"
-              : currencyType === "euroRates"
+          {`${currencyType === "dollarRates"
+            ? "Dollar"
+            : currencyType === "euroRates"
               ? "Euro"
               : "Pound"
-          }`}{" "}
+            }`}{" "}
           to Cedi{" "}
           {categoryHeading === "Forex Bureaus"
             ? "Forex Bureau"
             : categoryHeading === "Online Payments"
-            ? "Card Payment"
-            : categoryHeading === "Remittance"
-            ? "Money Transfer"
-            : categoryHeading}{" "}
+              ? "Card Payment"
+              : categoryHeading === "Remittance"
+                ? "Money Transfer"
+                : categoryHeading}{" "}
           Exchange Rates
         </h1>
         <p
-          className={`text-[14px] leading-[18px] text-start tracking-normal fill-[#58667e] text-[#58667e] ${
-            text ? "mb-1" : "mb-3"
-          }`}
+          className={`text-[14px] leading-[18px] text-start tracking-normal fill-[#58667e] text-[#58667e] ${text ? "mb-1" : "mb-3"
+            }`}
         >
           The average{" "}
           {categoryHeading === "Forex Bureaus"
             ? "forex bureau"
             : categoryHeading === "Online Payments"
-            ? "card payment"
-            : categoryHeading?.toLowerCase()}{" "}
+              ? "card payment"
+              : categoryHeading?.toLowerCase()}{" "}
           rate for
-          {`${
-            currencyType === "dollarRates"
-              ? " 💵 "
-              : currencyType === "euroRates"
+          {`${currencyType === "dollarRates"
+            ? " 💵 "
+            : currencyType === "euroRates"
               ? " 💶 "
               : " 💷 "
-          }`}
+            }`}
           <span className="font-semibold">
             {currencyType === "dollarRates"
               ? "$1"
               : currencyType === "euroRates"
-              ? "€1"
-              : "£1"}{" "}
+                ? "€1"
+                : "£1"}{" "}
             is{" "}
           </span>
           <span className="font-semibold">
@@ -462,80 +459,65 @@ const ExchangeTable = ({ rates, user }: Props) => {
                   <>
                     ₵
                     {currencyType === "dollarRates"
-                      ? average?.averageBankDollar?.sellingRate.toFixed(2)
+                      ? (Number(average?.averageBankDollar?.sellingRate) || 0).toFixed(2)
                       : currencyType === "euroRates"
-                      ? average?.averageBankEuro?.sellingRate.toFixed(2)
-                      : average?.averageBankPound?.sellingRate.toFixed(2)}
+                        ? (Number(average?.averageBankEuro?.sellingRate) || 0).toFixed(2)
+                        : (Number(average?.averageBankPound?.sellingRate) || 0).toFixed(2)}
                   </>
                 )}
                 {categoryHeading === "Forex Bureaus" && (
                   <>
                     ₵
                     {currencyType === "dollarRates"
-                      ? average?.averageForexBureauDollar?.sellingRate.toFixed(
-                          2
-                        )
+                      ? (Number(average?.averageForexBureauDollar?.sellingRate) || 0).toFixed(2)
                       : currencyType === "euroRates"
-                      ? average?.averageForexBureauEuro?.sellingRate.toFixed(2)
-                      : average?.averageForexBureauPound?.sellingRate.toFixed(
-                          2
-                        )}
+                        ? (Number(average?.averageForexBureauEuro?.sellingRate) || 0).toFixed(2)
+                        : (Number(average?.averageForexBureauPound?.sellingRate) || 0).toFixed(2)
+                    }
                   </>
                 )}
                 {categoryHeading === "Online Payments" && (
                   <>
                     ₵
                     {currencyType === "dollarRates"
-                      ? average?.averagePaymentProcessorDollar?.sellingRate.toFixed(
-                          2
-                        )
+                      ? (Number(average?.averagePaymentProcessorDollar?.sellingRate) || 0).toFixed(2)
                       : currencyType === "euroRates"
-                      ? average?.averagePaymentProcessorEuro?.sellingRate.toFixed(
-                          2
-                        )
-                      : average?.averagePaymentProcessorPound?.sellingRate.toFixed(
-                          2
-                        )}
+                        ? (Number(average?.averagePaymentProcessorEuro?.sellingRate) || 0).toFixed(2)
+                        : (Number(average?.averagePaymentProcessorPound?.sellingRate) || 0).toFixed(2)
+                    }
                   </>
                 )}
                 {categoryHeading === "Crypto" && (
                   <>
                     ₵
                     {currencyType === "dollarRates"
-                      ? average?.averageCryptoExchangeDollar?.sellingRate.toFixed(
-                          2
-                        )
+                      ? (Number(average?.averageCryptoExchangeDollar?.sellingRate) || 0).toFixed(2)
                       : currencyType === "euroRates"
-                      ? average?.averageCryptoExchangeEuro?.sellingRate.toFixed(
-                          2
-                        )
-                      : average?.averageCryptoExchangePound?.sellingRate.toFixed(
-                          2
-                        )}
+                        ? (Number(average?.averageCryptoExchangeEuro?.sellingRate) || 0).toFixed(2)
+                        : (Number(average?.averageCryptoExchangePound?.sellingRate) || 0).toFixed(2)
+                    }
                   </>
                 )}
                 {categoryHeading === "Remittance" && (
                   <>
                     ₵
                     {currencyType === "dollarRates"
-                      ? average?.averageMoneyTransferDollar?.buyingRate.toFixed(
-                          2
-                        )
+                      ? (Number(average?.averageMoneyTransferDollar?.buyingRate) || 0).toFixed(2)
                       : currencyType === "euroRates"
-                      ? average?.averageMoneyTransferEuro?.buyingRate.toFixed(2)
-                      : average?.averageMoneyTransferPound?.buyingRate.toFixed(
-                          2
-                        )}
+                        ? (Number(average?.averageMoneyTransferEuro?.buyingRate) || 0).toFixed(2)
+                        : (Number(average?.averageMoneyTransferPound?.buyingRate) || 0).toFixed(2)
+                    }
                   </>
                 )}
                 {categoryHeading === "Fintech" && (
                   <>
                     ₵
                     {currencyType === "dollarRates"
-                      ? average?.averageFintechDollar?.buyingRate.toFixed(2)
+                      ? (Number(average?.averageFintechDollar?.buyingRate) || 0).toFixed(2)
                       : currencyType === "euroRates"
-                      ? average?.averageFintechEuro?.buyingRate.toFixed(2)
-                      : average?.averageFintechPound?.buyingRate.toFixed(2)}
+                        ? (Number(average?.averageFintechEuro?.buyingRate) || 0).toFixed(2)
+                        : (Number(average?.averageFintechPound?.buyingRate) || 0).toFixed(2)
+                    }
                   </>
                 )}
               </>
@@ -543,10 +525,10 @@ const ExchangeTable = ({ rates, user }: Props) => {
               <>
                 ₵
                 {currencyType === "dollarRates"
-                  ? average?.averageDollar?.sellingRate.toFixed(2)
+                  ? (Number(average?.averageDollar?.sellingRate) || 0).toFixed(2)
                   : currencyType === "euroRates"
-                  ? average?.averageEuro?.sellingRate.toFixed(2)
-                  : average?.averagePound?.sellingRate.toFixed(2)}
+                    ? (Number(average?.averageEuro?.sellingRate) || 0).toFixed(2)
+                    : (Number(average?.averagePound?.sellingRate) || 0).toFixed(2)}
               </>
             )}
           </span>
@@ -558,85 +540,65 @@ const ExchangeTable = ({ rates, user }: Props) => {
                   <>
                     ₵
                     {currencyType === "dollarRates"
-                      ? threeMonths?.averageBankDollar?.sellingRate.toFixed(2)
+                      ? (Number(threeMonths?.averageBankDollar?.sellingRate) || 0).toFixed(2)
                       : currencyType === "euroRates"
-                      ? threeMonths?.averageBankEuro?.sellingRate.toFixed(2)
-                      : threeMonths?.averageBankPound?.sellingRate.toFixed(2)}
+                        ? (Number(threeMonths?.averageBankEuro?.sellingRate) || 0).toFixed(2)
+                        : (Number(threeMonths?.averageBankPound?.sellingRate) || 0).toFixed(2)
+                    }
                   </>
                 )}
                 {categoryHeading === "Forex Bureaus" && (
                   <>
                     ₵
                     {currencyType === "dollarRates"
-                      ? (
-                          threeMonths?.averageForexBureauDollar?.sellingRate ??
-                          0
-                        ).toFixed(2)
+                      ? (Number(threeMonths?.averageForexBureauDollar?.sellingRate) || 0).toFixed(2)
                       : currencyType === "euroRates"
-                      ? (
-                          threeMonths?.averageForexBureauEuro?.sellingRate ?? 0
-                        ).toFixed(2)
-                      : (
-                          threeMonths?.averageForexBureauPound?.sellingRate ?? 0
-                        ).toFixed(2)}
+                        ? (Number(threeMonths?.averageForexBureauEuro?.sellingRate) || 0).toFixed(2)
+                        : (Number(threeMonths?.averageForexBureauPound?.sellingRate) || 0).toFixed(2)
+                    }
                   </>
                 )}
                 {categoryHeading === "Online Payments" && (
                   <>
                     ₵
                     {currencyType === "dollarRates"
-                      ? threeMonths?.averagePaymentProcessorDollar?.sellingRate.toFixed(
-                          2
-                        )
+                      ? (Number(threeMonths?.averagePaymentProcessorDollar?.sellingRate) || 0).toFixed(2)
                       : currencyType === "euroRates"
-                      ? threeMonths?.averagePaymentProcessorEuro?.sellingRate.toFixed(
-                          2
-                        )
-                      : threeMonths?.averagePaymentProcessorPound?.sellingRate.toFixed(
-                          2
-                        )}
+                        ? (Number(threeMonths?.averagePaymentProcessorEuro?.sellingRate) || 0).toFixed(2)
+                        : (Number(threeMonths?.averagePaymentProcessorPound?.sellingRate) || 0).toFixed(2)
+                    }
                   </>
                 )}
                 {categoryHeading === "Crypto" && (
                   <>
                     ₵
                     {currencyType === "dollarRates"
-                      ? threeMonths?.averageCryptoExchangeDollar?.sellingRate.toFixed(
-                          2
-                        )
+                      ? (Number(threeMonths?.averageCryptoExchangeDollar?.sellingRate) || 0).toFixed(2)
                       : currencyType === "euroRates"
-                      ? threeMonths?.averageCryptoExchangeEuro?.sellingRate.toFixed(
-                          2
-                        )
-                      : threeMonths?.averageCryptoExchangePound?.sellingRate.toFixed(
-                          2
-                        )}
+                        ? (Number(threeMonths?.averageCryptoExchangeEuro?.sellingRate) || 0).toFixed(2)
+                        : (Number(threeMonths?.averageCryptoExchangePound?.sellingRate) || 0).toFixed(2)
+                    }
                   </>
                 )}
                 {categoryHeading === "Remittance" && (
                   <>
                     ₵
                     {currencyType === "dollarRates"
-                      ? threeMonths?.averageMoneyTransferDollar?.buyingRate.toFixed(
-                          2
-                        )
+                      ? (Number(threeMonths?.averageMoneyTransferDollar?.buyingRate) || 0).toFixed(2)
                       : currencyType === "euroRates"
-                      ? threeMonths?.averageMoneyTransferEuro?.buyingRate.toFixed(
-                          2
-                        )
-                      : threeMonths?.averageMoneyTransferPound?.buyingRate.toFixed(
-                          2
-                        )}
+                        ? (Number(threeMonths?.averageMoneyTransferEuro?.buyingRate) || 0).toFixed(2)
+                        : (Number(threeMonths?.averageMoneyTransferPound?.buyingRate) || 0).toFixed(2)
+                    }
                   </>
                 )}
                 {categoryHeading === "Fintech" && (
                   <>
                     ₵
                     {currencyType === "dollarRates"
-                      ? threeMonths?.averageFintechDollar?.buyingRate.toFixed(2)
+                      ? (Number(threeMonths?.averageFintechDollar?.buyingRate) || 0).toFixed(2)
                       : currencyType === "euroRates"
-                      ? threeMonths?.averageFintechEuro?.buyingRate.toFixed(2)
-                      : threeMonths?.averageFintechPound?.buyingRate.toFixed(2)}
+                        ? (Number(threeMonths?.averageFintechEuro?.buyingRate) || 0).toFixed(2)
+                        : (Number(threeMonths?.averageFintechPound?.buyingRate) || 0).toFixed(2)}
                   </>
                 )}
               </>
@@ -644,11 +606,11 @@ const ExchangeTable = ({ rates, user }: Props) => {
               <>
                 ₵
                 {currencyType === "dollarRates" ? (
-                  <>{threeMonths?.averageDollar?.sellingRate.toFixed(2)}</>
+                  <>{(Number(threeMonths?.averageDollar?.sellingRate) || 0).toFixed(2)}</>
                 ) : currencyType === "euroRates" ? (
-                  <>{threeMonths?.averageEuro?.sellingRate.toFixed(2)}</>
+                  <>{(Number(threeMonths?.averageEuro?.sellingRate) || 0).toFixed(2)}</>
                 ) : (
-                  <>{threeMonths?.averagePound?.sellingRate.toFixed(2)}</>
+                  <>{(Number(threeMonths?.averagePound?.sellingRate) || 0).toFixed(2)}</>
                 )}
               </>
             )}
@@ -667,15 +629,15 @@ const ExchangeTable = ({ rates, user }: Props) => {
               ? "Rates provided are for indicative purposes and inclusive of an estimated bank fee."
               : "Rates provided are for indicative and guidance purposes only."}{" "}
             {categoryHeading === "Remittance" ||
-            categoryHeading === "Fintech" ? (
+              categoryHeading === "Fintech" ? (
               <>
                 Sending{" "}
                 <span className="font-semibold">
                   {currencyType === "dollarRates"
                     ? "$"
                     : currencyType === "euroRates"
-                    ? "€"
-                    : "£"}
+                      ? "€"
+                      : "£"}
                   100
                 </span>{" "}
                 becomes{" "}
@@ -712,8 +674,8 @@ const ExchangeTable = ({ rates, user }: Props) => {
                           {currencyType === "dollarRates"
                             ? formatNumber(dollarBankSelling)
                             : currencyType === "euroRates"
-                            ? formatNumber(euroBankSelling)
-                            : formatNumber(poundBankSelling)}
+                              ? formatNumber(euroBankSelling)
+                              : formatNumber(poundBankSelling)}
                         </>
                       )}
                       {categoryHeading === "Forex Bureaus" && (
@@ -722,8 +684,8 @@ const ExchangeTable = ({ rates, user }: Props) => {
                           {currencyType === "dollarRates"
                             ? formatNumber(dollarForexSelling)
                             : currencyType === "euroRates"
-                            ? formatNumber(euroForexSelling)
-                            : formatNumber(poundForexSelling)}
+                              ? formatNumber(euroForexSelling)
+                              : formatNumber(poundForexSelling)}
                         </>
                       )}
                       {categoryHeading === "Online Payments" && (
@@ -732,8 +694,8 @@ const ExchangeTable = ({ rates, user }: Props) => {
                           {currencyType === "dollarRates"
                             ? formatNumber(dollarPaymentSelling)
                             : currencyType === "euroRates"
-                            ? formatNumber(euroPaymentSelling)
-                            : formatNumber(poundPaymentSelling)}
+                              ? formatNumber(euroPaymentSelling)
+                              : formatNumber(poundPaymentSelling)}
                         </>
                       )}
                       {categoryHeading === "Crypto" && (
@@ -742,8 +704,8 @@ const ExchangeTable = ({ rates, user }: Props) => {
                           {currencyType === "dollarRates"
                             ? formatNumber(dollarCryptoSelling)
                             : currencyType === "euroRates"
-                            ? null
-                            : null}
+                              ? null
+                              : null}
                         </>
                       )}
                     </>
@@ -753,8 +715,8 @@ const ExchangeTable = ({ rates, user }: Props) => {
                       {currencyType === "dollarRates"
                         ? formatNumber(dollarSelling)
                         : currencyType === "euroRates"
-                        ? formatNumber(euroSelling)
-                        : formatNumber(poundSelling)}
+                          ? formatNumber(euroSelling)
+                          : formatNumber(poundSelling)}
                     </>
                   )}
                 </span>{" "}
@@ -763,8 +725,8 @@ const ExchangeTable = ({ rates, user }: Props) => {
                   {currencyType === "dollarRates"
                     ? "$"
                     : currencyType === "euroRates"
-                    ? "€"
-                    : "£"}
+                      ? "€"
+                      : "£"}
                   100
                 </span>{" "}
                 {categoryHeading && (
@@ -786,22 +748,20 @@ const ExchangeTable = ({ rates, user }: Props) => {
               <>
                 <span className="font-semibold">Buying rate: </span>
                 Used for changing{" "}
-                {`${
-                  currencyType === "dollarRates"
-                    ? "Dollars"
-                    : currencyType === "euroRates"
+                {`${currencyType === "dollarRates"
+                  ? "Dollars"
+                  : currencyType === "euroRates"
                     ? "Euros"
                     : "Pounds"
-                }`}{" "}
+                  }`}{" "}
                 to Cedis. <span className="font-semibold">Selling rate: </span>
                 Used for changing Cedis to{" "}
-                {`${
-                  currencyType === "dollarRates"
-                    ? "Dollars"
-                    : currencyType === "euroRates"
+                {`${currencyType === "dollarRates"
+                  ? "Dollars"
+                  : currencyType === "euroRates"
                     ? "Euros"
                     : "Pounds"
-                }`}
+                  }`}
                 .{" "}
               </>
             )}
@@ -977,12 +937,12 @@ const ExchangeTable = ({ rates, user }: Props) => {
             </Table.Header>
 
             {sortedProduct?.length === 0 ||
-            sortedProduct?.every(
-              (item) =>
-                !item[currencyType].buyingRate &&
-                !item[currencyType].sellingRate &&
-                !item[currencyType].midRate
-            ) ? (
+              sortedProduct?.every(
+                (item) =>
+                  !item[currencyType].buyingRate &&
+                  !item[currencyType].sellingRate &&
+                  !item[currencyType].midRate
+              ) ? (
               <tr>
                 <td colSpan={5}>
                   <EmptyState />
@@ -1064,7 +1024,7 @@ const ExchangeTable = ({ rates, user }: Props) => {
                                         .filter(([key]) => {
                                           const iconData =
                                             item?.company?.tagsType?.[
-                                              key as keyof TagType
+                                            key as keyof TagType
                                             ];
                                           if (!iconData) return false;
                                           if (!iconData?.status) return false;
@@ -1133,7 +1093,7 @@ const ExchangeTable = ({ rates, user }: Props) => {
                                 {formatNumber(item[currencyType]?.buyingRate)}
                               </span>
                               {item[currencyType].buyingInflation ===
-                              "increase" ? (
+                                "increase" ? (
                                 <FaSortUp className="text-green-600 -mb-1" />
                               ) : item[currencyType].buyingInflation ===
                                 "decrease" ? (
@@ -1157,7 +1117,7 @@ const ExchangeTable = ({ rates, user }: Props) => {
                                 {formatNumber(item[currencyType]?.sellingRate)}
                               </span>
                               {item[currencyType].sellingInflation ===
-                              "increase" ? (
+                                "increase" ? (
                                 <FaSortUp className="text-green-600 -mb-1" />
                               ) : item[currencyType].sellingInflation ===
                                 "decrease" ? (
@@ -1179,7 +1139,7 @@ const ExchangeTable = ({ rates, user }: Props) => {
                                 {formatNumber(item[currencyType]?.midRate)}
                               </span>
                               {item[currencyType].midInflation ===
-                              "increase" ? (
+                                "increase" ? (
                                 <FaSortUp className="text-green-600 -mb-1" />
                               ) : item[currencyType].midInflation ===
                                 "decrease" ? (
@@ -1202,9 +1162,8 @@ const ExchangeTable = ({ rates, user }: Props) => {
         <Pagination className="mt-6">
           <PaginationContent>
             <PaginationItem
-              className={`${
-                currentPage === 1 && "pointer-events-none opacity-50"
-              }`}
+              className={`${currentPage === 1 && "pointer-events-none opacity-50"
+                }`}
               onClick={() => handlePageChange(currentPage - 1)}
             >
               <PaginationPrevious className="border-none !text-icon-icon-secondary hover:bg-background-bg-secondary-hover" />
@@ -1231,11 +1190,10 @@ const ExchangeTable = ({ rates, user }: Props) => {
             )}
 
             <PaginationItem
-              className={`${
-                currentPage ===
-                  Math.ceil(filteredRatesData?.length / itemsPerPage) &&
+              className={`${currentPage ===
+                Math.ceil(filteredRatesData?.length / itemsPerPage) &&
                 "pointer-events-none opacity-50"
-              }`}
+                }`}
               onClick={() => handlePageChange(currentPage + 1)}
             >
               <PaginationNext className="border-none !text-icon-icon-secondary hover:bg-background-bg-secondary-hover" />

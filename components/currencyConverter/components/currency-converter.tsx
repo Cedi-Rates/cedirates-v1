@@ -89,6 +89,8 @@ export default function ConverterBox({
     { value: "Fintech", label: "Fintech" },
   ];
 
+  const formatNumber = (val: any) => (Number(val) || 0).toFixed(2);
+
   const formatAmount = (amount: string | number, currency: string) => {
     if (!amount) return ""; // If empty, return nothing
     return isTyping ? amount : `${symbolMap[currency]}${amount}`;
@@ -111,10 +113,10 @@ export default function ConverterBox({
   const formatRateDisplay = (from: string, to: string, rate: number) => {
     if (from === "GHS") {
       // GHS to other currency: ₵1 = $0.xx
-      return `₵1 = ${symbolMap[to]}${rate.toFixed(2)}`;
+      return `₵1 = ${symbolMap[to]}${formatNumber(rate)}`;
     } else if (to === "GHS") {
       // Other currency to GHS: $1 = ₵xx.xx
-      return `₵1 = ${symbolMap[from]}${rate.toFixed(2)}`;
+      return `₵1 = ${symbolMap[from]}${formatNumber(rate)}`;
     }
     return ""; // Handle other cases if needed
   };
