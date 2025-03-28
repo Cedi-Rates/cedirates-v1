@@ -111,10 +111,10 @@ export default function ConverterBox({
   const formatRateDisplay = (from: string, to: string, rate: number) => {
     if (from === "GHS") {
       // GHS to other currency: ₵1 = $0.xx
-      return `₵1 = ${symbolMap[to]}${rate?.toFixed(2)}`;
+      return `₵1 = ${symbolMap[to]}${Number(rate)?.toFixed(2)}`;
     } else if (to === "GHS") {
       // Other currency to GHS: $1 = ₵xx.xx
-      return `₵1 = ${symbolMap[from]}${rate?.toFixed(2)}`;
+      return `₵1 = ${symbolMap[from]}${Number(rate)?.toFixed(2)}`;
     }
     return ""; // Handle other cases if needed
   };
