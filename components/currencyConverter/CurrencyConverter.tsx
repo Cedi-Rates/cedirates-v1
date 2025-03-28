@@ -47,7 +47,11 @@ const CurrencyConverter = () => {
   const [isMobile, setMobile] = useState<Boolean>();
   const [isTablet, setTablet] = useState<Boolean>();
   const [faqs, setFaqs] = useState(false);
-  const [currentRange, setCurrentRange] = useState<any>(undefined);
+  const now = new Date();
+  const [currentRange, setCurrentRange] = useState<any>({
+    from: new Date(now.setDate(now.getDate() - 30)),
+    to: new Date(),
+  });
   const [currencyName, setCurrencyName] = useState<any>(
     to.shortName === "ghs" ? from.shortName : to.shortName
   );

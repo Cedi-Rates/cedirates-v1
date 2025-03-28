@@ -388,7 +388,7 @@ export default function CurrencyConverter({ companyData, className }: Props) {
                       <span className="flex items-center gap-2">
                         <CircleFlag
                           countryCode={getCurrencyFlag(currency1)}
-                          className="w-10 h-10"
+                          className="w-10 h-10 min-w-[25px] min-h-[25px]"
                         />
                       </span>
                       {currency1}
@@ -446,7 +446,7 @@ export default function CurrencyConverter({ companyData, className }: Props) {
                       <span className="flex items-center gap-2">
                         <CircleFlag
                           countryCode={getCurrencyFlag(currency2)}
-                          className="w-10 h-10"
+                          className="w-10 h-10 min-w-[25px] min-h-[25px]"
                         />
                       </span>
                       {currency2}
