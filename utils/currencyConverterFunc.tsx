@@ -244,26 +244,26 @@ const getChartData = async (
         )
       : [];
 
-    // console.log("temp", temp);
-
     temp.forEach((item: ExchangeRateData) => {
       arrays["dollarBuying"].push(
-        item.averageDollar?.buyingRate?.toFixed(2) ?? ""
+        Number(item.averageDollar?.buyingRate)?.toFixed(2) ?? ""
       );
       arrays["dollarSelling"].push(
-        item.averageDollar?.sellingRate?.toFixed(2) ?? ""
+        Number(item.averageDollar?.sellingRate)?.toFixed(2) ?? ""
       );
 
-      arrays["euroBuying"].push(item.averageEuro?.buyingRate?.toFixed(2) ?? "");
+      arrays["euroBuying"].push(
+        Number(item.averageEuro?.buyingRate)?.toFixed(2) ?? ""
+      );
       arrays["euroSelling"].push(
-        item.averageEuro?.sellingRate?.toFixed(2) ?? ""
+        Number(item.averageEuro?.sellingRate)?.toFixed(2) ?? ""
       );
 
       arrays["poundBuying"].push(
-        item.averagePound?.buyingRate?.toFixed(2) ?? ""
+        Number(item.averagePound?.buyingRate)?.toFixed(2) ?? ""
       );
       arrays["poundSelling"].push(
-        item.averagePound?.sellingRate?.toFixed(2) ?? ""
+        Number(item.averagePound?.sellingRate)?.toFixed(2) ?? ""
       );
 
       arrays["date"].push(item.date);

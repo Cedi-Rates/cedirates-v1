@@ -89,8 +89,6 @@ export default function ConverterBox({
     { value: "Fintech", label: "Fintech" },
   ];
 
-  const formatNumber = (val: any) => (Number(val) || 0).toFixed(2);
-
   const formatAmount = (amount: string | number, currency: string) => {
     if (!amount) return ""; // If empty, return nothing
     return isTyping ? amount : `${symbolMap[currency]}${amount}`;
@@ -113,10 +111,10 @@ export default function ConverterBox({
   const formatRateDisplay = (from: string, to: string, rate: number) => {
     if (from === "GHS") {
       // GHS to other currency: ₵1 = $0.xx
-      return `₵1 = ${symbolMap[to]}${formatNumber(rate)}`;
+      return `₵1 = ${symbolMap[to]}${rate?.toFixed(2)}`;
     } else if (to === "GHS") {
       // Other currency to GHS: $1 = ₵xx.xx
-      return `₵1 = ${symbolMap[from]}${formatNumber(rate)}`;
+      return `₵1 = ${symbolMap[from]}${rate?.toFixed(2)}`;
     }
     return ""; // Handle other cases if needed
   };
@@ -405,7 +403,7 @@ export default function ConverterBox({
                       <span className="flex items-center gap-2">
                         <CircleFlag
                           countryCode={getCurrencyFlag(currency1)}
-                          className="w-10 h-10"
+                          className="w-10 h-10 min-w-[25px] min-h-[25px]"
                         />
                       </span>
                       {currency1}
@@ -463,7 +461,7 @@ export default function ConverterBox({
                       <span className="flex items-center gap-2">
                         <CircleFlag
                           countryCode={getCurrencyFlag(currency2)}
-                          className="w-10 h-10"
+                          className="w-10 h-10 min-w-[25px] min-h-[25px]"
                         />
                       </span>
                       {currency2}
