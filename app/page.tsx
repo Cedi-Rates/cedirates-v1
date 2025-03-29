@@ -3,6 +3,7 @@ import { HomePage } from "@/components/home/HomePage";
 import { MobileNav } from "@/components/mobile-nav";
 import Header from "@/components/navbar/Header";
 import { getAllBlogs, getAllPolls, getUser } from "@/utils/helpers/api";
+import { generateSchema } from "@/utils/schema";
 import { cookies } from "next/headers";
 import React, { Suspense } from "react";
 
@@ -10,12 +11,16 @@ const Page = async () => {
   const user = await getUser(cookies().toString());
   const pollsResponse = await getAllPolls();
   const articlesResponse = await getAllBlogs();
-
   const { data: articlesData = [] } = articlesResponse || {};
   const { data: pollsData = [] } = pollsResponse || {};
+  const schema = generateSchema("home");
 
   return (
     <>
+      <script
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{ __html: JSON.stringify(schema) }}
+      />
       <GoogleOneTapLogin user={user} />
       <Header user={user} />
       <HomePage user={user} blogs={articlesData} pollData={pollsData} />

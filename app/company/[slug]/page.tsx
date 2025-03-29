@@ -23,6 +23,7 @@ import Header from "@/components/navbar/Header";
 import CurrencyConverter from "@/components/brands/CurrencyConverter";
 import LocationsList from "@/components/brands/Locations";
 import FuelTankCalc from "@/components/brands/FuelTankCalc";
+import { generateSchema } from "@/utils/schema";
 
 const CompanyHeader = dynamic(
   () => import("@/components/brands/CompanyHeader")
@@ -107,19 +108,29 @@ const page = async ({ params }: { params: { slug: string } }) => {
   const averageRating = companyDetails.company?.averageRating;
   const ratingValue = companyDetails.company?.numOfReviews;
   const image = companyDetails.company?.image;
+  const canonical = `https://cedirates.com/company/${companyDetails.company?.url}/`;
 
-  const jsonLd = {
-    "@context": "https://schema.org",
-    "@type": "Product",
-    name: title,
+  const schema = generateSchema("product", {
+    title: title,
     description: description,
     image: image,
-    aggregateRating: {
-      "@type": "AggregateRating",
-      ratingValue: averageRating,
-      reviewCount: reviewValue
-    }
-  };
+    url: canonical,
+    ratingValue: averageRating,
+    reviewCount: reviewValue
+  });
+
+  // const jsonLd = {
+  //   "@context": "https://schema.org",
+  //   "@type": "Product",
+  //   name: title,
+  //   description: description,
+  //   image: image,
+  //   aggregateRating: {
+  //     "@type": "AggregateRating",
+  //     ratingValue: averageRating,
+  //     reviewCount: reviewValue
+  //   }
+  // };
 
   if (!companyDetails || !companyDetails.company) {
     return <Missing />;
@@ -129,7 +140,7 @@ const page = async ({ params }: { params: { slug: string } }) => {
     <>
       <script
         type="application/ld+json"
-        dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd) }}
+        dangerouslySetInnerHTML={{ __html: JSON.stringify(schema) }}
       />
       <GoogleOneTapLogin user={user} />
       <Header user={user} />

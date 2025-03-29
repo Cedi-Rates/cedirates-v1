@@ -4,6 +4,7 @@ import Header from "@/components/navbar/Header";
 import NavbarLight from "@/components/navbar/NavbarLight";
 import { Missing } from "@/components/notFound/notfound";
 import { getAllBlogs, getBlog, getUser } from "@/utils/helpers/api";
+import { generateSchema } from "@/utils/schema";
 import { Metadata, ResolvingMetadata } from "next";
 import { cookies } from "next/headers";
 import React from "react";
@@ -41,6 +42,7 @@ const BlogPage = async ({ params }: { params: { slug: string } }) => {
   const user = await getUser(cookies().toString());
   const articles = await getBlog(params.slug);
   const { data } = articles;
+  const schema = generateSchema("article", data);
 
   if (!data) {
     return <Missing />;
@@ -48,9 +50,12 @@ const BlogPage = async ({ params }: { params: { slug: string } }) => {
 
   return (
     <div>
+      <script
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{ __html: JSON.stringify(schema) }}
+      />
       <GoogleOneTapLogin user={user} />
       <Header user={user} />
-      {/* <NavbarLight user={user} type="" cookie={cookies().toString()} /> */}
       <Blog blog={data} />
     </div>
   );
