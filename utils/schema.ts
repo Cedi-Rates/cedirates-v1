@@ -9,7 +9,13 @@ interface ProductData {
   reviewCount: number;
 }
 
-type SchemaType = "product" | "article" | "home" | "currencyConverter" | null;
+type SchemaType =
+  | "product"
+  | "article"
+  | "home"
+  | "currencyConverter"
+  | "exchangeRates"
+  | null;
 type SchemaData = ProductData | Article;
 
 export const generateSchema = (type: SchemaType, data?: SchemaData) => {
@@ -95,6 +101,47 @@ export const generateSchema = (type: SchemaType, data?: SchemaData) => {
           "@type": "Offer",
           price: 0,
           priceCurrency: "Free",
+        },
+      };
+    case "exchangeRates":
+      return {
+        "@context": "https://schema.org",
+        "@type": "WebPage",
+        name: "Dollar to Cedi Exchange Rate Today",
+        description:
+          "Check the Dollar to Cedi rate for today. Latest exchange rates for Dollars to Cedis from banks and forex bureaus in Ghana near you, updated on CediRates.",
+        mainEntity: {
+          "@type": "ItemList",
+          name: "Exchange Rate Table",
+          itemListElement: [
+            {
+              "@type": "ExchangeRateSpecification",
+              currency: "DOLLAR",
+              currentExchangeRate: {
+                "@type": "UnitPriceSpecification",
+                price: "",
+                priceCurrency: "USD",
+              },
+            },
+            {
+              "@type": "ExchangeRateSpecification",
+              currency: "EURO",
+              currentExchangeRate: {
+                "@type": "UnitPriceSpecification",
+                price: "",
+                priceCurrency: "EUR",
+              },
+            },
+            {
+              "@type": "ExchangeRateSpecification",
+              currency: "POUND",
+              currentExchangeRate: {
+                "@type": "UnitPriceSpecification",
+                price: "",
+                priceCurrency: "GBP",
+              },
+            },
+          ],
         },
       };
     default:
