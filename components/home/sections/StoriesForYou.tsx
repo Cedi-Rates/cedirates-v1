@@ -62,7 +62,7 @@ const StoriesForYou: React.FC<Stories4YouProps> = ({ blogs }) => {
           />
         </div>
       </div>
-      <Divider />
+      <Divider link="/for-you" />
       <div className="sm:hidden w-full">
         <MobileAd
           className="flex sm:hidden my-8"

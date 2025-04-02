@@ -49,7 +49,7 @@ const PressReleases: React.FC<PressReleasesProps> = ({ blogs, pollData }) => {
           />
         </div>
       </div>
-      <Divider />
+      <Divider link="/press-releases" />
     </div>
   );
 };

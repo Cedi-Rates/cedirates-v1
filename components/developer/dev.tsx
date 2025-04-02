@@ -22,14 +22,14 @@ const Developer = ({ user }: Props) => {
     const [activeStep, setActiveStep] = useState<number>(1);
     const [isLoading, setIsLoading] = useState(false);
 
-    const handleStart = () => {
-        if (!user.email) {
-            urlManager.setRedirectUrl();
-            replace("/login");
-        } else {
-            setShowForm(!showForm)
-        }
-    };
+    // const handleStart = () => {
+    //     if (!user.email) {
+    //         urlManager.setRedirectUrl();
+    //         replace("/login");
+    //     } else {
+    //         setShowForm(!showForm)
+    //     }
+    // };
 
     const {
         register, control, watch, reset, handleSubmit, formState: { errors, isValid }

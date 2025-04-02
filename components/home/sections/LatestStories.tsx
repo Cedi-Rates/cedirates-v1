@@ -71,7 +71,7 @@ const LatestStories: React.FC<LatestStoriesProps> = ({ blogs }) => {
           />
         </div>
       </div>
-      <Divider />
+      <Divider link="/latest-stories" />
       <div className="sm:hidden w-full">
         <MobileAd
           className="flex sm:hidden my-8"

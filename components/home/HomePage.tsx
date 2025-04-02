@@ -66,7 +66,7 @@ const Loader = () => (
           <Skeleton className="h-[294px] w-full flex flex-col bg-[linear-gradient(90deg,_#eee_25%,_#ddd_50%,_#eee_75%)]" />
         </div>
       </div>
-      <Divider />
+      {/* <Divider /> */}
       <div className="sm:hidden w-full">
         <Skeleton className="h-[294px] w-full flex flex-col bg-[linear-gradient(90deg,_#eee_25%,_#ddd_50%,_#eee_75%)]" />
       </div>

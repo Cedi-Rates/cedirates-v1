@@ -119,19 +119,6 @@ const page = async ({ params }: { params: { slug: string } }) => {
     reviewCount: reviewValue
   });
 
-  // const jsonLd = {
-  //   "@context": "https://schema.org",
-  //   "@type": "Product",
-  //   name: title,
-  //   description: description,
-  //   image: image,
-  //   aggregateRating: {
-  //     "@type": "AggregateRating",
-  //     ratingValue: averageRating,
-  //     reviewCount: reviewValue
-  //   }
-  // };
-
   if (!companyDetails || !companyDetails.company) {
     return <Missing />;
   }
