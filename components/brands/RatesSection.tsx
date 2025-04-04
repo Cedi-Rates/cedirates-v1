@@ -26,6 +26,8 @@ import FuelTankCalc from "./FuelTankCalc";
 type TabContextType = {
   selectedTab: string;
   setSelectedTab: React.Dispatch<React.SetStateAction<string>>;
+  currentRate: any;
+  setCurrentRate: React.Dispatch<React.SetStateAction<any>>;
 };
 
 const DynamicComponent = dynamic(() => import("./components/tradeview-chart"), {
@@ -70,7 +72,10 @@ const RatesSection = ({ companyDetails, user, companyData }: Props) => {
   const [state, setState] = useState<any>();
   const [currentRange, setCurrentRange] = useState<any>(undefined);
 
-  const currentRate = companyData?.data ? companyData?.data : null;
+  // const currentRate = companyData?.data ? companyData?.data : null;
+  const [currentRate, setCurrentRate] = useState<any>(
+    companyData?.data ? companyData?.data : null
+  );
 
   const defaultValue = determineDefaultValue(currentRate);
 
@@ -110,7 +115,9 @@ const RatesSection = ({ companyDetails, user, companyData }: Props) => {
 
   return (
     <>
-      <TabContext.Provider value={{ selectedTab, setSelectedTab }}>
+      <TabContext.Provider
+        value={{ selectedTab, setSelectedTab, currentRate, setCurrentRate }}
+      >
         <div className="w-auto">
           <div className="flex justify-between items-center my-3">
             <div className="w-fit">
@@ -171,7 +178,7 @@ const RatesSection = ({ companyDetails, user, companyData }: Props) => {
             />
           ) : (
             <ExchangeStats
-              companyDetails={companyDetails}
+              // companyDetails={companyDetails}
               companyData={companyData}
             />
           )}

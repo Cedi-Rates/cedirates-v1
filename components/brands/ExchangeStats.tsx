@@ -7,16 +7,15 @@ import DecorativeIcon from "@/assets/Icons/DecorativeIcon";
 import { FaSortDown, FaSortUp } from "react-icons/fa";
 
 type Props = {
-  companyDetails: CompleteCompanyDetailsType;
+  // companyDetails: CompleteCompanyDetailsType;
   companyData: CompanyRate;
 };
 
-const ExchangeStats = ({ companyDetails, companyData }: Props) => {
+const ExchangeStats = ({ companyData }: Props) => {
   const context = useContext(TabContext);
   const selectedTab = context?.selectedTab || "dollarRates";
-  const currentRate = companyData.data;
-
-  console.log('ads', currentRate)
+  const currentRate = context?.currentRate;
+  // const setCurrentRate = context?.setCurrentRate;
 
   // Currency rates mapping
   const rates = {
@@ -27,7 +26,7 @@ const ExchangeStats = ({ companyDetails, companyData }: Props) => {
       buying: currentRate?.dollarRates?.buyingRate ?? null,
       selling: currentRate?.dollarRates?.sellingRate ?? null,
       buyingInflation: currentRate?.dollarRates?.buyingInflation ?? "",
-      sellingInflation: currentRate?.dollarRates?.sellingInflation ?? ""
+      sellingInflation: currentRate?.dollarRates?.sellingInflation ?? "",
     },
     poundRates: {
       title: "Pound",
@@ -36,7 +35,7 @@ const ExchangeStats = ({ companyDetails, companyData }: Props) => {
       buying: currentRate?.poundRates?.buyingRate ?? null,
       selling: currentRate?.poundRates?.sellingRate ?? null,
       buyingInflation: currentRate?.poundRates?.buyingInflation ?? "",
-      sellingInflation: currentRate?.poundRates?.sellingInflation ?? ""
+      sellingInflation: currentRate?.poundRates?.sellingInflation ?? "",
     },
     euroRates: {
       title: "Euro",
@@ -45,17 +44,16 @@ const ExchangeStats = ({ companyDetails, companyData }: Props) => {
       buying: currentRate?.euroRates?.buyingRate ?? null,
       selling: currentRate?.euroRates?.sellingRate ?? null,
       buyingInflation: currentRate?.euroRates?.buyingInflation ?? "",
-      sellingInflation: currentRate?.euroRates?.sellingInflation ?? ""
+      sellingInflation: currentRate?.euroRates?.sellingInflation ?? "",
     },
   };
-
 
   const formatRate = (number: number | null | undefined): string => {
     return number && number > 0
       ? new Intl.NumberFormat("en-US", {
-        minimumFractionDigits: 2,
-        maximumFractionDigits: 2,
-      }).format(number)
+          minimumFractionDigits: 2,
+          maximumFractionDigits: 2,
+        }).format(number)
       : "-";
   };
 
@@ -87,10 +85,11 @@ const ExchangeStats = ({ companyDetails, companyData }: Props) => {
                   key={id}
                   value={id}
                   disabled={disabled}
-                  className={`flex items-center rounded-md gap-1 text-sm font-medium ${disabled
+                  className={`flex items-center rounded-md gap-1 text-sm font-medium ${
+                    disabled
                       ? "opacity-50 cursor-not-allowed"
                       : "cursor-pointer"
-                    }`}
+                  }`}
                 >
                   {/* <Icon size={18} /> */}
                   {label}
@@ -144,24 +143,26 @@ const ExchangeStats = ({ companyDetails, companyData }: Props) => {
                             ? selectedRate?.buying
                             : selectedRate?.selling
                         )}
-
-                        {Boolean(index === 0
-                          ? (selectedRate?.buyingInflation === "increase")
-                          : (selectedRate?.sellingInflation === "increase")) && (
-                            <FaSortUp
-                              className="text-green-600 translate-y-4 sm:mr-0 mr-[-11px] mt-[-1.1rem]"
-                              size={38}
-                            />
-                          )} {Boolean(index === 0
-                            ? (selectedRate?.buyingInflation === "decrease")
-                            : (selectedRate?.sellingInflation === "decrease")) && (
-
-                              <FaSortDown
-                                className="text-red-600 sm:mr-0 mr-[-11px] mt-[-1.1rem]"
-                                size={38}
-                              />
-
-                            )}
+                        {Boolean(
+                          index === 0
+                            ? selectedRate?.buyingInflation === "increase"
+                            : selectedRate?.sellingInflation === "increase"
+                        ) && (
+                          <FaSortUp
+                            className="text-green-600 translate-y-4 sm:mr-0 mr-[-11px] mt-[-1.1rem]"
+                            size={38}
+                          />
+                        )}{" "}
+                        {Boolean(
+                          index === 0
+                            ? selectedRate?.buyingInflation === "decrease"
+                            : selectedRate?.sellingInflation === "decrease"
+                        ) && (
+                          <FaSortDown
+                            className="text-red-600 sm:mr-0 mr-[-11px] mt-[-1.1rem]"
+                            size={38}
+                          />
+                        )}
                       </h3>
                     </div>
                   );

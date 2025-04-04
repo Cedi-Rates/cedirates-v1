@@ -26,7 +26,7 @@ import {
   addCommasToNumber,
   getValidCurrencyPairs,
 } from "@/utils/currencyConverterFunc";
-import { TabContext } from "./RatesSection";
+// import { TabContext } from "./RatesSection";
 
 type Props = {
   companyData: CompanyRate;
@@ -50,8 +50,8 @@ const getCurrencyFlag = (currency: string): string => {
 };
 
 export default function CurrencyConverter({ companyData, className }: Props) {
-  const context = React.useContext(TabContext);
-  const selectedTab = context?.selectedTab || "dollarRates";
+  // const context = React.useContext(TabContext);
+  // const selectedTab = context?.selectedTab || "dollarRates";
 
   const defaultCurrencyFunc = (currentTab: string): string => {
     switch (currentTab) {
@@ -65,8 +65,6 @@ export default function CurrencyConverter({ companyData, className }: Props) {
         return "USD";
     }
   };
-
-  console.log(defaultCurrencyFunc(selectedTab));
 
   const [amount1, setAmount1] = React.useState<string | number>("500.00");
   const [amount2, setAmount2] = React.useState<string | number>("0.00");

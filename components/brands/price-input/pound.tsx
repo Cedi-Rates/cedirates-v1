@@ -1,5 +1,5 @@
 "use client";
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useState, useContext } from "react";
 import { DialogFooter } from "@/components/ui/dialog";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
@@ -14,7 +14,7 @@ import {
 import { useForm } from "react-hook-form";
 import axios from "axios";
 import { useToast } from "@/components/ui/use-toast";
-
+import { TabContext } from "@/components/brands/RatesSection";
 interface AlertDialogDemoProps {
   companyDetails: CompleteCompanyDetailsType;
   companyData: CompanyRate;
@@ -27,15 +27,19 @@ const Dollar: React.FC<AlertDialogDemoProps> = ({
   const { toast } = useToast();
   const { register, handleSubmit, setValue } = useForm();
 
-  const currentPrices = companyData?.data?.poundRates;
-  const [poundPriceData, setPoundPriceData] = useState<any>(currentPrices);
+  const context = useContext(TabContext);
+  const currentRate = context?.currentRate;
+  const setCurrentRate = context?.setCurrentRate;
+
+  const [poundPriceData, setPoundPriceData] = useState<any>(
+    currentRate?.poundRates
+  );
 
   const [loading, setLoading] = useState(false);
-  console.log(currentPrices);
 
   useEffect(() => {
-    setPoundPriceData(currentPrices);
-  }, [companyDetails, currentPrices]);
+    setPoundPriceData(currentRate?.poundRates);
+  }, [currentRate?.poundRates]);
 
   const onSubmit = async (data: any) => {
     setLoading(true);
@@ -84,24 +88,21 @@ const Dollar: React.FC<AlertDialogDemoProps> = ({
 
       setPoundPriceData({
         ...poundPriceData,
-        rates: {
-          ...poundPriceData.rates,
+        buyingRate,
+        sellingRate,
+        midRate,
+      });
+      if (setCurrentRate) {
+        setCurrentRate({
+          ...currentRate,
           poundRates: {
+            ...currentRate?.poundRates,
             buyingRate,
             sellingRate,
             midRate,
           },
-          euroRates: poundPriceData?.euroRates || {
-            buyingRate: 0,
-            sellingRate: 0,
-          },
-          dollarRates: poundPriceData?.poundRates || {
-            buyingRate: 0,
-            sellingRate: 0,
-          },
-          // company: poundPriceData?.rates?.company || "Default Company",
-        },
-      });
+        });
+      }
       toast({
         variant: "success",
         title: "Price successfully reported.",

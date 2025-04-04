@@ -1,5 +1,5 @@
 "use client";
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useContext } from "react";
 import {
   Dialog,
   DialogContent,
@@ -35,7 +35,7 @@ import { Label } from "../../ui/label";
 import { Input } from "../../ui/input";
 import { useForm } from "react-hook-form";
 import { useToast } from "@/components/ui/use-toast";
-
+import { TabContext } from "@/components/brands/RatesSection";
 interface AlertDialogDemoProps {
   companyDetails: CompleteCompanyDetailsType;
   companyData: CompanyRate;
@@ -46,14 +46,18 @@ const FuelModal: React.FC<AlertDialogDemoProps> = ({
   companyData,
 }) => {
   const { toast } = useToast();
-  const currentPrices = companyData?.data;
+  const context = useContext(TabContext);
+  const currentRate = context?.currentRate;
+  const setCurrentRate = context?.setCurrentRate;
+  console.log(currentRate);
+
   const { register, handleSubmit, setValue } = useForm();
-  const [fuelPriceData, setFuelPriceData] = useState<any>(currentPrices);
+  const [fuelPriceData, setFuelPriceData] = useState<any>(currentRate);
   const [loading, setLoading] = useState(false);
 
   useEffect(() => {
-    setFuelPriceData(currentPrices);
-  }, [companyData, currentPrices]);
+    setFuelPriceData(currentRate);
+  }, [currentRate]);
 
   const onSubmit = async (data: any) => {
     const { petrol, diesel, premium } = data;
@@ -62,15 +66,15 @@ const FuelModal: React.FC<AlertDialogDemoProps> = ({
       const fuelObject = {
         petrol:
           !petrol || isNaN(petrol)
-            ? fuelPriceData?.prices?.petrol
+            ? fuelPriceData?.petrol
             : parseFloat(petrol).toFixed(4),
         diesel:
           !diesel || isNaN(diesel)
-            ? fuelPriceData?.prices?.diesel
+            ? fuelPriceData?.diesel
             : parseFloat(diesel).toFixed(4),
         premium:
           !premium || isNaN(premium)
-            ? fuelPriceData?.prices?.premium
+            ? fuelPriceData?.premium
             : parseFloat(premium).toFixed(4),
       };
       const resFuel = await axios.patch(
@@ -80,24 +84,31 @@ const FuelModal: React.FC<AlertDialogDemoProps> = ({
 
       setFuelPriceData({
         ...fuelPriceData,
-        prices: {
-          petrol:
-            //  !petrol || isNaN(petrol)
-            //    ? fuelPriceData?.prices?.petrol
-            // :
-            Math.floor(parseFloat(petrol) * 100) / 100,
-          diesel:
-            //  !diesel || isNaN(diesel)
-            //    ? fuelPriceData?.prices?.diesel
-            // :
-            Math.floor(parseFloat(diesel) * 100) / 100,
-          premium:
-            //  !premium || isNaN(premium)
-            //    ? fuelPriceData?.prices?.premium
-            // :
-            Math.floor(parseFloat(premium) * 100) / 100,
-        },
+
+        petrol:
+          //  !petrol || isNaN(petrol)
+          //    ? fuelPriceData?.prices?.petrol
+          // :
+          Math.floor(parseFloat(petrol) * 100) / 100,
+        diesel:
+          //  !diesel || isNaN(diesel)
+          //    ? fuelPriceData?.prices?.diesel
+          // :
+          Math.floor(parseFloat(diesel) * 100) / 100,
+        premium:
+          //  !premium || isNaN(premium)
+          //    ? fuelPriceData?.prices?.premium
+          // :
+          Math.floor(parseFloat(premium) * 100) / 100,
       });
+      if (setCurrentRate) {
+        setCurrentRate({
+          ...currentRate,
+          petrol: Math.floor(parseFloat(petrol) * 100) / 100,
+          diesel: Math.floor(parseFloat(diesel) * 100) / 100,
+          premium: Math.floor(parseFloat(premium) * 100) / 100,
+        });
+      }
       toast({
         variant: "success",
         title: "Price successfully reported.",
