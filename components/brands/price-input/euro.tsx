@@ -1,5 +1,5 @@
 "use client";
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useState, useContext } from "react";
 import { DialogFooter } from "@/components/ui/dialog";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
@@ -14,7 +14,7 @@ import {
 import { useForm } from "react-hook-form";
 import axios from "axios";
 import { useToast } from "@/components/ui/use-toast";
-
+import { TabContext } from "@/components/brands/RatesSection";
 interface AlertDialogDemoProps {
   companyDetails: CompleteCompanyDetailsType;
   companyData: CompanyRate;
@@ -27,13 +27,18 @@ const Euros: React.FC<AlertDialogDemoProps> = ({
   const { toast } = useToast();
   const { register, handleSubmit, setValue } = useForm();
 
-  const currentPrices = companyData?.data?.euroRates;
-  const [euroPriceData, setEuroPriceData] = useState<any>(currentPrices);
+  const context = useContext(TabContext);
+  const currentRate = context?.currentRate;
+  const setCurrentRate = context?.setCurrentRate;
+
+  const [euroPriceData, setEuroPriceData] = useState<any>(
+    currentRate?.euroRates
+  );
   const [loading, setLoading] = useState(false);
 
   useEffect(() => {
-    setEuroPriceData(currentPrices);
-  }, [companyDetails, currentPrices]);
+    setEuroPriceData(currentRate?.euroRates);
+  }, [currentRate?.euroRates]);
 
   const onSubmit = async (data: any) => {
     setLoading(true);
@@ -82,24 +87,21 @@ const Euros: React.FC<AlertDialogDemoProps> = ({
 
       setEuroPriceData({
         ...euroPriceData,
-        rates: {
-          // ...euroPriceData.rates,
+        buyingRate,
+        sellingRate,
+        midRate,
+      });
+      if (setCurrentRate) {
+        setCurrentRate({
+          ...currentRate,
           euroRates: {
+            ...currentRate?.euroRates,
             buyingRate,
             sellingRate,
             midRate,
           },
-          dollarRates: euroPriceData?.euroRates || {
-            buyingRate: 0,
-            sellingRate: 0,
-          },
-          poundRates: euroPriceData?.poundRates || {
-            buyingRate: 0,
-            sellingRate: 0,
-          },
-          // company: euroPriceData?.rates?.company || "Default Company",
-        },
-      });
+        });
+      }
       toast({
         variant: "success",
         title: "Price successfully reported.",

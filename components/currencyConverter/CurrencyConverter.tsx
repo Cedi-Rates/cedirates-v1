@@ -80,7 +80,7 @@ const CurrencyConverter = () => {
     () => searchParams.get("To") || "GHS"
   );
   const [rateType, setRateType] = useState(
-    () => searchParams.get("Rate") || "CediRates Average"
+    () => searchParams.get("Rate") || "CediRatesAverage"
   );
 
   // Save amount1 to localStorage whenever it changes
@@ -98,7 +98,7 @@ const CurrencyConverter = () => {
       params.set("Amount", amount1.toString().replace(/,/g, ""));
       params.set("From", currency1);
       params.set("To", currency2);
-      params.set("Rate", rateType);
+      params.set("Rate", rateType.replace(/\s+/g, "")); // Remove any spaces from rate type
 
       // Update URL without page reload
       router.push(`/currency-converter/?${params.toString()}`);

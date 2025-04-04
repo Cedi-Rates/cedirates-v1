@@ -80,7 +80,7 @@ export default function ConverterBox({
   });
 
   const rateTypes = [
-    { value: "CediRates Average", label: "CediRates Average" },
+    { value: "CediRatesAverage", label: "CediRates Average" },
     { value: "Bank", label: "Bank" },
     { value: "ForexBureau", label: "Forex Bureau" },
     { value: "PaymentProcessor", label: "Card Payment" },
@@ -124,7 +124,7 @@ export default function ConverterBox({
       const rates = ERD;
       const validPairs = new Set<string>();
 
-      if (rateType === "CediRates Average") {
+      if (rateType === "CediRatesAverage") {
         validPairs.add("USD/GHS");
         validPairs.add("GHS/USD");
         validPairs.add("EUR/GHS");
@@ -133,37 +133,37 @@ export default function ConverterBox({
         validPairs.add("GHS/GBP");
       }
       if (
-        rateType !== "CediRates Average" &&
+        rateType !== "CediRatesAverage" &&
         rates[`average${rateType}Dollar`]?.buyingRate
       )
         // Check dollar rates
         validPairs.add("USD/GHS");
       if (
-        rateType !== "CediRates Average" &&
+        rateType !== "CediRatesAverage" &&
         rates[`average${rateType}Dollar`]?.sellingRate
       )
         validPairs.add("GHS/USD");
 
       // Check euro rates
       if (
-        rateType !== "CediRates Average" &&
+        rateType !== "CediRatesAverage" &&
         rates[`average${rateType}Euro`]?.buyingRate
       )
         validPairs.add("EUR/GHS");
       if (
-        rateType !== "CediRates Average" &&
+        rateType !== "CediRatesAverage" &&
         rates[`average${rateType}Euro`]?.sellingRate
       )
         validPairs.add("GHS/EUR");
 
       // Check pound rates
       if (
-        rateType !== "CediRates Average" &&
+        rateType !== "CediRatesAverage" &&
         rates[`average${rateType}Pound`]?.buyingRate
       )
         validPairs.add("GBP/GHS");
       if (
-        rateType !== "CediRates Average" &&
+        rateType !== "CediRatesAverage" &&
         rates[`average${rateType}Pound`]?.sellingRate
       )
         validPairs.add("GHS/GBP");
@@ -204,7 +204,7 @@ export default function ConverterBox({
       }
 
       const ratePrefix =
-        rateType === "CediRates Average" ? "average" : `average${rateType}`;
+        rateType === "CediRatesAverage" ? "average" : `average${rateType}`;
 
       const toAverage = `${ratePrefix}${toCurrency}`;
       const fromAverage = `${ratePrefix}${fromCurrency}`;
@@ -267,7 +267,7 @@ export default function ConverterBox({
 
     Object.entries(currencyMappings).forEach(([currency, key]) => {
       const ratePrefix =
-        rateType === "CediRates Average"
+        rateType === "CediRatesAverage"
           ? `average${key}`
           : `average${rateType}${key}`;
       if (ERD) {

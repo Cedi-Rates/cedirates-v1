@@ -4,7 +4,12 @@ import { Table } from "@medusajs/ui";
 import style from "../../assets/styles/fuelprices.module.css";
 import Image from "next/image";
 import { FaSortDown, FaSortUp, FaRegStar, FaStar } from "react-icons/fa";
-import { AverageRateData, TagType, UserDetailsType, fuelRatesType } from "@/utils/types";
+import {
+  AverageRateData,
+  TagType,
+  UserDetailsType,
+  fuelRatesType,
+} from "@/utils/types";
 import Link from "next/link";
 import Calculator from "./Calculator";
 import {
@@ -43,8 +48,6 @@ type Props = {
 };
 
 const FuelTable = ({ rates, user }: Props) => {
-  console.log('Fuel Table:', rates);
-
   const [calculatorInput, setCalculatorInput] = useState<number | string>("");
   const [order, setOrder] = useState<"ascending" | "descending">("descending");
   const [fuelType, setFuelType] = useState<"petrol" | "diesel" | "premium">(
@@ -81,7 +84,7 @@ const FuelTable = ({ rates, user }: Props) => {
     const fetchRates = async () => {
       try {
         const data = await getAverage(today);
-        // console.log('Average:', data);
+
         setAverage(data);
       } catch (error) {
         console.log(error);
@@ -94,7 +97,7 @@ const FuelTable = ({ rates, user }: Props) => {
     const fetchRates = async () => {
       try {
         const data = await getAverage(dateThreeMonthsAgo);
-        // console.log('3 months Average:', data);
+
         setThreeMonths(data);
       } catch (error) {
         console.log(error);
@@ -155,7 +158,7 @@ const FuelTable = ({ rates, user }: Props) => {
             });
           }
           await addToWatchList(process.env.BASE_URL!, UniqueID);
-        } catch (error) { }
+        } catch (error) {}
       } else {
         localStorage.setItem("intendedWatchListItem", UniqueID);
         urlManager.setRedirectUrl();
@@ -214,14 +217,12 @@ const FuelTable = ({ rates, user }: Props) => {
     );
   });
 
-  console.log('Sorted Product:', sortedProduct);
-
   const formatNumber = (number: number | null | undefined): string => {
     return number && number > 0
       ? number.toLocaleString(undefined, {
-        minimumFractionDigits: 2,
-        maximumFractionDigits: 2,
-      })
+          minimumFractionDigits: 2,
+          maximumFractionDigits: 2,
+        })
       : "-";
   };
 
@@ -262,8 +263,9 @@ const FuelTable = ({ rates, user }: Props) => {
             Today&apos;s Petrol and Diesel Fuel Prices
           </h1>
           <p
-            className={`text-[14px] leading-[18px] text-start tracking-normal fill-[#58667e] text-[#58667e] ${text ? "mb-1" : "mb-3"
-              }`}
+            className={`text-[14px] leading-[18px] text-start tracking-normal fill-[#58667e] text-[#58667e] ${
+              text ? "mb-1" : "mb-3"
+            }`}
           >
             The average price for ⛽️ Petrol is{" "}
             <span className="font-semibold">
@@ -425,8 +427,8 @@ const FuelTable = ({ rates, user }: Props) => {
                     }}
                   >
                     {userDetails &&
-                      item.company &&
-                      userDetails?.watchList?.includes(item.company.UniqueID) ? (
+                    item.company &&
+                    userDetails?.watchList?.includes(item.company.UniqueID) ? (
                       <span className="cursor-pointer flex">
                         <FaStar color="#1796fe" size={14} />
                       </span>
@@ -440,7 +442,7 @@ const FuelTable = ({ rates, user }: Props) => {
                     {item.company ? (
                       <ProgressBarLink
                         href={`/company/${item.company.url}`}
-                      // href={`/company/${item.company.companyName.toLowerCase()}`}
+                        // href={`/company/${item.company.companyName.toLowerCase()}`}
                       >
                         <div
                           className={`${style["table-item"]} bg-white lg:bg-transparent`}
@@ -458,7 +460,9 @@ const FuelTable = ({ rates, user }: Props) => {
                               className={style["table-item"]}
                             >
                               <p className="flex items-center font-semibold text-[14px] text-[#4A4949] tracking-wide">
-                                <span className="truncate max-w-[120px] sm:max-w-full">{item.company.companyName}</span>
+                                <span className="truncate max-w-[120px] sm:max-w-full">
+                                  {item.company.companyName}
+                                </span>
                                 {item.company?.verified && (
                                   <BadgeCheck className="ml-1 text-[#1896FE] w-[14px] h-[14px] flex-shrink-0" />
                                 )}
@@ -466,23 +470,49 @@ const FuelTable = ({ rates, user }: Props) => {
                                 {item?.company?.tagsType &&
                                   Object.entries(companyIcons)
                                     .filter(([key]) => {
-                                      const iconData = item?.company?.tagsType?.[key as keyof TagType];
+                                      const iconData =
+                                        item?.company?.tagsType?.[
+                                          key as keyof TagType
+                                        ];
                                       if (!iconData) return false;
                                       if (!iconData?.status) return false;
 
-                                      if (key === "newListing" && iconData.date) {
-                                        const listingDate = new Date(iconData.date);
+                                      if (
+                                        key === "newListing" &&
+                                        iconData.date
+                                      ) {
+                                        const listingDate = new Date(
+                                          iconData.date
+                                        );
                                         const currentDate = new Date();
-                                        const diffDays = (currentDate.getTime() - listingDate.getTime()) / (1000 * 60 * 60 * 24);
+                                        const diffDays =
+                                          (currentDate.getTime() -
+                                            listingDate.getTime()) /
+                                          (1000 * 60 * 60 * 24);
                                         return diffDays <= 7;
                                       }
                                       return true;
                                     })
                                     .sort((a, b) => {
-                                      const priorityOrder = ["warning", "promotion", "newListing"]
-                                      if (a[0] === "newListing" && b[0] !== "newListing") return -1;
-                                      if (b[0] === "newListing" && a[0] !== "newListing") return -1;
-                                      return priorityOrder.indexOf(a[0]) - priorityOrder.indexOf(b[0]);
+                                      const priorityOrder = [
+                                        "warning",
+                                        "promotion",
+                                        "newListing",
+                                      ];
+                                      if (
+                                        a[0] === "newListing" &&
+                                        b[0] !== "newListing"
+                                      )
+                                        return -1;
+                                      if (
+                                        b[0] === "newListing" &&
+                                        a[0] !== "newListing"
+                                      )
+                                        return -1;
+                                      return (
+                                        priorityOrder.indexOf(a[0]) -
+                                        priorityOrder.indexOf(b[0])
+                                      );
                                     })
                                     .slice(0, 1)
                                     .map(([key, Icon]) => (
@@ -505,7 +535,7 @@ const FuelTable = ({ rates, user }: Props) => {
                     {item.company ? (
                       <ProgressBarLink
                         href={`/company/${item.company.url}`}
-                      // href={`/company/${item.company.companyName.toLowerCase()}`}
+                        // href={`/company/${item.company.companyName.toLowerCase()}`}
                       >
                         <div className={style["table-item"]}>
                           <span className="text-[14px] text-[#4A4949] tracking-[1px]">
@@ -531,7 +561,7 @@ const FuelTable = ({ rates, user }: Props) => {
                     {item.company ? (
                       <ProgressBarLink
                         href={`/company/${item.company.url}`}
-                      // href={`/company/${item.company.companyName.toLowerCase()}`}
+                        // href={`/company/${item.company.companyName.toLowerCase()}`}
                       >
                         <div className={style["table-item"]}>
                           <span className="text-[14px] text-[#4A4949] tracking-[1px]">
@@ -559,7 +589,7 @@ const FuelTable = ({ rates, user }: Props) => {
                     {item.company ? (
                       <ProgressBarLink
                         href={`/company/${item.company.url}`}
-                      // href={`/company/${item.company.companyName.toLowerCase()}`}
+                        // href={`/company/${item.company.companyName.toLowerCase()}`}
                       >
                         <div className={style["mid-item"]}>
                           <span className="text-[14px] text-[#4A4949] tracking-[1px]">
@@ -591,8 +621,9 @@ const FuelTable = ({ rates, user }: Props) => {
       <Pagination className="mt-6 mb-6">
         <PaginationContent>
           <PaginationItem
-            className={`${currentPage === 1 && "pointer-events-none opacity-50"
-              }`}
+            className={`${
+              currentPage === 1 && "pointer-events-none opacity-50"
+            }`}
             onClick={() => handlePageChange(currentPage - 1)}
           >
             <PaginationPrevious className="border-none !text-icon-icon-secondary hover:bg-background-bg-secondary-hover" />
@@ -604,7 +635,7 @@ const FuelTable = ({ rates, user }: Props) => {
                 <PaginationLink
                   isActive={currentPage === index + 1}
                   onClick={() => handlePageChange(index + 1)}
-                // className={` hover:bg-primary hover:text-white ${currentPage === index + 1 ? "text-white" : "text-black"}`}
+                  // className={` hover:bg-primary hover:text-white ${currentPage === index + 1 ? "text-white" : "text-black"}`}
                 >
                   {index + 1}
                 </PaginationLink>
@@ -612,10 +643,11 @@ const FuelTable = ({ rates, user }: Props) => {
             )
           )}
           <PaginationItem
-            className={`${currentPage === Math.ceil(fuelPrices?.length / itemsPerPage)
-              ? "pointer-events-none opacity-50"
-              : ""
-              }`}
+            className={`${
+              currentPage === Math.ceil(fuelPrices?.length / itemsPerPage)
+                ? "pointer-events-none opacity-50"
+                : ""
+            }`}
             onClick={() => handlePageChange(currentPage + 1)}
           >
             <PaginationNext className="border-none !text-icon-icon-secondary hover:bg-background-bg-secondary-hover" />
@@ -663,7 +695,6 @@ const FuelTable = ({ rates, user }: Props) => {
           </div>
         )}
       </div>
-
     </div>
   );
 };
