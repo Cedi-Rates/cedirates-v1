@@ -1,3 +1,4 @@
+/* eslint-disable @next/next/no-img-element */
 "use client";
 
 import * as React from "react";
@@ -15,7 +16,11 @@ import { Card, CardContent } from "@/components/ui/card";
 
 import { addCommasToNumber } from "@/utils/currencyConverterFunc";
 import { useToast } from "@/components/ui/use-toast";
-import { CircleFlag } from "react-circle-flags";
+import EURFlag from "@/assets/images/european-union.png";
+import USFlag from "@/assets/images/united-states.png";
+import GHSFlag from "@/assets/images/ghana.png";
+import GBPFlag from "@/assets/images/united-kingdom.png";
+import Image, { StaticImageData } from "next/image";
 
 type Props = {
   ERD: any;
@@ -38,14 +43,14 @@ const sanitizeInput = (value: string) => {
   return value.replace(/[^0-9.eE+-]/g, "");
 };
 
-const getCurrencyFlag = (currency: string): string => {
-  const flagMap: Record<string, string> = {
-    USD: "us",
-    GHS: "gh",
-    GBP: "gb",
-    EUR: "eu",
+const getCurrencyFlag = (currency: string): StaticImageData => {
+  const flagMap: Record<string, StaticImageData> = {
+    USD: USFlag,
+    GHS: GHSFlag,
+    GBP: GBPFlag,
+    EUR: EURFlag,
   };
-  return flagMap[currency] || "";
+  return flagMap[currency] || "/path/to/placeholder.png"; // Fallback to a placeholder image
 };
 
 export default function ConverterBox({
@@ -401,9 +406,10 @@ export default function ConverterBox({
                   <SelectTrigger className="w-fit gap-1 border-transparent [&>span]:flex [&>span]:items-center [&>span]:gap-1 [&>span]:!flex-row focus:border-transparent focus:!ring-offset-0 focus:!outline-none focus:!ring-0 h-full rounded-xl !border-none  ">
                     <SelectValue>
                       <span className="flex items-center gap-2">
-                        <CircleFlag
-                          countryCode={getCurrencyFlag(currency1)}
-                          className="w-10 h-10 min-w-[25px] min-h-[25px]"
+                        <Image
+                          src={getCurrencyFlag(currency1)}
+                          alt={`${currency1} flag`}
+                          className="w-[60px] h-auto object-contain"
                         />
                       </span>
                       {currency1}
@@ -459,9 +465,10 @@ export default function ConverterBox({
                   <SelectTrigger className="w-fit gap-1 border-transparent [&>span]:flex [&>span]:items-center [&>span]:gap-1 [&>span]:!flex-row focus:border-transparent focus:!ring-offset-0 focus:!outline-none focus:!ring-0 h-full rounded-xl !border-none  ">
                     <SelectValue>
                       <span className="flex items-center gap-2">
-                        <CircleFlag
-                          countryCode={getCurrencyFlag(currency2)}
-                          className="w-10 h-10 min-w-[25px] min-h-[25px]"
+                        <Image
+                          src={getCurrencyFlag(currency2)}
+                          alt={`${currency2} flag`}
+                          className="w-[60px] h-auto object-contain"
                         />
                       </span>
                       {currency2}
