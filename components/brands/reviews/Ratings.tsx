@@ -14,18 +14,25 @@ interface RatingsProps {
   value: number;
   setValue: (star: number) => void;
   setOpen: (open: boolean) => void;
+  setIsDialogOpen: (open: boolean) => void;
 }
 
 const Ratings = ({
-  value, setValue, setOpen, companyDetails, user
+  value,
+  setValue,
+  setOpen,
+  companyDetails,
+  user,
+  setIsDialogOpen,
 }: RatingsProps) => {
   const { toast } = useToast();
   const { replace } = useRouter();
 
   const onChange = (nextValue: number) => {
     if (!user?.email) {
-      urlManager.setRedirectUrl();
-      replace("/login");
+      // urlManager.setRedirectUrl();
+      // replace("/login");
+      setIsDialogOpen(true);
     } else {
       setValue(nextValue);
       setOpen(true);
@@ -36,7 +43,7 @@ const Ratings = ({
   const onSubmit = async (rating: number) => {
     const ratingObject = {
       rating,
-      companyId: companyDetails.company?._id
+      companyId: companyDetails.company?._id,
     };
 
     const formData = new FormData();
@@ -47,19 +54,22 @@ const Ratings = ({
       //   `/api/v1/reviews/edit-review/${userReview._id}`, formData
       // ) : await axios.post("/api/v1/reviews/add-review", formData);
 
-      const reviewSubmitted = await axios.post("/api/v1/reviews/add-review", formData);
+      const reviewSubmitted = await axios.post(
+        "/api/v1/reviews/add-review",
+        formData
+      );
       if (reviewSubmitted) {
         toast({
-          variant: 'success',
-          title: "Thanks for leaving a rating"
+          variant: "success",
+          title: "Thanks for leaving a rating",
         });
       }
     } catch (error) {
       console.error(error);
       toast({
-        variant: 'destructive',
-        title: "This didn't work."
-      })
+        variant: "destructive",
+        title: "This didn't work.",
+      });
     }
   };
 

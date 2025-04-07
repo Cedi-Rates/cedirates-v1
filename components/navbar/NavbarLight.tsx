@@ -88,9 +88,9 @@ const NavbarLight = ({ type, user }: Props) => {
             <div className="flex flex-row w-max items-center gap-1">
               {liveCompanyRates.length > 0 ? (
                 <Image
-                  alt={`Logo for ${liveCompanyRates[currentCompanyIndex].company.companyName}`}
+                  alt={`Logo for ${liveCompanyRates[currentCompanyIndex]?.company?.companyName}`}
                   className="h-6 w-6 rounded-full"
-                  src={liveCompanyRates[currentCompanyIndex].company.image}
+                  src={liveCompanyRates[currentCompanyIndex]?.company?.image}
                   width={200}
                   height={200}
                   style={{
@@ -113,7 +113,7 @@ const NavbarLight = ({ type, user }: Props) => {
               )}
               {liveCompanyRates[currentCompanyIndex] ? (
                 <p className="text-paragraph-md-semibold">
-                  {liveCompanyRates[currentCompanyIndex].company.companyName}
+                  {liveCompanyRates[currentCompanyIndex]?.company?.companyName}
                 </p>
               ) : (
                 <div

@@ -101,7 +101,7 @@ const ScrollArea = dynamic(
 );
 
 interface AlertDialogDemoProps {
-  triggerTitle?: string;
+  // triggerTitle?: string;
   companyDetails: CompleteCompanyDetailsType;
   user: UserDetailsType;
   reviews: ReviewType[];
@@ -114,7 +114,7 @@ interface AlertDialogDemoProps {
 }
 
 const ReviewModal: React.FC<AlertDialogDemoProps> = ({
-  triggerTitle,
+  // triggerTitle,
   companyDetails,
   user,
   reviews,
@@ -235,6 +235,35 @@ const ReviewModal: React.FC<AlertDialogDemoProps> = ({
       },
     };
 
+    if (
+      companyDetails.company?.category === "fuelPrices" &&
+      (!locationInfo?.region ||
+        !locationInfo?.town ||
+        !vehicleInfo?.year ||
+        !vehicleInfo?.make ||
+        !vehicleInfo?.model)
+    ) {
+      toast({
+        variant: "destructive",
+        title:
+          "Location or vehicle info is missing, please select a location and vehicle",
+      });
+      setLoading(false);
+      return;
+    }
+
+    if (
+      companyDetails.company?.category === "exchangeRates" &&
+      (!locationInfo?.region || !locationInfo?.town)
+    ) {
+      toast({
+        variant: "destructive",
+        title: "Location info is missing, please select a location",
+      });
+      setLoading(false);
+      return;
+    }
+
     const formData = new FormData();
     uploadedImages?.map((item, index) =>
       formData.append(`image${index + 1}`, uploadedImages[index])
@@ -324,12 +353,12 @@ const ReviewModal: React.FC<AlertDialogDemoProps> = ({
   return (
     <div>
       <Dialog open={open} onOpenChange={setOpen}>
-        <DialogTrigger className="flex items-center">
-          {/* <LuPenSquare /> */}
-          <SquarePen />
-          <p className={style["write-review-text"]}>{triggerTitle}</p>
-        </DialogTrigger>
-        <DialogContent>
+        {/* <DialogTrigger className="flex items-center"> */}
+        {/* <LuPenSquare /> */}
+        {/* <SquarePen />
+          <p className={style["write-review-text"]}>{triggerTitle}</p> */}
+        {/* </DialogTrigger> */}
+        <DialogContent className="max-w-lg">
           <DialogHeader>
             <DialogTitle>
               <div className={style["modal-header"]}>
