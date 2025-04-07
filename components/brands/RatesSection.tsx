@@ -22,6 +22,7 @@ import FuelChartComponent from "./components/tradeview-chart-fuel";
 import AuthDialog from "../auth/AuthDialog";
 import CurrencyConverter from "./CurrencyConverter";
 import FuelTankCalc from "./FuelTankCalc";
+import { ProgressBarLink } from "@/app/progress-bar";
 
 type TabContextType = {
   selectedTab: string;
@@ -156,16 +157,19 @@ const RatesSection = ({ companyDetails, user, companyData }: Props) => {
                   {isFuelCompany ? "Report Fuel Prices" : "Report Rates"}
                 </button>
               ) : (
+                // <ProgressBarLink href={"/login"}>
                 <button
                   className="sm:text-[14px] text-[12px] bg-[#e62246] text-white rounded-lg sm:px-4 px-2 py-2 text-nowrap"
                   onClick={() => {
                     setIsDialogOpen(true);
+                    urlManager.setRedirectUrl(window.location.pathname);
                   }}
                 >
                   {isFuelCompany
                     ? "Login To Report Prices"
                     : "Login To Report Rates"}
                 </button>
+                // </ProgressBarLink>
               )}
             </div>
           </div>

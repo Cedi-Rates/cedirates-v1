@@ -15,6 +15,8 @@ import { Navigation } from "swiper/modules";
 import "swiper/css";
 import "swiper/css/navigation";
 import dynamic from "next/dynamic";
+import AuthDialog from "@/components/auth/AuthDialog";
+import { SquarePen } from "lucide-react";
 
 const Ratings = dynamic(() => import("./Ratings"));
 const ReviewModal = dynamic(() => import("./ReviewModal"));
@@ -39,6 +41,7 @@ const ReviewSection = ({ companyDetails, user, reviews, events }: Props) => {
   const [openMini, setOpenMini] = useState(false);
   const [allReviews, setAllReviews] = useState(reviews);
   const [swiper, setSwiper] = useState<SwiperState>(null);
+  const [isDialogOpen, setIsDialogOpen] = useState(false);
 
   // const filteredReviewsCollection = reviews?.filter(
   //   (review) => review.review !== null
@@ -55,6 +58,14 @@ const ReviewSection = ({ companyDetails, user, reviews, events }: Props) => {
 
   const handleClose = () => {
     setOpen(false);
+  };
+
+  const handleOpenReviewModal = () => {
+    // if (!user?.email) {
+    //   setIsDialogOpen(true);
+    // } else {
+    setOpen(true);
+    // }
   };
 
   return (
@@ -88,17 +99,31 @@ const ReviewSection = ({ companyDetails, user, reviews, events }: Props) => {
           value={review ? review.rating : value}
           setValue={setValue}
           setOpen={setOpen}
+          setIsDialogOpen={setIsDialogOpen}
         />
 
         <div className={style["write-review"]}>
-          <ReviewModal
-            triggerTitle={
-              review && review.review === null
+          <div className="flex flex-row items-center ">
+            <SquarePen />
+            <p
+              className={style["write-review-text"]}
+              onClick={handleOpenReviewModal}
+            >
+              {review && review.review === null
                 ? "Write a Review"
                 : review
-                  ? "Edit Review"
-                  : "Write a Review"
-            }
+                ? "Edit Review"
+                : "Write a Review"}
+            </p>
+          </div>
+          <ReviewModal
+            // triggerTitle={
+            //   review && review.review === null
+            //     ? "Write a Review"
+            //     : review
+            //     ? "Edit Review"
+            //     : "Write a Review"
+            // }
             companyDetails={companyDetails}
             user={user}
             reviews={allReviews}
@@ -121,20 +146,24 @@ const ReviewSection = ({ companyDetails, user, reviews, events }: Props) => {
                 {companyDetails.company?.companyName} has no reviews yet.
               </p>
               <div className={style["write-review"]}>
-                <p className={style["write-review-text"]}>
-                  <ReviewModal
-                    triggerTitle="Be the first to leave a review"
-                    companyDetails={companyDetails}
-                    user={user}
-                    reviews={reviews}
-                    value={value}
-                    setValue={setValue}
-                    open={openFirst}
-                    setOpen={setOpenFirst}
-                    handleClose={handleClose}
-                    setReviews={setAllReviews}
-                  />
-                </p>
+                <p
+                  className={style["write-review-text"]}
+                  onClick={handleOpenReviewModal}
+                >
+                  Be the first to leave a review
+                </p>{" "}
+                <ReviewModal
+                  // triggerTitle="Be the first to leave a review"
+                  companyDetails={companyDetails}
+                  user={user}
+                  reviews={reviews}
+                  value={value}
+                  setValue={setValue}
+                  open={openFirst}
+                  setOpen={setOpenFirst}
+                  handleClose={handleClose}
+                  setReviews={setAllReviews}
+                />
               </div>
             </div>
           </div>
@@ -153,8 +182,8 @@ const ReviewSection = ({ companyDetails, user, reviews, events }: Props) => {
                 },
                 1400: {
                   slidesPerView: 1.4,
-                  spaceBetween: 20
-                }
+                  spaceBetween: 20,
+                },
               }}
               navigation={{
                 nextEl: ".swiper-forward",
@@ -209,8 +238,18 @@ const ReviewSection = ({ companyDetails, user, reviews, events }: Props) => {
 
       <div className={style["write-review-section-mini"]}>
         <div className={style["write-review-mini"]}>
+          <div className="flex flex-row items-center ">
+            <SquarePen />
+            <p className={style["write-review-text"]}>
+              {review && review.review === null
+                ? "Write a Review"
+                : review
+                ? "Edit Review"
+                : "Write a Review"}
+            </p>
+          </div>
           <ReviewModal
-            triggerTitle={review ? "Edit Review" : "Write a Review"}
+            // triggerTitle={review ? "Edit Review" : "Write a Review"}
             companyDetails={companyDetails}
             user={user}
             reviews={reviews}
@@ -223,6 +262,8 @@ const ReviewSection = ({ companyDetails, user, reviews, events }: Props) => {
           />
         </div>
       </div>
+
+      <AuthDialog open={isDialogOpen} onOpenChange={setIsDialogOpen} />
     </div>
   );
 };

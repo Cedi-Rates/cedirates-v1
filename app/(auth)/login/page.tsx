@@ -63,8 +63,9 @@ const Login = () => {
             title: "Successfully logged in! Redirecting...",
           });
         } else {
-          // push("/");
-          push(redirectUrl);
+          // Use the stored redirect URL or default to home page
+          const finalRedirectUrl = redirectUrl || "/";
+          push(finalRedirectUrl);
           toast({
             variant: "success",
             title: "Successfully logged in! Redirecting...",
@@ -112,7 +113,7 @@ const Login = () => {
 
   const testimonials = [
     {
-      text: "😂😂 Aboki hit me with the Google rate, so I hit him back with CediRates ein rate. Looks like we’re calculating the median today!",
+      text: "😂😂 Aboki hit me with the Google rate, so I hit him back with CediRates ein rate. Looks like we're calculating the median today!",
       image:
         "https://pbs.twimg.com/profile_images/1467099385628704771/1f5ZnkV1_400x400.jpg",
       name: "dantata",

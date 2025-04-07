@@ -97,7 +97,7 @@ export default function FuelTankCalc({ className, companyData }: Props) {
   };
 
   const formatAmount = (amount: string | number) => {
-    if (!amount) return ""; 
+    if (!amount) return "";
     return isTyping ? amount : `₵${amount}`;
   };
 

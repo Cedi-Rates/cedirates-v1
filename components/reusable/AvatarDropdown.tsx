@@ -10,6 +10,7 @@ import { logUserOut } from "@/utils/helpers/api";
 import { useToast } from "../ui/use-toast";
 import { DropdownMenuItem } from "../ui/dropdown-menu";
 
+const CEDIRATES_USER = "cedirates_user";
 type Props = {
   user: UserDetailsType;
 };
@@ -27,6 +28,8 @@ const AvatarDropdown = ({ user }: Props) => {
           title: "Logout Successful",
         });
         // console.log("Logout successful:", logout);
+        sessionStorage.removeItem(CEDIRATES_USER);
+
         window.location.reload();
       }
     } catch (error) {

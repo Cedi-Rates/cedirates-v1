@@ -391,7 +391,7 @@ export default function CurrencyConverter({ companyData, className }: Props) {
                           src={getCurrencyFlag(currency1)}
                           alt={`${currency1} flag`}
                           // fill
-                          className="w-[60px] h-auto object-contain"
+                          className="w-[50px] h-auto object-contain"
                         />
                       </span>
                       {currency1}
@@ -451,7 +451,7 @@ export default function CurrencyConverter({ companyData, className }: Props) {
                           src={getCurrencyFlag(currency2)}
                           alt={`${currency2} flag`}
                           // fill
-                          className="w-[60px] h-auto object-contain"
+                          className="w-[50px] h-auto object-contain"
                         />
                       </span>
                       {currency2}

@@ -43,15 +43,15 @@ export const footerNavs = [
       },
     ],
   },
-  {
-    label: "Enquiries",
-    items: [
-      {
-        href: "/help",
-        name: "Help",
-      },
-    ],
-  },
+  // {
+  //   label: "Enquiries",
+  //   items: [
+  //     {
+  //       href: "/help",
+  //       name: "Help",
+  //     },
+  //   ],
+  // },
 ];
 
 export const navigation = [
