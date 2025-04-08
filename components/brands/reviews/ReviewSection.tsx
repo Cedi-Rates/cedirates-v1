@@ -61,11 +61,11 @@ const ReviewSection = ({ companyDetails, user, reviews, events }: Props) => {
   };
 
   const handleOpenReviewModal = () => {
-    // if (!user?.email) {
-    //   setIsDialogOpen(true);
-    // } else {
-    setOpen(true);
-    // }
+    if (!user?.email) {
+      setIsDialogOpen(true);
+    } else {
+      setOpen(true);
+    }
   };
 
   return (
@@ -83,6 +83,8 @@ const ReviewSection = ({ companyDetails, user, reviews, events }: Props) => {
             setOpen={setOpenAll}
             handleClose={handleClose}
             setReviews={setAllReviews}
+            setIsDialogOpen={setIsDialogOpen}
+            handleOpenReviewModal={handleOpenReviewModal}
           />
         </div>
         <AverageInfo
