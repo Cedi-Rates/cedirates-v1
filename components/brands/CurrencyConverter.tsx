@@ -384,7 +384,7 @@ export default function CurrencyConverter({ companyData, className }: Props) {
                   value={currency1}
                   onValueChange={(value) => onChangeCurrencyOneFunc(value)}
                 >
-                  <SelectTrigger className="w-fit gap-1 border-transparent [&>span]:flex [&>span]:items-center [&>span]:gap-1 [&>span]:!flex-row focus:border-transparent focus:!ring-offset-0 focus:!outline-none focus:!ring-0 h-full rounded-xl !border-none  ">
+                  <SelectTrigger className="w-[120px] gap-1 border-transparent [&>span]:flex [&>span]:items-center [&>span]:gap-1 [&>span]:!flex-row focus:border-transparent focus:!ring-offset-0 focus:!outline-none focus:!ring-0 h-full rounded-xl !border-none  ">
                     <SelectValue>
                       <span className="flex items-center gap-2">
                         <Image
@@ -444,7 +444,7 @@ export default function CurrencyConverter({ companyData, className }: Props) {
                   value={currency2}
                   onValueChange={(value) => onChangeCurrencyTwoFunc(value)}
                 >
-                  <SelectTrigger className="w-fit gap-1 border-transparent [&>span]:flex [&>span]:items-center [&>span]:gap-1 [&>span]:!flex-row focus:border-transparent focus:!ring-offset-0 focus:!outline-none focus:!ring-0 h-full rounded-xl !border-none  ">
+                  <SelectTrigger className="w-[120px] gap-1 border-transparent [&>span]:flex [&>span]:items-center [&>span]:gap-1 [&>span]:!flex-row focus:border-transparent focus:!ring-offset-0 focus:!outline-none focus:!ring-0 h-full rounded-xl !border-none  ">
                     <SelectValue>
                       <span className="flex items-center gap-2">
                         <Image
