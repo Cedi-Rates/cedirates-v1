@@ -403,13 +403,13 @@ export default function ConverterBox({
                   value={currency1}
                   onValueChange={(value) => onChangeCurrencyOneFunc(value)}
                 >
-                  <SelectTrigger className="w-fit gap-1 border-transparent [&>span]:flex [&>span]:items-center [&>span]:gap-1 [&>span]:!flex-row focus:border-transparent focus:!ring-offset-0 focus:!outline-none focus:!ring-0 h-full rounded-xl !border-none  ">
+                  <SelectTrigger className="w-auto min-w-32 font-semibold text-xl gap-1 border-transparent [&>span]:flex [&>span]:items-center [&>span]:gap-2 [&>span]:!flex-row focus:border-transparent focus:!ring-offset-0 focus:!outline-none focus:!ring-0 h-full rounded-xl !border-none ">
                     <SelectValue>
                       <span className="flex items-center gap-2">
                         <Image
                           src={getCurrencyFlag(currency1)}
                           alt={`${currency1} flag`}
-                          className="w-[50px] h-auto object-contain"
+                          className="w-[28px] h-auto object-contain"
                         />
                       </span>
                       {currency1}
@@ -431,7 +431,7 @@ export default function ConverterBox({
                     value={formatAmount(amount1, currency1)}
                     onChange={handleAmount1Change}
                     onBlur={() => setIsTyping(false)}
-                    className="!border-none !p-0 !w-auto !min-w-0 !max-w-full text-right border-transparent focus:!ring-offset-0 focus:border-transparent focus:!ring-0 focus:!outline-none"
+                    className="text-xl !border-none !p-0 !w-[100%] !min-w-0 !max-w-full text-right border-transparent focus:!ring-offset-0 focus:border-transparent focus:!ring-0 focus:!outline-none md:text-2xl text-[#A3A3A3] font-medium"
                   />
                 </div>
               </div>
@@ -462,13 +462,13 @@ export default function ConverterBox({
                   value={currency2}
                   onValueChange={(value) => onChangeCurrencyTwoFunc(value)}
                 >
-                  <SelectTrigger className="w-fit gap-1 border-transparent [&>span]:flex [&>span]:items-center [&>span]:gap-1 [&>span]:!flex-row focus:border-transparent focus:!ring-offset-0 focus:!outline-none focus:!ring-0 h-full rounded-xl !border-none  ">
+                  <SelectTrigger className="w-auto min-w-32 font-semibold text-xl gap-1 border-transparent [&>span]:flex [&>span]:items-center [&>span]:gap-2 [&>span]:!flex-row focus:border-transparent focus:!ring-offset-0 focus:!outline-none focus:!ring-0 h-full rounded-xl !border-none   ">
                     <SelectValue>
                       <span className="flex items-center gap-2">
                         <Image
                           src={getCurrencyFlag(currency2)}
                           alt={`${currency2} flag`}
-                          className="w-[50px] h-auto object-contain"
+                          className="w-[28px] h-auto object-contain"
                         />
                       </span>
                       {currency2}
@@ -490,7 +490,7 @@ export default function ConverterBox({
                     value={formatAmount2(amount2, currency2)}
                     onChange={handleAmount2Change}
                     onBlur={() => setIsTyping2(false)}
-                    className="!border-none !p-0 !w-auto !min-w-0 !max-w-full text-right border-transparent focus:!ring-offset-0 focus:border-transparent focus:!ring-0 focus:!outline-none"
+                    className="text-xl !border-none !p-0 !w-[100%] !min-w-0 !max-w-full text-right border-transparent focus:!ring-offset-0 focus:border-transparent focus:!ring-0 focus:!outline-none md:text-2xl text-[#A3A3A3] font-medium"
                   />
                 </div>
               </div>
