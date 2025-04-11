@@ -100,12 +100,12 @@ export default function CurrencyConverter({ companyData, className }: Props) {
 
   const formatAmount = (amount: string | number, currency: string) => {
     if (!amount) return ""; // If empty, return nothing
-    return isTyping ? amount : `${symbolMap[currency]}${amount}`;
+    return isTyping ? amount : `${symbolMap[currency]} ${amount}`;
   };
 
   const formatAmount2 = (amount: string | number, currency: string) => {
     if (!amount) return ""; // If empty, return nothing
-    return isTyping2 ? amount : `${symbolMap[currency]}${amount}`;
+    return isTyping2 ? amount : `${symbolMap[currency]} ${amount}`;
   };
 
   const symbolMap: Record<string, string> = {
