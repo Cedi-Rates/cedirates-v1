@@ -89,7 +89,7 @@ const page = async ({ params }: { params: { slug: string } }) => {
   const events = await getEvents(companyDetails.company?._id);
 
   const chartData =
-    companyDetails?.company.category === "fuelPrices"
+    companyDetails?.company?.category === "fuelPrices"
       ? await getChartData(companyDetails.company?.companyName)
       : await getFuelChartData(companyDetails.company?.companyName);
 
