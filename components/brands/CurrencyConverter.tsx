@@ -100,12 +100,12 @@ export default function CurrencyConverter({ companyData, className }: Props) {
 
   const formatAmount = (amount: string | number, currency: string) => {
     if (!amount) return ""; // If empty, return nothing
-    return isTyping ? amount : `${symbolMap[currency]}${amount}`;
+    return isTyping ? amount : `${symbolMap[currency]} ${amount}`;
   };
 
   const formatAmount2 = (amount: string | number, currency: string) => {
     if (!amount) return ""; // If empty, return nothing
-    return isTyping2 ? amount : `${symbolMap[currency]}${amount}`;
+    return isTyping2 ? amount : `${symbolMap[currency]} ${amount}`;
   };
 
   const symbolMap: Record<string, string> = {
@@ -413,7 +413,7 @@ export default function CurrencyConverter({ companyData, className }: Props) {
                     value={formatAmount(amount1, currency1)}
                     onChange={handleAmount1Change}
                     onBlur={() => setIsTyping(false)}
-                    className="text-xl !border-none !p-0 !w-[100%] !min-w-0 !max-w-full text-right border-transparent focus:!ring-offset-0 focus:border-transparent focus:!ring-0 focus:!outline-none md:text-2xl text-[#A3A3A3] font-medium"
+                    className="text-xl !border-none !p-0 !w-[100%] !min-w-0 !max-w-full text-right border-transparent focus:!ring-offset-0 focus:border-transparent focus:!ring-0 focus:!outline-none md:text-2xl text-[#000] font-medium"
                   />
                 </div>
               </div>
@@ -473,7 +473,7 @@ export default function CurrencyConverter({ companyData, className }: Props) {
                     value={formatAmount2(amount2, currency2)}
                     onChange={handleAmount2Change}
                     onBlur={() => setIsTyping2(false)}
-                    className="text-xl !border-none !p-0 !w-[100%] !min-w-0 !max-w-full text-right border-transparent focus:!ring-offset-0 focus:border-transparent focus:!ring-0 focus:!outline-none md:text-2xl text-[#A3A3A3] font-medium"
+                    className="text-xl !border-none !p-0 !w-[100%] !min-w-0 !max-w-full text-right border-transparent focus:!ring-offset-0 focus:border-transparent focus:!ring-0 focus:!outline-none md:text-2xl text-[#000] font-medium"
                   />
                 </div>
               </div>
